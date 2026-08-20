@@ -2134,18 +2134,29 @@ function renderMonth(){
 
 /* ---- 周课表 ---- */
 function buildWeekSelector(selectedMon){
-  const start=new Date(selectedMon); start.setMonth(start.getMonth()-6);
-  const end=new Date(selectedMon); end.setMonth(end.getMonth()+12);
-  let firstMon=mondayOf(new Date(start.getFullYear(), start.getMonth(), 1));
-  let html='<select class="week-select" onchange="onWeekSelect(this.value)">';
-  for(let mon=new Date(firstMon); mon<=end; mon.setDate(mon.getDate()+7)){
-    const label=mon.getFullYear()+'年'+(mon.getMonth()+1)+'月 第'+weekIndex(mon)+'周';
+  const selYear=selectedMon.getFullYear();
+  const curY=new Date().getFullYear();
+  let yopts='';
+  for(let y=2024; y<=curY+50; y++){
+    yopts+='<option value="'+y+'"'+(y===selYear?' selected':'')+'>'+y+'年</option>';
+  }
+  let wopts='';
+  const yearStart=mondayOf(new Date(selYear,0,1));
+  const yearEnd=mondayOf(new Date(selYear+1,0,1));
+  for(let mon=new Date(yearStart); mon<yearEnd; mon.setDate(mon.getDate()+7)){
+    const label=(mon.getMonth()+1)+'月 第'+weekIndex(mon)+'周';
     const val=ymd(mon);
     const sel=ymd(mon)===ymd(selectedMon)?' selected':'';
-    html+='<option value="'+val+'"'+sel+'>'+label+'</option>';
+    wopts+='<option value="'+val+'"'+sel+'>'+label+'</option>';
   }
-  html+='</select>';
-  return html;
+  return '<span class="week-selects">'+
+    '<select class="week-year-select" onchange="onWeekYearSelect(this.value)">'+yopts+'</select>'+
+    '<select class="week-select" onchange="onWeekSelect(this.value)">'+wopts+'</select>'+
+  '</span>';
+}
+function onWeekYearSelect(y){
+  weekCursor=mondayOf(new Date(parseInt(y,10),0,1));
+  render();
 }
 function onWeekSelect(ds){
   weekCursor=parseYmd(ds);
