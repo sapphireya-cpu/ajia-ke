@@ -2905,7 +2905,7 @@ function renderStatCard(key, label, list, isYear, isMonth){
   if(isYear){
     const curY=new Date().getFullYear();
     let opts='';
-    for(let y=2024; y<=curY+3; y++){
+    for(let y=2024; y<=curY+50; y++){
       opts+='<option value="'+y+'"'+(y===statYear?' selected':'')+'>'+y+'</option>';
     }
     html+='<div class="sc-line3"><span class="sc-year" onclick="event.stopPropagation()"><select onchange="selectStatYear(this.value)">'+opts+'</select></span></div>';
