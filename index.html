@@ -1634,7 +1634,7 @@ function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('sho
 /* ============ 存储 + 云端 ============ */
 function loadAll(){
   try{ const s=localStorage.getItem(SETTINGS_KEY); if(s) settings=Object.assign(settings,JSON.parse(s)); }catch(e){}
-  try{ const st=JSON.parse(localStorage.getItem(STATE_KEY)||'{}'); templates=st.templates||[]; records=st.records||[]; holidays=st.holidays||{}; todos=st.todos||[]; focusProjects=st.focusProjects||[]; focusRecords=st.focusRecords||[]; checkins=st.checkins||[]; checkinRecords=st.checkinRecords||[]; tagDefs=st.tagDefs||[]; todoStatus=st.todoStatus||[]; todoDetached=st.todoDetached||[]; stProjects=st.stProjects||[]; stRecords=st.stRecords||[]; }catch(e){}
+  try{ const st=JSON.parse(localStorage.getItem(STATE_KEY)||'{}'); templates=st.templates||[]; records=st.records||[]; holidays=st.holidays||{}; todos=st.todos||[]; focusProjects=st.focusProjects||[]; focusRecords=st.focusRecords||[]; checkins=st.checkins||[]; checkinRecords=st.checkinRecords||[]; tagDefs=st.tagDefs||[]; todoStatus=st.todoStatus||[]; todoDetached=st.todoDetached||[]; stProjects=st.stProjects||[]; stRecords=st.stRecords||[]; if(st.focusTimer) focusTimer=normalizeTimer(st.focusTimer); }catch(e){}
   ensureFocusDefaults();
   // 兼容：旧数据补全字段
   templates.forEach(t=>{
@@ -1673,7 +1673,7 @@ async function refreshApp(){
   toast('已刷新');
   hideMask('maskSet');                         // 刷新后关闭设置弹窗，直接看到最新界面
 }
-function saveLocal(){ localStorage.setItem(STATE_KEY, JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords})); }
+function saveLocal(){ localStorage.setItem(STATE_KEY, JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,focusTimer})); }
 function cloudUrl(){
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
@@ -1695,7 +1695,7 @@ async function cloudPush(manual){
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
   const bname=settings.bucket||'ajia-state';
-  const payload=JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,exportedAt:new Date().toISOString()});
+  const payload=JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,focusTimer,exportedAt:new Date().toISOString()});
   const blob=new Blob([payload],{type:'application/json'});
   const authHdr={'Authorization':'Bearer '+settings.key};
   const objUrl=base+'/api/storage/buckets/'+bucket+'/objects/state.json';
@@ -1776,9 +1776,11 @@ async function cloudPull(manual){
     let data;
     try{ data=JSON.parse(text); }catch(e){ const isHtml=(text||'').trim().charAt(0)==='<'; const hint=isHtml?'（返回的是网页而非数据，多半是云端端点填错或存储桶不存在）':''; throw new Error('响应不是JSON'+hint+'，内容前120字：'+(text||'(空)').slice(0,120)); }
     if(data && (data.templates||data.records||data.holidays||data.todos||data.focusRecords||data.stProjects||data.stRecords)){
+      const localTimerRunning=focusTimer.running;   // localStorage 优先，云端仅作补充
       templates=data.templates||[]; records=data.records||[]; holidays=data.holidays||{}; todos=data.todos||[];
       focusProjects=data.focusProjects||[]; focusRecords=data.focusRecords||[]; checkins=data.checkins||[]; checkinRecords=data.checkinRecords||[]; ensureFocusDefaults();
       stProjects=data.stProjects||[]; stRecords=data.stRecords||[];
+      if(!localTimerRunning && data.focusTimer) focusTimer=normalizeTimer(data.focusTimer);
       templates.forEach(t=>{ if(!t.color) t.color=assignColor(); if(!t.timeSlot) t.timeSlot='8:00'; if(!t.type) t.type='1v1'; });
       records.forEach(r=>{ delete r.student; if(!r.type) r.type='1v1'; if(r.income==null) r.income=(r.fee!=null?r.fee:0); });
       saveLocal(); render(); if(manual) toast('已从云端恢复');
@@ -3172,7 +3174,22 @@ function nextTimeMonth(){ timeStatMonth.setMonth(timeStatMonth.getMonth()+1); re
 
 /* ============ 时间 / 专注模块 ============ */
 const FOCUS_PRESETS=[['备课','#FF9AA2'],['刷题','#B5EAD7'],['上课','#C7CEEA'],['爱好','#D4C5F9'],['阅读','#F5E6B8'],['学习','#B5D8EB'],['睡眠','#FFD5CA']];
-let focusTimer={running:false,startTs:0,projectId:null,projectName:'',projectColor:'',desc:''};
+let focusTimer={running:false,startTs:0,projectId:null,projectName:'',projectColor:'',desc:'',elapsedBeforeStart:0};
+// 规范化计时器状态（容错旧数据 / 缺字段），保证恢复时字段齐全
+function normalizeTimer(t){
+  if(!t || typeof t!=='object') return {running:false,startTs:0,projectId:null,projectName:'',projectColor:'',desc:'',elapsedBeforeStart:0};
+  return {
+    running:!!t.running,
+    startTs:Number(t.startTs)||0,
+    projectId:t.projectId!=null?t.projectId:null,
+    projectName:t.projectName||'',
+    projectColor:t.projectColor||'',
+    desc:t.desc||'',
+    elapsedBeforeStart:Number(t.elapsedBeforeStart)||0
+  };
+}
+// 当前已流逝毫秒（含本次计时开始前已累计的部分），用于恢复后继续计算总时长
+function timerElapsed(){ return Math.max(0,(Date.now()-(focusTimer.startTs||0))+(focusTimer.elapsedBeforeStart||0)); }
 let timerInterval=null;
 let editingProjId=null;
 let focusRecEditId=null;
@@ -3212,7 +3229,7 @@ function renderTime(){
   let html='<div class="time-wrap">';
   // 计时器卡片
   html+='<div class="timer-wrap">';
-  html+='<div class="focus-timer num" id="focusTimer">'+(focusTimer.running?fmtHms(Date.now()-focusTimer.startTs):'00:00:00')+'</div>';
+  html+='<div class="focus-timer num" id="focusTimer">'+(focusTimer.running?fmtHms(timerElapsed()):'00:00:00')+'</div>';
   html+='<div class="focus-proj" id="focusProjName">'+(focusTimer.running?esc(focusTimer.projectName):'')+'</div>';
   html+='<button class="focus-btn" id="focusBtn" onclick="focusToggle()">'+(focusTimer.running?'<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>':'<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><polygon points="5,3 21,12 5,21"/></svg>')+'</button>';
   html+='</div>';
@@ -3241,7 +3258,7 @@ function renderFocusList(list){
 function focusToggle(){ if(focusTimer.running) stopTimer(); else openTimeStart(); }
 function startTimerTick(){
   if(timerInterval) clearInterval(timerInterval);
-  if(focusTimer.running) timerInterval=setInterval(()=>{ const el=$('focusTimer'); if(el) el.textContent=fmtHms(Date.now()-focusTimer.startTs); },1000);
+  if(focusTimer.running) timerInterval=setInterval(()=>{ const el=$('focusTimer'); if(el) el.textContent=fmtHms(timerElapsed()); },1000);
 }
 function stopTimerTick(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
 function openTimeStart(){
@@ -3254,7 +3271,7 @@ function confirmStartTime(){
   const p=focusProjects.find(x=>x.id===$('startProj').value);
   if(!p){ toast('请选择专注项目'); return; }
   const desc=$('startDesc').value.trim();
-  focusTimer={running:true,startTs:Date.now(),projectId:p.id,projectName:p.name,projectColor:p.color,desc};
+  focusTimer={running:true,startTs:Date.now(),projectId:p.id,projectName:p.name,projectColor:p.color,desc,elapsedBeforeStart:0};
   hideMask('maskTimeStart'); saveLocal(); cloudPush(false); renderTime(); toast('开始专注：'+p.name);
 }
 function stopTimer(){
@@ -3510,6 +3527,28 @@ function boot(){
   appEl.addEventListener('mousedown', onWeekMouseDown);
   document.addEventListener('mousemove', onWeekMouseMove, {passive:false});
   document.addEventListener('mouseup', onWeekMouseUp);
+  // 跨标签页同步：另一标签页修改计时器状态时，本标签页实时更新 UI
+  window.addEventListener('storage', (e)=>{
+    if(e.key!==STATE_KEY) return;
+    try{
+      const st=JSON.parse(e.newValue||'{}');
+      if(st.focusTimer){
+        const t=normalizeTimer(st.focusTimer);
+        const changed = t.running!==focusTimer.running || t.startTs!==focusTimer.startTs || t.desc!==focusTimer.desc || t.projectName!==focusTimer.projectName || t.projectColor!==focusTimer.projectColor;
+        if(changed){
+          focusTimer=t;
+          if(currentTab==='time') renderTime();
+          else stopTimerTick();
+        }
+      }
+    }catch(_){}
+  });
+  // 从后台/锁屏返回：若正在计时，重新拉起计时刷新（修复页面被回收/挂起后计时器空白/丢失）
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden) return;
+    if(currentTab==='time' && focusTimer.running){ renderTime(); }
+    else if(currentTab==='time'){ const el=$('focusTimer'); if(el) el.textContent=fmtHms(timerElapsed()); }
+  });
 }
 boot();
 
