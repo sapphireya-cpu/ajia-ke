@@ -313,10 +313,11 @@ body{
 .sheet h3{margin:0 0 14px; font-size:17px;}
 .field{margin-bottom:12px;}
 .field label{display:block; font-size:13px; color:var(--muted); margin-bottom:5px;}
-.field input,.field select{
+.field input,.field select,.field textarea{
   width:100%; border:1px solid var(--line); border-radius:10px; padding:10px 12px;
   font-size:15px; background:var(--bg); color:var(--text);
 }
+.field textarea{ min-height:90px; resize:vertical; line-height:1.5; font-family:inherit; }
 .field input[type="time"]{-webkit-appearance:none; appearance:none; height:44px; text-align:center;}
 .field input[type="date"]{-webkit-appearance:none; appearance:none; width:100%; box-sizing:border-box;}
 .field .req{color:#e06;}
@@ -1026,7 +1027,7 @@ body{
     </div>
     <div class="field">
       <label>好题录入（选填）</label>
-      <input id="stRecGood" placeholder="如：第3题、第5题、第12题">
+      <textarea id="stRecGood" placeholder="每行一条好题，按回车换行"></textarea>
     </div>
     <div class="st-rec-actions">
       <button class="btn-del" id="stRecDeleteBtn" onclick="stDelRecordFromModal()">删除</button>
@@ -3873,6 +3874,14 @@ function stYearStats(y){
   });
   return {sets,pages};
 }
+function gradeMatches(g, sel){
+  if(sel==='全部') return true;
+  if(sel.endsWith('全年')){
+    const yr=sel.replace('全年','');
+    return g===sel || g===yr+'上学期' || g===yr+'下学期';
+  }
+  return g===sel;
+}
 function renderStData(){
   const y0=2020, y1=new Date().getFullYear()+50; const years=[]; for(let y=y0;y<=y1;y++) years.push(y);
   let h='<div class="st-cards">';
@@ -3882,7 +3891,7 @@ function renderStData(){
   h+='<div class="st-data-head"><div class="st-filter">'+'<select onchange="stDataYear=this.value;render();">'+years.map(y=>'<option value="'+y+'"'+(String(y)===stDataYear?' selected':'')+'>'+y+'年</option>').join('')+'</select>'+'<select onchange="stDataGrade=this.value;render();">'+['全部'].concat(ST_GRADES).map(g=>'<option'+(g===stDataGrade?' selected':'')+'>'+g+'</option>').join('')+'</select>'+'<select onchange="stDataExam=this.value;render();">'+['全部'].concat(ST_TYPES).map(t=>'<option'+(t===stDataExam?' selected':'')+'>'+t+'</option>').join('')+'</select>'+'</div><button class="st-add-btn" onclick="openRecordForm(null,null)" aria-label="新增记录">'+PLUS_SVG+'</button></div>';
   let list=stRecords.slice();
   list=list.filter(r=> String(new Date(r.dt||0).getFullYear())===stDataYear);
-  if(stDataGrade!=='全部') list=list.filter(r=>r.grade===stDataGrade);
+  if(stDataGrade!=='全部') list=list.filter(r=> gradeMatches(r.grade, stDataGrade));
   if(stDataExam!=='全部') list=list.filter(r=> r.examType===stDataExam || (stDataExam==='期中'&&r.examType==='期中考'));
   list.sort((a,b)=>(b.dt||0)-(a.dt||0));
   if(!list.length){ h+='<div class="goal-empty">没有符合条件的试卷记录</div>'; return h; }
