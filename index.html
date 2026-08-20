@@ -3189,7 +3189,7 @@ function normalizeTimer(t){
   };
 }
 // 当前已流逝毫秒（含本次计时开始前已累计的部分），用于恢复后继续计算总时长
-function timerElapsed(){ return Math.max(0,(Date.now()-(focusTimer.startTs||0))+(focusTimer.elapsedBeforeStart||0)); }
+function timerElapsed(){ if(!focusTimer.running) return 0; return Math.max(0,(Date.now()-(focusTimer.startTs||0))+(focusTimer.elapsedBeforeStart||0)); }
 let timerInterval=null;
 let editingProjId=null;
 let focusRecEditId=null;
@@ -3279,7 +3279,7 @@ function stopTimer(){
   if(focusTimer.projectId){
     focusRecords.push({id:uid(),projectId:focusTimer.projectId,projectName:focusTimer.projectName,projectColor:focusTimer.projectColor,desc:focusTimer.desc,start:st,end:Math.max(end,st),date:ymd(new Date(st))});
   }
-  focusTimer={running:false,startTs:0,projectId:null,projectName:'',projectColor:'',desc:''};
+  focusTimer={running:false,startTs:0,projectId:null,projectName:'',projectColor:'',desc:'',elapsedBeforeStart:0};
   stopTimerTick(); saveLocal(); cloudPush(false); renderTime();
 }
 
@@ -3545,9 +3545,8 @@ function boot(){
   });
   // 从后台/锁屏返回：若正在计时，重新拉起计时刷新（修复页面被回收/挂起后计时器空白/丢失）
   document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden) return;
-    if(currentTab==='time' && focusTimer.running){ renderTime(); }
-    else if(currentTab==='time'){ const el=$('focusTimer'); if(el) el.textContent=fmtHms(timerElapsed()); }
+    if(document.hidden || currentTab!=='time') return;
+    if(focusTimer.running){ renderTime(); }
   });
 }
 boot();
