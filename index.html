@@ -2460,7 +2460,7 @@ function renderTodo(){
 }
 function buildTodoWeekSelector(selMon){
   const start=new Date(selMon); start.setMonth(start.getMonth()-6);
-  const end=new Date(selMon); end.setMonth(end.getMonth()+12);
+  const end=new Date(selMon); end.setFullYear(end.getFullYear()+50);
   let firstMon=mondayOf(new Date(start.getFullYear(), start.getMonth(), 1));
   let html='<select class="week-select" onchange="onTodoWeekSelect(this.value)">';
   for(let mon=new Date(firstMon); mon<=end; mon.setDate(mon.getDate()+7)){
