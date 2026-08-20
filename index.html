@@ -128,10 +128,17 @@ body{
 .cal-header .mlabel{
   font-size:18px; font-weight:700; color:var(--text); min-width:auto;
 }
+.week-selects{display:flex; gap:6px; align-items:center;}
+.week-year-select{
+  border:1px solid var(--line); border-radius:10px;
+  padding:6px 10px; font-size:14px; background:var(--card);
+  color:var(--text); max-width:108px; cursor:pointer;
+  -webkit-appearance:none; appearance:none; text-indent:1px;
+}
 .week-select{
   border:1px solid var(--line); border-radius:10px;
   padding:6px 10px; font-size:14px; background:var(--card);
-  color:var(--text); max-width:170px; cursor:pointer;
+  color:var(--text); max-width:132px; cursor:pointer;
   -webkit-appearance:none; appearance:none; text-indent:1px;
 }
 .week-row{
@@ -626,7 +633,8 @@ body{
   .day-more{height:16px; font-size:9px;}
   .tag-pill{font-size:10px; padding:1px 6px;}
   .month-head .mh{font-size:11px;}
-  .week-select{font-size:12px; padding:5px 6px; max-width:132px;}
+  .week-year-select{font-size:12px; padding:5px 6px; max-width:84px;}
+  .week-select{font-size:12px; padding:5px 6px; max-width:108px;}
   .month-card{padding:14px; border-radius:20px;}
   .week-board{padding:8px; border-radius:18px;}
   .week-grid{grid-template-columns:30px repeat(7,1fr); gap:4px;}
@@ -2459,18 +2467,29 @@ function renderTodo(){
   $('app').innerHTML=html;
 }
 function buildTodoWeekSelector(selMon){
-  const start=new Date(selMon); start.setMonth(start.getMonth()-6);
-  const end=new Date(selMon); end.setFullYear(end.getFullYear()+50);
-  let firstMon=mondayOf(new Date(start.getFullYear(), start.getMonth(), 1));
-  let html='<select class="week-select" onchange="onTodoWeekSelect(this.value)">';
-  for(let mon=new Date(firstMon); mon<=end; mon.setDate(mon.getDate()+7)){
-    const label=mon.getFullYear()+'年'+(mon.getMonth()+1)+'月 第'+weekIndex(mon)+'周';
+  const selYear=selMon.getFullYear();
+  const curY=new Date().getFullYear();
+  let yopts='';
+  for(let y=2024; y<=curY+50; y++){
+    yopts+='<option value="'+y+'"'+(y===selYear?' selected':'')+'>'+y+'年</option>';
+  }
+  let wopts='';
+  const yearStart=mondayOf(new Date(selYear,0,1));
+  const yearEnd=mondayOf(new Date(selYear+1,0,1));
+  for(let mon=new Date(yearStart); mon<yearEnd; mon.setDate(mon.getDate()+7)){
+    const label=(mon.getMonth()+1)+'月 第'+weekIndex(mon)+'周';
     const val=ymd(mon);
     const sel=ymd(mon)===ymd(selMon)?' selected':'';
-    html+='<option value="'+val+'"'+sel+'>'+label+'</option>';
+    wopts+='<option value="'+val+'"'+sel+'>'+label+'</option>';
   }
-  html+='</select>';
-  return html;
+  return '<span class="week-selects">'+
+    '<select class="week-year-select" onchange="onTodoYearSelect(this.value)">'+yopts+'</select>'+
+    '<select class="week-select" onchange="onTodoWeekSelect(this.value)">'+wopts+'</select>'+
+  '</span>';
+}
+function onTodoYearSelect(y){
+  todoWeekCursor=mondayOf(new Date(parseInt(y,10),0,1));
+  renderTodo();
 }
 function onTodoWeekSelect(ds){
   todoWeekCursor=parseYmd(ds);
