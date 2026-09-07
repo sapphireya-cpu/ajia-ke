@@ -3752,10 +3752,25 @@ function stProjectTerm(p){ // 优先卡片日期 p.date(YYYY.MM.DD)，其次 cre
   if(p.createdAt){ const d=new Date(p.createdAt); if(!isNaN(d.getTime())) return stTermKey(d.getFullYear(), d.getMonth()+1); }
   return '';
 }
-function stTermOptions(){ // 2026年春季 起，每年 4 个学期，向后 50 年
+function stProjectYear(p){ // 项目所属年份字符串，用于「全年」筛选；无日期 -> ''
+  if(!p) return '';
+  const m=String(p.date||'').match(/^(\d{4})/);
+  if(m) return m[1];
+  if(p.createdAt){ const d=new Date(p.createdAt); if(!isNaN(d.getTime())) return String(d.getFullYear()); }
+  return '';
+}
+function stTermIsYear(v){ return /全年$/.test(String(v||'')); }        // '2026全年'
+function stMatchTerm(p, v){                                            // 全年按年匹配；学期按学期匹配
+  if(!v) return true;
+  if(stTermIsYear(v)) return stProjectYear(p)===String(v).replace('全年','');
+  return stProjectTerm(p)===v;
+}
+function stTermOptions(){ // 每年：全年 + 春季/暑假/秋季/寒假，从 2026 起向后 50 年
   const y1=new Date().getFullYear()+50;
   let opts='<option value="">全部学期</option>';
   for(let y=2026; y<=y1; y++){
+    const yv=y+'全年';
+    opts+='<option value="'+yv+'"'+(stGoalTerm===yv?' selected':'')+'>'+y+'全年</option>';
     ST_TERMS.forEach(t=>{
       const v=y+t.k;
       opts+='<option value="'+v+'"'+(stGoalTerm===v?' selected':'')+'>'+y+'年'+t.n+'</option>';
@@ -3779,11 +3794,11 @@ function renderShuaTi(){
   if(stView==='data'){
     html+=renderStData();
   } else {
-    const list = stGoalTerm? stProjects.filter(p=> stProjectTerm(p)===stGoalTerm) : stProjects;
+    const list = stGoalTerm? stProjects.filter(p=> stMatchTerm(p, stGoalTerm)) : stProjects;
     if(!stProjects.length){
       html+='<div class="goal-empty">还没有刷题项目，点右下角「＋」新建一个目标吧</div>';
     } else if(!list.length){
-      html+='<div class="goal-empty">该学期没有创建的项目</div>';
+      html+='<div class="goal-empty">'+(stTermIsYear(stGoalTerm)?'该年度没有创建的项目':'该学期没有创建的项目')+'</div>';
     } else {
       list.forEach(p=>{ html+=renderGoalCard(p); });
     }
