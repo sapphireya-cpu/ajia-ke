@@ -835,6 +835,39 @@ body{
 .st-menu-opt button.del{background:#FDECEC; color:#E06;}
 .st-menu-opt button:active{opacity:.85;}
 
+/* ============ 备课模块（风格对齐刷题：白卡 16px 圆角 + 极浅阴影） ============ */
+.prep-card{padding:10px 10px 12px;}
+.prep-card-top{display:flex; align-items:center; gap:8px; margin-bottom:8px;}
+.prep-card-name{font-size:16px; font-weight:700; color:#1A1A1A; font-family:'PingFang SC','Microsoft YaHei',sans-serif; line-height:1.3; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.prep-tag{flex:none; background:#F0F0F0; color:#1A1A1A; font-size:12px; border-radius:999px; padding:3px 8px; white-space:nowrap;}
+.prep-chev,.prep-add{position:relative; flex:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#888; background:#F4F4F4; font-size:16px; line-height:1; user-select:none; -webkit-user-select:none;}
+.prep-add{background:#F2EEF8; color:#4E3282; font-size:20px;}
+.prep-chev::after,.prep-add::after{content:''; position:absolute; left:-5px; right:-5px; top:-5px; bottom:-5px;} /* 触摸热区补到 44px */
+.prep-chev:active,.prep-add:active{transform:scale(.92);}
+.prep-prog{display:flex; align-items:center; gap:8px; margin-bottom:8px;}
+.prep-prog:last-child{margin-bottom:0;}
+.prep-prog-label{flex:none; width:28px; font-size:12px; color:#666;}
+.prep-prog .goal-bar{flex:1;}
+.prep-prog .goal-bar-pct{flex:none; font-size:11px; color:#999; white-space:nowrap;}
+.prep-records{margin-top:8px; border-top:1px solid #F2F2F2; padding-top:6px;}
+.prep-row{display:flex; align-items:center; gap:6px; height:34px; font-size:12px; color:#444; border-bottom:1px solid #F2F2F2; white-space:nowrap; overflow:hidden;}
+.prep-row:last-child{border-bottom:none;}
+.prep-row.head{height:26px; font-size:11px; color:#999; font-weight:700; border-bottom:1px solid #EEE;}
+.pr-lesson{width:46px; flex:none;}
+.pr-type{width:46px; flex:none;}
+.pr-content{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;}
+.pr-status{width:36px; flex:none; display:inline-flex; gap:3px; align-items:center;}
+.pr-op{width:54px; flex:none; display:inline-flex; gap:10px; align-items:center; justify-content:flex-end;}
+.prep-type-tag{border-radius:6px; padding:2px 6px; font-size:11px;}
+.prep-sdot{width:9px; height:9px; border-radius:50%; display:inline-block; border:1px solid #DDD; background:#fff; box-sizing:border-box;}
+.prep-sdot.on{border-color:transparent;}
+.prep-op{cursor:pointer; font-size:13px; line-height:1; min-width:22px; text-align:center;}
+.prep-empty{color:#999; font-size:12px; padding:8px 2px;}
+.prep-form-btns{display:flex; gap:10px; align-items:center; margin-top:6px;}
+.prep-form-btns .btn-primary{flex:1; margin-top:0; min-height:44px;}
+.prep-del-link{flex:none; min-height:44px; padding:0 14px; border:none; background:transparent; color:#E06; font-size:15px; font-weight:700; cursor:pointer;}
+.prep-del-link:active{opacity:.7;}
+
 /* 卡片右上角菜单入口 */
 .goal-card-right{display:flex; align-items:center; gap:8px; flex:none;}
 .goal-menu-btn{width:30px; height:30px; border-radius:50%; border:none; background:#F4F4F4; color:#888; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;}
@@ -1067,6 +1100,83 @@ body{
     <div class="st-menu-opt">
       <button class="del" id="stConfirmYes" onclick="stConfirmYes()">确定</button>
       <button onclick="hideMask('maskStConfirm')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 备课：任务表单 -->
+<div class="mask" id="maskPrepTask">
+  <div class="sheet">
+    <span class="close-x" onclick="hideMask('maskPrepTask')">×</span>
+    <h3 id="prepTaskTitle">新增备课任务</h3>
+    <div class="field">
+      <label>任务名称 <span class="req">*</span></label>
+      <input id="prepTaskName" placeholder="如：2026秋季高三化学">
+    </div>
+    <div class="field">
+      <label>课程季次 <span class="req">*</span></label>
+      <select id="prepTaskTerm"></select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>课程标签 <span class="req">*</span></label>
+        <select id="prepTaskCourse"></select>
+      </div>
+      <div class="field">
+        <label>总课次 <span class="req">*</span></label>
+        <input id="prepTaskTotal" type="number" min="1" placeholder="16">
+      </div>
+    </div>
+    <div class="field">
+      <label>任务颜色</label>
+      <div class="color-pick" id="prepColorSwatches"></div>
+    </div>
+    <button class="btn-primary" onclick="savePrepTask()">确定</button>
+  </div>
+</div>
+
+<!-- 备课：备课进度表单 -->
+<div class="mask" id="maskPrepItem">
+  <div class="sheet">
+    <span class="close-x" onclick="hideMask('maskPrepItem')">×</span>
+    <h3 id="prepItemTitle">新增备课进度</h3>
+    <div class="field-row">
+      <div class="field">
+        <label>课次 <span class="req">*</span></label>
+        <input id="prepItemLesson" type="number" min="1" placeholder="3">
+      </div>
+      <div class="field">
+        <label>类型 <span class="req">*</span></label>
+        <select id="prepItemType"></select>
+      </div>
+    </div>
+    <div class="field">
+      <label>内容 <span class="req">*</span></label>
+      <input id="prepItemContent" placeholder="如：氧化还原反应">
+    </div>
+    <div class="field">
+      <label>上课日期</label>
+      <input id="prepItemDate" type="date">
+    </div>
+    <div class="field">
+      <label>状态</label>
+      <div class="st-checks" id="prepItemStatusRow"></div>
+    </div>
+    <div class="prep-form-btns">
+      <button class="prep-del-link" id="prepItemDel" onclick="prepDelItemFromModal()">删除</button>
+      <button class="btn-primary" onclick="savePrepItem()">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- 备课：任务长按菜单 -->
+<div class="mask" id="maskPrepMenu">
+  <div class="sheet center" style="max-width:300px;">
+    <span class="close-x" onclick="hideMask('maskPrepMenu')">×</span>
+    <h3 id="prepMenuName">任务</h3>
+    <div class="st-menu-opt">
+      <button onclick="hideMask('maskPrepMenu');openPrepTaskForm(prepMenuTid)">编辑任务</button>
+      <button class="del" onclick="hideMask('maskPrepMenu');prepDelTask(prepMenuTid)">删除任务</button>
     </div>
   </div>
 </div>
@@ -1609,6 +1719,23 @@ let stMenuPid = null;         // 长按菜单针对的项目 id
 let stConfirmCb = null;       // 自定义确认框回调
 let stLPT = null, stLPpid = null;  // 长按计时
 
+/* ============ 备课模块状态 ============ */
+let prepTasks = [];   // 备课任务 {id,name,term,courseType,total,color,createdAt}
+let prepItems = [];   // 备课进度 {id,taskId,lesson,content,type,date,edited,preped,printed,createdAt}
+let prepView = 'task';            // task 任务 | stat 统计
+let prepTerm = '';                // 学期筛选（''=全部学期）
+let prepExpanded = new Set();     // 已展开进度列表的任务 id
+let prepFormColor = PALETTE[0];   // 任务表单选中颜色
+let editingPrepTaskId = null;     // 编辑中的任务 id（null=新增）
+let editingPrepItemId = null;     // 编辑中的进度 id（null=新增）
+let prepItemTaskId = null;        // 新增进度所属任务 id
+let prepMenuTid = null;           // 长按菜单针对的任务 id
+let prepLPT = null, prepLPtid = null;  // 长按计时
+const PREP_COURSE_TYPES = ['班课','小课','网课'];
+const PREP_TYPES = ['讲义','作业','服务'];
+const PREP_STATUS = [{k:'edited',n:'已编辑',c:'#FF6B6B'},{k:'preped',n:'已备课',c:'#FFD93D'},{k:'printed',n:'已打印',c:'#6BCB77'}];
+const PREP_TYPE_STYLE = {'讲义':{bg:'#E8F1FF',fg:'#3A7BD5'},'作业':{bg:'#FFF0E0',fg:'#E8913A'},'服务':{bg:'#F1E9FF',fg:'#8B5CF6'}};
+
 
 /* ============ 工具 ============ */
 const $ = id => document.getElementById(id);
@@ -1642,7 +1769,7 @@ function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('sho
 /* ============ 存储 + 云端 ============ */
 function loadAll(){
   try{ const s=localStorage.getItem(SETTINGS_KEY); if(s) settings=Object.assign(settings,JSON.parse(s)); }catch(e){}
-  try{ const st=JSON.parse(localStorage.getItem(STATE_KEY)||'{}'); templates=st.templates||[]; records=st.records||[]; holidays=st.holidays||{}; todos=st.todos||[]; focusProjects=st.focusProjects||[]; focusRecords=st.focusRecords||[]; checkins=st.checkins||[]; checkinRecords=st.checkinRecords||[]; tagDefs=st.tagDefs||[]; todoStatus=st.todoStatus||[]; todoDetached=st.todoDetached||[]; stProjects=st.stProjects||[]; stRecords=st.stRecords||[]; if(st.focusTimer) focusTimer=normalizeTimer(st.focusTimer); }catch(e){}
+  try{ const st=JSON.parse(localStorage.getItem(STATE_KEY)||'{}'); templates=st.templates||[]; records=st.records||[]; holidays=st.holidays||{}; todos=st.todos||[]; focusProjects=st.focusProjects||[]; focusRecords=st.focusRecords||[]; checkins=st.checkins||[]; checkinRecords=st.checkinRecords||[]; tagDefs=st.tagDefs||[]; todoStatus=st.todoStatus||[]; todoDetached=st.todoDetached||[]; stProjects=st.stProjects||[]; stRecords=st.stRecords||[]; prepTasks=st.prepTasks||[]; prepItems=st.prepItems||[]; if(st.focusTimer) focusTimer=normalizeTimer(st.focusTimer); }catch(e){}
   ensureFocusDefaults();
   // 兼容：旧数据补全字段
   templates.forEach(t=>{
@@ -1681,7 +1808,7 @@ async function refreshApp(){
   toast('已刷新');
   hideMask('maskSet');                         // 刷新后关闭设置弹窗，直接看到最新界面
 }
-function saveLocal(){ localStorage.setItem(STATE_KEY, JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,focusTimer})); }
+function saveLocal(){ localStorage.setItem(STATE_KEY, JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,prepTasks,prepItems,focusTimer})); }
 function cloudUrl(){
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
@@ -1703,7 +1830,7 @@ async function cloudPush(manual){
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
   const bname=settings.bucket||'ajia-state';
-  const payload=JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,focusTimer,exportedAt:new Date().toISOString()});
+  const payload=JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,prepTasks,prepItems,focusTimer,exportedAt:new Date().toISOString()});
   const blob=new Blob([payload],{type:'application/json'});
   const authHdr={'Authorization':'Bearer '+settings.key};
   const objUrl=base+'/api/storage/buckets/'+bucket+'/objects/state.json';
@@ -1783,11 +1910,11 @@ async function cloudPull(manual){
     if(!text) throw new Error('云端返回空内容');
     let data;
     try{ data=JSON.parse(text); }catch(e){ const isHtml=(text||'').trim().charAt(0)==='<'; const hint=isHtml?'（返回的是网页而非数据，多半是云端端点填错或存储桶不存在）':''; throw new Error('响应不是JSON'+hint+'，内容前120字：'+(text||'(空)').slice(0,120)); }
-    if(data && (data.templates||data.records||data.holidays||data.todos||data.focusRecords||data.stProjects||data.stRecords)){
+    if(data && (data.templates||data.records||data.holidays||data.todos||data.focusRecords||data.stProjects||data.stRecords||data.prepTasks||data.prepItems)){
       const localTimerRunning=focusTimer.running;   // localStorage 优先，云端仅作补充
       templates=data.templates||[]; records=data.records||[]; holidays=data.holidays||{}; todos=data.todos||[];
       focusProjects=data.focusProjects||[]; focusRecords=data.focusRecords||[]; checkins=data.checkins||[]; checkinRecords=data.checkinRecords||[]; ensureFocusDefaults();
-      stProjects=data.stProjects||[]; stRecords=data.stRecords||[];
+      stProjects=data.stProjects||[]; stRecords=data.stRecords||[]; prepTasks=data.prepTasks||[]; prepItems=data.prepItems||[];
       if(!localTimerRunning && data.focusTimer) focusTimer=normalizeTimer(data.focusTimer);
       templates.forEach(t=>{ if(!t.color) t.color=assignColor(); if(!t.timeSlot) t.timeSlot='8:00'; if(!t.type) t.type='1v1'; });
       records.forEach(r=>{ delete r.student; if(!r.type) r.type='1v1'; if(r.income==null) r.income=(r.fee!=null?r.fee:0); });
@@ -2400,11 +2527,231 @@ function delTagDef(id){
   saveLocal(); cloudPush(false); renderTagMgrList(); renderTagColorRow();
 }
 
-/* ---- 待办页面（独立 Tab） ---- */
+/* ---- 备课页面（独立 Tab，原「待办」） ---- */
+function prepTermOptions(){ // 顶部学期筛选：全部学期 + 2026年春季 起，每年 4 个学期，向后 50 年
+  const y1=new Date().getFullYear()+50;
+  let opts='<option value="">全部学期</option>';
+  for(let y=2026; y<=y1; y++){
+    ST_TERMS.forEach(t=>{
+      const v=y+t.k;
+      opts+='<option value="'+v+'"'+(prepTerm===v?' selected':'')+'>'+y+'年'+t.n+'</option>';
+    });
+  }
+  return opts;
+}
+function prepTermFullOptions(sel){ // 课程季次：与顶部同一套数据源，无「全部学期」
+  const y1=new Date().getFullYear()+50;
+  let opts='';
+  for(let y=2026; y<=y1; y++){
+    ST_TERMS.forEach(t=>{
+      const v=y+t.k;
+      opts+='<option value="'+v+'"'+(sel===v?' selected':'')+'>'+y+'年'+t.n+'</option>';
+    });
+  }
+  return opts;
+}
+function prepCurrentTerm(){ const d=new Date(); return stTermKey(d.getFullYear(), d.getMonth()+1); }
+function prepTaskTerm(t){ // 任务归属学期：优先季次字段，否则按创建日期推算
+  if(!t) return '';
+  if(t.term) return t.term;
+  if(t.createdAt){ const d=new Date(t.createdAt); if(!isNaN(d.getTime())) return stTermKey(d.getFullYear(), d.getMonth()+1); }
+  return '';
+}
+function prepItemsOf(tid){ return prepItems.filter(x=>x.taskId===tid).sort((a,b)=>(parseInt(a.lesson,10)||0)-(parseInt(b.lesson,10)||0)); }
+function prepDateToInput(s){ const m=String(s||'').match(/^(\d{4})\.(\d{2})\.(\d{2})/); return m? (m[1]+'-'+m[2]+'-'+m[3]) : ''; }
+function prepDateFromInput(v){ const m=String(v||'').match(/^(\d{4})-(\d{2})-(\d{2})/); return m? (m[1]+'.'+m[2]+'.'+m[3]) : ''; }
+function switchPrepView(v){ prepView=v; render(); }
+function togglePrepExpand(tid){ if(prepExpanded.has(tid)) prepExpanded.delete(tid); else prepExpanded.add(tid); render(); }
+
 function renderTodo(){
-  // 「今日计划」与「本周待办」模块已按要求移除，页面暂为空白
-  // 已存储的 todos 数据不受影响，仍保留在 localStorage / 云端，后续可重新挂载展示
-  $('app').innerHTML='<div class="todo-page"></div>';
+  let html='<div class="todo-page">';
+  html+='<div class="st-header">'+
+    '<div class="st-title">备课任务</div>'+
+    '<div class="st-head-right">'+
+      (prepView==='task'?'<select class="st-term-select" onchange="prepTerm=this.value;render();" aria-label="按学期筛选">'+prepTermOptions()+'</select>':'')+
+      '<div class="goal-tabs">'+
+        '<button class="goal-tab'+(prepView==='task'?' active':'')+'" onclick="switchPrepView(\'task\')">任务</button>'+
+        '<button class="goal-tab'+(prepView==='stat'?' active':'')+'" onclick="switchPrepView(\'stat\')">统计</button>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+  if(prepView==='stat'){
+    html+='<div class="goal-empty">备课统计开发中</div>';
+  } else {
+    const list = prepTerm? prepTasks.filter(t=> prepTaskTerm(t)===prepTerm) : prepTasks;
+    if(!prepTasks.length){
+      html+='<div class="goal-empty">还没有备课任务，点右下角「＋」新建一个吧</div>';
+    } else if(!list.length){
+      html+='<div class="goal-empty">该学期没有创建的备课任务</div>';
+    } else {
+      list.forEach(t=>{ html+=renderPrepCard(t); });
+    }
+    html+='<button class="goal-fab" onclick="openPrepTaskForm(null)" title="新增备课任务" aria-label="新增备课任务">'+PLUS_SVG+'</button>';
+  }
+  html+='</div>';
+  $('app').innerHTML=html;
+}
+function prepProgRow(label, done, total, color){
+  const p= total? Math.round(Math.min(done,total)/total*100):0;
+  return '<div class="prep-prog">'+
+    '<span class="prep-prog-label">'+label+'</span>'+
+    '<div class="goal-bar"><div class="goal-bar-fill" style="width:'+p+'%;background:'+color+'"></div></div>'+
+    '<span class="goal-bar-pct">完成 '+done+' 讲 / 共 '+total+' 讲</span>'+
+  '</div>';
+}
+function renderPrepCard(t){
+  const items=prepItemsOf(t.id);
+  const total=Math.max(0, parseInt(t.total,10)||0);
+  const edited=items.filter(i=> i.type==='讲义' && i.edited).length;  // 讲义类且已勾选「已编辑」
+  const prepped=items.filter(i=> i.preped).length;                     // 无论类型，勾选「已备课」即计入
+  const expanded=prepExpanded.has(t.id);
+  let html='<div class="goal-card prep-card" oncontextmenu="openPrepMenu(\''+t.id+'\');return false;" ontouchstart="prepTouchStart(\''+t.id+'\')" ontouchend="prepTouchEnd()" ontouchmove="prepTouchMove()">';
+  html+='<div class="prep-card-top">'+
+    '<div class="prep-card-name">'+esc(t.name)+'</div>'+
+    '<span class="prep-tag">'+esc(t.courseType||'')+'</span>'+
+    '<span class="prep-chev" onclick="togglePrepExpand(\''+t.id+'\')" title="展开/收起进度">'+(expanded? CHEV_UP_SVG : CHEV_DOWN_SVG)+'</span>'+
+    '<span class="prep-add" onclick="openPrepItemForm(null,\''+t.id+'\')" title="新增备课进度">＋</span>'+
+  '</div>';
+  html+=prepProgRow('编辑', edited, total, t.color);
+  html+=prepProgRow('备课', prepped, total, t.color);
+  if(expanded) html+=renderPrepItems(items);
+  html+='</div>';
+  return html;
+}
+function renderPrepItems(items){
+  if(!items.length) return '<div class="prep-records"><div class="prep-empty">还没有备课进度，点右侧「＋」添加</div></div>';
+  let h='<div class="prep-records">';
+  h+='<div class="prep-row head"><span class="pr-lesson">课次</span><span class="pr-type">类型</span><span class="pr-content">内容</span><span class="pr-status">状态</span><span class="pr-op">操作</span></div>';
+  items.forEach(it=>{
+    const ts=PREP_TYPE_STYLE[it.type]||{bg:'#F0F0F0',fg:'#666'};
+    let dots='';
+    PREP_STATUS.forEach(s=>{ dots+='<span class="prep-sdot'+(it[s.k]?' on':'')+'" style="'+(it[s.k]?'background:'+s.c+';':'')+'" title="'+s.n+'"></span>'; });
+    h+='<div class="prep-row" title="上课日期：'+(it.date||'未设置')+'">'+
+      '<span class="pr-lesson">第'+(parseInt(it.lesson,10)||0)+'讲</span>'+
+      '<span class="pr-type"><span class="prep-type-tag" style="background:'+ts.bg+';color:'+ts.fg+'">'+esc(it.type)+'</span></span>'+
+      '<span class="pr-content">'+esc(it.content)+'</span>'+
+      '<span class="pr-status">'+dots+'</span>'+
+      '<span class="pr-op">'+
+        '<span class="prep-op" onclick="openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" title="编辑">✏️</span>'+
+        '<span class="prep-op" onclick="prepDelItem(\''+it.id+'\')" title="删除">🗑️</span>'+
+      '</span>'+
+    '</div>';
+  });
+  h+='</div>';
+  return h;
+}
+
+/* 任务表单 */
+function prepAssignColor(){
+  const used={}; prepTasks.forEach(t=>{ used[t.color]=(used[t.color]||0)+1; });
+  let best=PALETTE[0], min=Infinity;
+  PALETTE.forEach(c=>{ const n=used[c]||0; if(n<min){min=n;best=c;} });
+  return best;
+}
+function prepRenderSwatches(){
+  $('prepColorSwatches').innerHTML=PALETTE.map(c=>'<div class="color-swatch'+(c===prepFormColor?' active':'')+'" style="background:'+c+'" onclick="prepPickColor(\''+c+'\')"></div>').join('');
+}
+function prepPickColor(c){ prepFormColor=c; prepRenderSwatches(); }
+function openPrepTaskForm(id){
+  editingPrepTaskId=id||null;
+  $('prepTaskTitle').textContent= id?'编辑备课任务':'新增备课任务';
+  $('prepTaskCourse').innerHTML=PREP_COURSE_TYPES.map(x=>'<option value="'+x+'">'+x+'</option>').join('');
+  if(id){
+    const t=prepTasks.find(x=>x.id===id);
+    if(t){
+      $('prepTaskName').value=t.name||'';
+      $('prepTaskTerm').innerHTML=prepTermFullOptions(t.term||prepCurrentTerm());
+      $('prepTaskCourse').value=t.courseType||PREP_COURSE_TYPES[0];
+      $('prepTaskTotal').value=t.total||'';
+      prepFormColor=t.color||prepAssignColor();
+    }
+  } else {
+    $('prepTaskName').value='';
+    $('prepTaskTerm').innerHTML=prepTermFullOptions(prepCurrentTerm());
+    $('prepTaskCourse').value=PREP_COURSE_TYPES[0];
+    $('prepTaskTotal').value='';
+    prepFormColor=prepAssignColor();
+  }
+  prepRenderSwatches();
+  showMask('maskPrepTask');
+}
+function savePrepTask(){
+  const name=$('prepTaskName').value.trim(); if(!name){ toast('请填写任务名称'); return; }
+  const term=$('prepTaskTerm').value;
+  const courseType=$('prepTaskCourse').value;
+  const total=parseInt($('prepTaskTotal').value,10); if(!total||total<1){ toast('请填写有效总课次'); return; }
+  if(editingPrepTaskId){
+    const t=prepTasks.find(x=>x.id===editingPrepTaskId);
+    if(t){ t.name=name; t.term=term; t.courseType=courseType; t.total=total; t.color=prepFormColor; }
+  } else {
+    prepTasks.push({id:uid(), name, term, courseType, total, color:prepFormColor, createdAt:Date.now()});
+  }
+  saveLocal(); cloudPush(false); hideMask('maskPrepTask'); render();
+}
+
+/* 备课进度表单 */
+function openPrepItemForm(id, tid){
+  editingPrepItemId=id||null; prepItemTaskId=tid||null;
+  $('prepItemTitle').textContent= id?'编辑备课进度':'新增备课进度';
+  $('prepItemDel').style.display= id? '' : 'none';
+  $('prepItemType').innerHTML=PREP_TYPES.map(x=>'<option value="'+x+'">'+x+'</option>').join('');
+  $('prepItemStatusRow').innerHTML=PREP_STATUS.map(s=>'<label class="st-check"><input type="checkbox" id="prepSt_'+s.k+'"><span>'+s.n+'</span></label>').join('');
+  if(id){
+    const it=prepItems.find(x=>x.id===id);
+    if(it){
+      prepItemTaskId=it.taskId;
+      $('prepItemLesson').value=it.lesson||'';
+      $('prepItemContent').value=it.content||'';
+      $('prepItemType').value=it.type||PREP_TYPES[0];
+      $('prepItemDate').value=prepDateToInput(it.date);
+      PREP_STATUS.forEach(s=>{ const el=$('prepSt_'+s.k); if(el) el.checked=!!it[s.k]; });
+    }
+  } else {
+    const next=prepItemsOf(tid).reduce((m,i)=>Math.max(m, parseInt(i.lesson,10)||0),0)+1;
+    $('prepItemLesson').value=next;
+    $('prepItemContent').value='';
+    $('prepItemType').value=PREP_TYPES[0];
+    $('prepItemDate').value='';
+  }
+  showMask('maskPrepItem');
+}
+function savePrepItem(){
+  const lesson=parseInt($('prepItemLesson').value,10); if(!lesson||lesson<1){ toast('请填写有效课次'); return; }
+  const content=$('prepItemContent').value.trim(); if(!content){ toast('请填写内容'); return; }
+  const type=$('prepItemType').value;
+  const date=prepDateFromInput($('prepItemDate').value);
+  const st={}; PREP_STATUS.forEach(s=>{ const el=$('prepSt_'+s.k); st[s.k]= !!(el&&el.checked); });
+  if(editingPrepItemId){
+    const it=prepItems.find(x=>x.id===editingPrepItemId);
+    if(it){ it.lesson=lesson; it.content=content; it.type=type; it.date=date; it.edited=st.edited; it.preped=st.preped; it.printed=st.printed; }
+  } else {
+    prepItems.push({id:uid(), taskId:prepItemTaskId, lesson, content, type, date, edited:st.edited, preped:st.preped, printed:st.printed, createdAt:Date.now()});
+    if(prepItemTaskId) prepExpanded.add(prepItemTaskId);
+  }
+  saveLocal(); cloudPush(false); hideMask('maskPrepItem'); render();
+}
+function prepDelItem(id){
+  const it=prepItems.find(x=>x.id===id); if(!it) return;
+  stConfirm('确定删除该条进度吗？', ()=>{ prepItems=prepItems.filter(x=>x.id!==id); saveLocal(); cloudPush(false); render(); });
+}
+function prepDelItemFromModal(){
+  if(!editingPrepItemId) return;
+  const id=editingPrepItemId;
+  stConfirm('确定删除该条进度吗？', ()=>{ prepItems=prepItems.filter(x=>x.id!==id); saveLocal(); cloudPush(false); hideMask('maskPrepItem'); render(); });
+}
+
+/* 长按菜单 / 删除任务 */
+function prepTouchStart(tid){ prepLPtid=tid; prepLPT=setTimeout(()=>{ prepLPT=null; openPrepMenu(tid); }, 550); }
+function prepTouchEnd(){ if(prepLPT){ clearTimeout(prepLPT); prepLPT=null; } }
+function prepTouchMove(){ if(prepLPT){ clearTimeout(prepLPT); prepLPT=null; } }
+function openPrepMenu(tid){ prepMenuTid=tid; const t=prepTasks.find(x=>x.id===tid); if(t) $('prepMenuName').textContent=t.name; showMask('maskPrepMenu'); }
+function prepDelTask(tid){
+  const t=prepTasks.find(x=>x.id===tid); if(!t) return;
+  stConfirm('确定删除该任务吗？该任务下的所有备课进度也将被删除。', ()=>{
+    prepTasks=prepTasks.filter(x=>x.id!==tid);
+    prepItems=prepItems.filter(x=>x.taskId!==tid);
+    saveLocal(); cloudPush(false); render();
+  });
 }
 function buildTodoWeekSelector(selMon){
   const selYear=selMon.getFullYear();
@@ -3344,7 +3691,7 @@ function importJSON(e){
 }
 function clearCache(){
   if(!confirm('清除本地缓存（课程模板与记录）？云端数据不受影响。')) return;
-  localStorage.removeItem(STATE_KEY); templates=[]; records=[]; holidays={}; todos=[]; render(); toast('本地缓存已清除');
+  localStorage.removeItem(STATE_KEY); templates=[]; records=[]; holidays={}; todos=[]; prepTasks=[]; prepItems=[]; prepExpanded=new Set(); render(); toast('本地缓存已清除');
 }
 
 function openExportPicker(){ showMask('maskExport'); }
