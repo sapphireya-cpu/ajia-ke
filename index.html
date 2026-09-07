@@ -785,6 +785,13 @@ body{
 .st-header{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 0 12px;}
 .st-title{font-size:18px; font-weight:700; color:#1A1A1A; font-family:'PingFang SC','Microsoft YaHei',sans-serif; line-height:1.3;}
 .goal-tabs{display:flex; gap:4px;}
+.st-head-right{display:flex; align-items:center; gap:10px; flex:none;}
+.st-term-select{
+  -webkit-appearance:none; appearance:none;
+  background:#fff; border:1px solid #ECECEC; border-radius:10px;
+  padding:5px 8px; font-size:13px; color:#444; cursor:pointer;
+  max-width:118px;
+}
 .goal-tab{background:#FFFFFF; border:1px solid #ECECEC; border-radius:999px; padding:4px 10px; font-size:13px; color:#666; cursor:pointer; min-height:26px;}
 .goal-tab.active{background:#4E3282; color:#fff; border-color:#4E3282;}
 .goal-tab:not(.active):active{background:#F2F2F2;}
@@ -1587,6 +1594,7 @@ let weekDragMoved = false;
 let stProjects = [];   // 刷题项目 {id,name,unit:'page'|'set',total,color,createdAt}
 let stRecords = [];    // 试卷记录 {id,pid,name,grade,examType,monthNote,weekNote,done,archived,entered,dt(ms),examTime,score,duration,pos,createdAt}
 let stView = 'goal';   // 顶部视图：goal 目标 | data 数据
+let stGoalTerm = '';   // 目标视图：学期筛选（''=全部学期）
 let stExpanded = new Set();   // 已展开记录列表的项目 id
 let stDataYear = String(new Date().getFullYear());  // 数据视图：选中年份
 let stDataGrade = '全部';                            // 数据视图：选中年级
@@ -3723,22 +3731,61 @@ function stNextPos(pid){ const used=new Set(stRecordsOf(pid).map(r=>r.pos)); let
 
 function switchStView(v){ stView=v; render(); }
 
+/* ---- 学期（按项目创建日期自动归属，用于目标页筛选） ---- */
+const ST_TERMS=[
+  {k:'春',  n:'春季', m:[3,4,5,6]},
+  {k:'暑假',n:'暑假', m:[7,8]},
+  {k:'秋',  n:'秋季', m:[9,10,11,12]},
+  {k:'寒假',n:'寒假', m:[1,2]}
+];
+function stTermKey(y,m){ // y+m(1-12) -> '2026秋'；无法识别返回 ''
+  if(!y || !m) return '';
+  for(let i=0;i<ST_TERMS.length;i++){
+    if(ST_TERMS[i].m.indexOf(m)>=0) return y+ST_TERMS[i].k;
+  }
+  return '';
+}
+function stProjectTerm(p){ // 优先卡片日期 p.date(YYYY.MM.DD)，其次 createdAt；都无 -> ''（归入全部学期，筛选时不隐藏）
+  if(!p) return '';
+  const m=String(p.date||'').match(/^(\d{4})\.(\d{2})/);
+  if(m) return stTermKey(parseInt(m[1],10), parseInt(m[2],10));
+  if(p.createdAt){ const d=new Date(p.createdAt); if(!isNaN(d.getTime())) return stTermKey(d.getFullYear(), d.getMonth()+1); }
+  return '';
+}
+function stTermOptions(){ // 2026年春季 起，每年 4 个学期，向后 50 年
+  const y1=new Date().getFullYear()+50;
+  let opts='<option value="">全部学期</option>';
+  for(let y=2026; y<=y1; y++){
+    ST_TERMS.forEach(t=>{
+      const v=y+t.k;
+      opts+='<option value="'+v+'"'+(stGoalTerm===v?' selected':'')+'>'+y+'年'+t.n+'</option>';
+    });
+  }
+  return opts;
+}
+
 function renderShuaTi(){
   let html='<div class="goal-page">';
   html+='<div class="st-header">'+
     '<div class="st-title">'+(stView==='data'?'刷题统计':'刷题目标')+'</div>'+
-    '<div class="goal-tabs">'+
-      '<button class="goal-tab'+(stView==='goal'?' active':'')+'" onclick="switchStView(\'goal\')">目标</button>'+
-      '<button class="goal-tab'+(stView==='data'?' active':'')+'" onclick="switchStView(\'data\')">数据</button>'+
+    '<div class="st-head-right">'+
+      (stView==='goal'?'<select class="st-term-select" onchange="stGoalTerm=this.value;render();" aria-label="按学期筛选">'+stTermOptions()+'</select>':'')+
+      '<div class="goal-tabs">'+
+        '<button class="goal-tab'+(stView==='goal'?' active':'')+'" onclick="switchStView(\'goal\')">目标</button>'+
+        '<button class="goal-tab'+(stView==='data'?' active':'')+'" onclick="switchStView(\'data\')">数据</button>'+
+      '</div>'+
     '</div>'+
   '</div>';
   if(stView==='data'){
     html+=renderStData();
   } else {
+    const list = stGoalTerm? stProjects.filter(p=> stProjectTerm(p)===stGoalTerm) : stProjects;
     if(!stProjects.length){
       html+='<div class="goal-empty">还没有刷题项目，点右下角「＋」新建一个目标吧</div>';
+    } else if(!list.length){
+      html+='<div class="goal-empty">该学期没有创建的项目</div>';
     } else {
-      stProjects.forEach(p=>{ html+=renderGoalCard(p); });
+      list.forEach(p=>{ html+=renderGoalCard(p); });
     }
     html+='<button class="goal-fab" onclick="openProjectForm(null)" title="新增项目" aria-label="新增项目">'+PLUS_SVG+'</button>';
   }
