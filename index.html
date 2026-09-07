@@ -852,16 +852,17 @@ body{
 .prep-records{margin-top:8px; border-top:1px solid #F2F2F2; padding-top:6px;}
 .prep-row{display:flex; align-items:center; gap:6px; height:34px; font-size:12px; color:#444; border-bottom:1px solid #F2F2F2; white-space:nowrap; overflow:hidden;}
 .prep-row:last-child{border-bottom:none;}
+.prep-row.clickable{cursor:pointer;}
+.prep-row.clickable:active{background:#FAFAFC;}
 .prep-row.head{height:26px; font-size:11px; color:#999; font-weight:700; border-bottom:1px solid #EEE;}
 .pr-lesson{width:46px; flex:none;}
 .pr-type{width:46px; flex:none;}
+.pr-time{width:82px; flex:none; color:#666; font-size:11px;}
 .pr-content{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;}
-.pr-status{width:36px; flex:none; display:inline-flex; gap:3px; align-items:center;}
-.pr-op{width:54px; flex:none; display:inline-flex; gap:10px; align-items:center; justify-content:flex-end;}
+.pr-status{width:32px; flex:none; display:inline-flex; gap:3px; align-items:center;}
 .prep-type-tag{border-radius:6px; padding:2px 6px; font-size:11px;}
 .prep-sdot{width:9px; height:9px; border-radius:50%; display:inline-block; border:1px solid #DDD; background:#fff; box-sizing:border-box;}
 .prep-sdot.on{border-color:transparent;}
-.prep-op{cursor:pointer; font-size:13px; line-height:1; min-width:22px; text-align:center;}
 .prep-empty{color:#999; font-size:12px; padding:8px 2px;}
 .prep-form-btns{display:flex; gap:10px; align-items:center; margin-top:6px;}
 .prep-form-btns .btn-primary{flex:1; margin-top:0; min-height:44px;}
@@ -2618,23 +2619,25 @@ function renderPrepCard(t){
   html+='</div>';
   return html;
 }
+function prepFmtDate(s){ // '2026.09.10' -> '9月10日 周三'
+  const m=String(s||'').match(/^(\d{4})\.(\d{2})\.(\d{2})/); if(!m) return '';
+  const d=new Date(+m[1], +m[2]-1, +m[3]);
+  return (+m[2])+'月'+(+m[3])+'日 周'+'日一二三四五六'.charAt(d.getDay());
+}
 function renderPrepItems(items){
   if(!items.length) return '<div class="prep-records"><div class="prep-empty">还没有备课进度，点右侧「＋」添加</div></div>';
   let h='<div class="prep-records">';
-  h+='<div class="prep-row head"><span class="pr-lesson">课次</span><span class="pr-type">类型</span><span class="pr-content">内容</span><span class="pr-status">状态</span><span class="pr-op">操作</span></div>';
+  h+='<div class="prep-row head"><span class="pr-lesson">课次</span><span class="pr-type">类型</span><span class="pr-time">时间</span><span class="pr-content">内容</span><span class="pr-status">状态</span></div>';
   items.forEach(it=>{
     const ts=PREP_TYPE_STYLE[it.type]||{bg:'#F0F0F0',fg:'#666'};
     let dots='';
     PREP_STATUS.forEach(s=>{ dots+='<span class="prep-sdot'+(it[s.k]?' on':'')+'" style="'+(it[s.k]?'background:'+s.c+';':'')+'" title="'+s.n+'"></span>'; });
-    h+='<div class="prep-row" title="上课日期：'+(it.date||'未设置')+'">'+
+    h+='<div class="prep-row clickable" onclick="openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" title="点击修改或删除｜上课日期：'+(prepFmtDate(it.date)||'未设置')+'">'+
       '<span class="pr-lesson">第'+(parseInt(it.lesson,10)||0)+'讲</span>'+
       '<span class="pr-type"><span class="prep-type-tag" style="background:'+ts.bg+';color:'+ts.fg+'">'+esc(it.type)+'</span></span>'+
+      '<span class="pr-time">'+(prepFmtDate(it.date)||'—')+'</span>'+
       '<span class="pr-content">'+esc(it.content)+'</span>'+
       '<span class="pr-status">'+dots+'</span>'+
-      '<span class="pr-op">'+
-        '<span class="prep-op" onclick="openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" title="编辑">✏️</span>'+
-        '<span class="prep-op" onclick="prepDelItem(\''+it.id+'\')" title="删除">🗑️</span>'+
-      '</span>'+
     '</div>';
   });
   h+='</div>';
@@ -2729,10 +2732,6 @@ function savePrepItem(){
     if(prepItemTaskId) prepExpanded.add(prepItemTaskId);
   }
   saveLocal(); cloudPush(false); hideMask('maskPrepItem'); render();
-}
-function prepDelItem(id){
-  const it=prepItems.find(x=>x.id===id); if(!it) return;
-  stConfirm('确定删除该条进度吗？', ()=>{ prepItems=prepItems.filter(x=>x.id!==id); saveLocal(); cloudPush(false); render(); });
 }
 function prepDelItemFromModal(){
   if(!editingPrepItemId) return;
