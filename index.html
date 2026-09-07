@@ -2598,9 +2598,9 @@ function scrollYearToCurrentMonth(){}
 function renderCheckins(){
   const days=ciWeekDays();
   const mon=days[0], sun=days[6];
-  const title=(mon.getMonth()+1)+'月'+mon.getDate()+'日-'+(sun.getMonth()+1)+'月'+sun.getDate()+'日';
+  const title=(mon.getMonth()+1)+'.'+mon.getDate()+'-'+(sun.getMonth()+1)+'.'+sun.getDate();
   let html='<div class="todo-card checkin-card">';
-  html+='<div class="todo-head"><span class="todo-title">本周打卡 · '+title+'</span>'+
+  html+='<div class="todo-head"><span class="todo-title" style="font-size:12px;">'+title+'</span>'+
         '<span class="todo-add" onclick="openCheckinManage()" title="管理打卡项">＋</span></div>';
   if(!checkins.length){
     html+='<div class="empty-hint">还没有打卡项，点右上角「＋」添加</div></div>';
