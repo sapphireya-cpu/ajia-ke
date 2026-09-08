@@ -800,11 +800,11 @@ body{
 .goal-card{background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,.06); padding:10px 9px; margin-bottom:12px; position:relative; user-select:none; -webkit-user-select:none;}
 .goal-card-top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px;}
 .goal-card-head{display:flex; align-items:center; gap:8px; flex:1; min-width:0;}
-.goal-card-name{font-size:15px; font-weight:700; color:#1A1A1A; font-family:'PingFang SC','Microsoft YaHei',sans-serif; line-height:1.3; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.goal-card-name{font-size:14px; font-weight:700; color:#1A1A1A; font-family:'PingFang SC','Microsoft YaHei',sans-serif; line-height:1.3; flex:1; min-width:0; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; word-break:break-all;}
 .goal-card-date{flex:none; font-size:12px; color:#999; white-space:nowrap;}
 .goal-grid{display:grid; grid-template-columns:repeat(10,21px); gap:3px; justify-content:flex-start; margin-bottom:12px;}
 .goal-cell{width:21px; height:21px; border-radius:4px; background:#F0F0F0;}
-.goal-card-bottom{display:flex; align-items:center; gap:10px; border-top:1px solid #F2F2F2; padding-top:6px;}
+.goal-card-meta{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
 .goal-prog-text{margin-left:auto; font-size:12px; color:#999;}
 .goal-bar-wrap{display:flex; align-items:center; gap:8px; margin-bottom:4px;}
 .goal-bar{flex:1; height:9px; background:#F0F0F0; border-radius:4px; overflow:hidden;}
@@ -1849,7 +1849,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908i';
+const APP_BUILD='20260908j';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -4380,7 +4380,6 @@ function renderGoalCard(p){
     '<div class="goal-card-top">'+
       '<div class="goal-card-head">'+
         '<div class="goal-card-name">'+esc(p.name)+'</div>'+
-        (p.date?'<span class="goal-card-date">'+esc(p.date)+'</span>':'')+
       '</div>'+
       '<div class="goal-card-right">'+
         '<span class="prep-chev" onclick="stToggleExpand(\''+p.id+'\')" title="'+(expanded?'收起':'展开')+'记录">'+(expanded? PREP_CHEV_UP : PREP_CHEV_DOWN)+'</span>'+
@@ -4388,10 +4387,11 @@ function renderGoalCard(p){
         '<span class="prep-menu" data-pid="'+p.id+'" onclick="openProjectMenuFromEl(this)" aria-label="项目菜单">'+PREP_DOTS+'</span>'+
       '</div>'+
     '</div>'+
-    body+
-    '<div class="goal-card-bottom">'+
+    '<div class="goal-card-meta">'+
+      (p.date?'<span class="goal-card-date">'+esc(p.date)+'</span>':'')+
       '<span class="goal-prog-text">'+progText+'</span>'+
     '</div>'+
+    body+
     recHtml+
   '</div>';
 }
