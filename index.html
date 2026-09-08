@@ -1885,7 +1885,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908o';
+const APP_BUILD='20260908p';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -2866,7 +2866,7 @@ function renderPrepCard(t){
   const edited=items.filter(i=> i.type==='讲义' && i.edited).length;  // 讲义类且已勾选「已编辑」
   const prepped=items.filter(i=> i.preped).length;                     // 无论类型，勾选「已备课」即计入
   const expanded=prepExpanded.has(t.id);
-  let html='<div class="goal-card prep-card" oncontextmenu="openPrepMenu(\''+t.id+'\');return false;" ontouchstart="prepTouchStart(\''+t.id+'\')" ontouchend="prepTouchEnd()" ontouchmove="prepTouchMove()">';
+  let html='<div class="goal-card prep-card" data-tid="'+t.id+'" oncontextmenu="openPrepMenu(\''+t.id+'\');return false;" ontouchstart="prepDragDown(event,this)" ontouchend="prepDragUp()" ontouchmove="prepDragMove(event)" onmousedown="prepDragDown(event,this)">';
   html+='<div class="prep-card-top">'+
     '<div class="prep-card-name">'+esc(t.name)+'</div>'+
     '<span class="prep-tag" style="background:'+esc(t.color||'#F0F0F0')+'">'+esc(t.courseType||'')+'</span>'+
@@ -3005,7 +3005,57 @@ function prepDelItemFromModal(){
 }
 
 /* 长按菜单 / 删除任务 */
-function prepTouchStart(tid){ prepLPtid=tid; prepLPT=setTimeout(()=>{ prepLPT=null; openPrepMenu(tid); }, 550); }
+/* ---- 备课任务卡片长按拖动排序 ---- */
+let prepDrag=null, prepDragTimer=null, prepJustDragged=false;
+function prepDragDown(ev, el){
+  if(prepDrag) return;
+  const card=(el&&el.closest)? el.closest('.prep-card') : el;
+  if(!card) return;
+  const pt=ev.touches? ev.touches[0] : ev;
+  prepDrag={card:card, y0:pt.clientY, active:false, mouse:!ev.touches};
+  clearTimeout(prepDragTimer);
+  prepDragTimer=setTimeout(()=>{
+    if(!prepDrag) return;
+    prepDrag.active=true; prepDrag.card.classList.add('goal-card-dragging');
+    if(navigator.vibrate) navigator.vibrate(15);
+  }, 480);
+  if(prepDrag.mouse){ document.addEventListener('mousemove', prepDragMove); document.addEventListener('mouseup', prepDragUp); }
+}
+function prepDragMove(ev){
+  if(!prepDrag) return;
+  const pt=ev.touches? ev.touches[0] : ev;
+  if(!prepDrag.active){
+    if(Math.abs(pt.clientY-prepDrag.y0)>8){ clearTimeout(prepDragTimer); if(prepDrag.mouse){ document.removeEventListener('mousemove', prepDragMove); document.removeEventListener('mouseup', prepDragUp); } prepDrag=null; }
+    return;
+  }
+  if(ev.cancelable) ev.preventDefault();
+  const card=prepDrag.card, box=card.parentNode;
+  if(!box) return;
+  const others=Array.prototype.slice.call(box.querySelectorAll('.prep-card')).filter(c=>c!==card);
+  if(!others.length) return;
+  let after=null;
+  for(let i=0;i<others.length;i++){ const r=others[i].getBoundingClientRect(); if(pt.clientY > r.top + r.height/2) after=others[i]; }
+  if(after){ if(after.nextSibling!==card) box.insertBefore(card, after.nextSibling); }
+  else if(box.children[0]!==card){ box.insertBefore(card, others[0]); }
+}
+function prepDragUp(){
+  clearTimeout(prepDragTimer);
+  document.removeEventListener('mousemove', prepDragMove);
+  document.removeEventListener('mouseup', prepDragUp);
+  if(prepDrag && prepDrag.active){
+    prepDrag.card.classList.remove('goal-card-dragging');
+    prepJustDragged=true; setTimeout(()=>{ prepJustDragged=false; }, 400);
+    prepPersistCardOrder();
+  }
+  prepDrag=null;
+}
+function prepPersistCardOrder(){
+  const els=Array.prototype.slice.call(document.querySelectorAll('#app .prep-card[data-tid]'));
+  const idx={}; els.forEach((e,i)=>{ idx[e.getAttribute('data-tid')]=i; });
+  const BIG=1e9;
+  prepTasks=prepTasks.slice().sort((a,b)=> (idx[a.id]!=null?idx[a.id]:BIG) - (idx[b.id]!=null?idx[b.id]:BIG));
+  saveLocal(); cloudPush(false); render();
+}
 function prepTouchEnd(){ if(prepLPT){ clearTimeout(prepLPT); prepLPT=null; } }
 function prepTouchMove(){ if(prepLPT){ clearTimeout(prepLPT); prepLPT=null; } }
 function openPrepMenu(tid){ prepMenuTid=tid; const t=prepTasks.find(x=>x.id===tid); if(t) $('prepMenuName').textContent=t.name; showMask('maskPrepMenu'); }
@@ -4643,7 +4693,8 @@ function renderStData(){
   if(stDataStatus==='undone')        list=list.filter(r=> !r.done);
   else if(stDataStatus==='unarchived') list=list.filter(r=> !r.archived);
   else if(stDataStatus==='unentered')  list=list.filter(r=> !r.entered);
-  list.sort((a,b)=>(b.dt||0)-(a.dt||0));
+  if(stDataKind==='按页码') list.sort((a,b)=> (parseInt(a.pageFrom,10)||0)-(parseInt(b.pageFrom,10)||0) || (b.dt||0)-(a.dt||0));
+  else list.sort((a,b)=>(b.dt||0)-(a.dt||0));
   if(!list.length){ h+='<div class="goal-empty">没有符合条件的刷题记录</div>'; return h; }
   h+='<div class="st-data-thead"><span class="sd-rec">刷题记录</span><span class="sd-status">状态</span><span class="sd-chev-spacer"></span></div>';
   h+='<div class="st-data-list">';
