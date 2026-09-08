@@ -802,12 +802,9 @@ body{
 .goal-card-head{display:flex; align-items:center; gap:8px; flex:1; min-width:0;}
 .goal-card-name{font-size:15px; font-weight:700; color:#1A1A1A; font-family:'PingFang SC','Microsoft YaHei',sans-serif; line-height:1.3; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .goal-card-date{flex:none; font-size:12px; color:#999; white-space:nowrap;}
-.goal-card-dot{width:14px; height:14px; border-radius:50%; flex:none;}
 .goal-grid{display:grid; grid-template-columns:repeat(10,21px); gap:3px; justify-content:flex-start; margin-bottom:12px;}
 .goal-cell{width:21px; height:21px; border-radius:4px; background:#F0F0F0;}
 .goal-card-bottom{display:flex; align-items:center; gap:10px; border-top:1px solid #F2F2F2; padding-top:6px;}
-.goal-icon-btn{display:flex; align-items:center; gap:4px; color:#4E3282; cursor:pointer; font-size:13px; min-height:44px; padding:0 4px; background:none; border:none;}
-.goal-icon-btn svg{display:block; pointer-events:none;}
 .goal-prog-text{margin-left:auto; font-size:12px; color:#999;}
 .goal-bar-wrap{display:flex; align-items:center; gap:8px; margin-bottom:4px;}
 .goal-bar{flex:1; height:9px; background:#F0F0F0; border-radius:4px; overflow:hidden;}
@@ -900,9 +897,7 @@ body{
 .prep-del-link:active{opacity:.7;}
 
 /* 卡片右上角菜单入口 */
-.goal-card-right{display:flex; align-items:center; gap:8px; flex:none;}
-.goal-menu-btn{width:30px; height:30px; border-radius:50%; border:none; background:#F4F4F4; color:#888; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;}
-.goal-menu-btn:active{background:#E8E8E8;}
+.goal-card-right{display:flex; align-items:center; gap:2px; flex:none;}
 
 /* 目标视图：试卷记录单行紧凑 */
 .gr-row{display:flex; align-items:center; gap:8px; height:32px; border-bottom:1px solid #F2F2F2; font-size:12px; color:#444; cursor:pointer;}
@@ -1854,7 +1849,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908h';
+const APP_BUILD='20260908i';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -4266,10 +4261,8 @@ const ST_STATUS_META=[
   {key:'entered', t:'已录题', c:'#FF6B6B'}
 ];
 const PLUS_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>';
-const ST_PENCIL_SVG='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>';
 const CHEV_DOWN_SVG='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 const CHEV_UP_SVG='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
-const MENU_SVG='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>';
 
 function stProjectById(id){ return stProjects.find(p=>p.id===id); }
 function stRecordsOf(pid){ return stRecords.filter(r=>r.pid===pid); }
@@ -4383,7 +4376,6 @@ function renderGoalCard(p){
   }
   const expanded=stExpanded.has(p.id);
   const recHtml= expanded? renderGoalRecords(p, recs) : '';
-  const chev= expanded? CHEV_UP_SVG : CHEV_DOWN_SVG;
   return '<div class="goal-card" oncontextmenu="openProjectMenu(\''+p.id+'\');return false;" ontouchstart="stTouchStart(\''+p.id+'\')" ontouchend="stTouchEnd()" ontouchmove="stTouchMove()">'+
     '<div class="goal-card-top">'+
       '<div class="goal-card-head">'+
@@ -4391,14 +4383,13 @@ function renderGoalCard(p){
         (p.date?'<span class="goal-card-date">'+esc(p.date)+'</span>':'')+
       '</div>'+
       '<div class="goal-card-right">'+
-        '<div class="goal-card-dot" style="background:'+p.color+'"></div>'+
-        '<button class="goal-menu-btn" data-pid="'+p.id+'" onclick="openProjectMenuFromEl(this)" aria-label="项目菜单">'+MENU_SVG+'</button>'+
+        '<span class="prep-chev" onclick="stToggleExpand(\''+p.id+'\')" title="'+(expanded?'收起':'展开')+'记录">'+(expanded? PREP_CHEV_UP : PREP_CHEV_DOWN)+'</span>'+
+        '<span class="prep-add" onclick="openRecordForm(null,\''+p.id+'\')" title="新增记录">'+PREP_PLUS+'</span>'+
+        '<span class="prep-menu" data-pid="'+p.id+'" onclick="openProjectMenuFromEl(this)" aria-label="项目菜单">'+PREP_DOTS+'</span>'+
       '</div>'+
     '</div>'+
     body+
     '<div class="goal-card-bottom">'+
-      '<button class="goal-icon-btn" onclick="openRecordForm(null,\''+p.id+'\')">'+ST_PENCIL_SVG+'<span>记录</span></button>'+
-      '<button class="goal-icon-btn" onclick="stToggleExpand(\''+p.id+'\')">'+chev+'<span>'+(expanded?'收起':'展开')+'</span></button>'+
       '<span class="goal-prog-text">'+progText+'</span>'+
     '</div>'+
     recHtml+
