@@ -866,25 +866,27 @@ body{
 .prep-sdot.on{border-color:transparent;}
 .prep-empty{color:#999; font-size:12px; padding:8px 2px;}
 /* ---- 备课 → 统计页 ---- */
-.prep-filters{display:flex; gap:8px; margin-bottom:10px;}
-.prep-date-btn{flex:1; min-width:0; height:34px; border-radius:10px; border:1px solid #ECECEC; background:#fff; font-size:12px; color:#1A1A1A; display:flex; align-items:center; justify-content:center; padding:0 2px; white-space:nowrap; overflow:hidden; font-family:inherit; cursor:pointer;}
+.prep-filters{display:flex; gap:8px; margin-bottom:10px; align-items:flex-end;}
+.prep-f-col{flex:1.2; min-width:0; display:flex; flex-direction:column; gap:3px;}
+.prep-f-col.narrow{flex:.8;}
+.prep-f-label{font-size:10px; color:#B8B8B8; line-height:1; text-align:center; letter-spacing:.5px;}
+.prep-date-btn{flex:1; min-width:0; height:32px; border-radius:10px; border:1px solid #ECECEC; background:#fff; font-size:11px; color:#1A1A1A; display:flex; align-items:center; justify-content:center; padding:0 2px; white-space:nowrap; overflow:hidden; font-family:inherit; cursor:pointer;}
 .prep-date-btn:active{opacity:.7;}
-.prep-status-select{flex:none; width:76px; height:34px; border-radius:10px; border:1px solid #ECECEC; background:#fff; font-size:12px; color:#1A1A1A; padding:0 4px; font-family:inherit; cursor:pointer;}
+.prep-status-select{width:100%; height:32px; border-radius:10px; border:1px solid #ECECEC; background:#fff; font-size:12px; color:#1A1A1A; padding:0 2px; font-family:inherit; cursor:pointer;}
 .prep-stat-card{background:#fff; border-radius:16px; box-shadow:0 2px 8px rgba(0,0,0,.04); padding:6px 10px 8px;}
 .ps-row{display:flex; align-items:center; gap:4px; height:40px; font-size:14px; color:#1A1A1A; border-bottom:1px solid #F2F2F2; white-space:nowrap; overflow:hidden;}
 .ps-row:last-child{border-bottom:none;}
 .ps-row.head{height:28px; font-size:12px; color:#999999; font-weight:700; border-bottom:1px solid #EEE;}
 .ps-row:not(.head):active{background:#FAFAFC;}
-.ps-ctype{width:44px; flex:none;}
 .ps-time{width:64px; flex:none; font-size:12px;}
-.ps-course{width:62px; flex:none; font-size:12px; overflow:hidden; text-overflow:ellipsis;}
-.ps-itype{width:44px; flex:none;}
+.ps-course{width:58px; flex:none; font-size:12px; overflow:hidden; text-overflow:ellipsis;}
+.ps-itype{width:40px; flex:none;}
 .ps-content{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; font-size:13px;}
-.ps-status{width:76px; flex:none; display:inline-flex; gap:3px; align-items:center; justify-content:flex-end;}
-.ps-tag{border-radius:999px; padding:2px 6px; font-size:10px; color:#1A1A1A; display:inline-block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-.ps-box{width:23px; height:23px; border-radius:6px; flex:none; display:inline-flex; align-items:center; justify-content:center; font-size:13px; color:#1A1A1A; font-weight:700; cursor:pointer; position:relative;}
-.ps-box:active{transform:scale(.9);}
-.ps-box::after{content:''; position:absolute; left:-6px; right:-6px; top:-6px; bottom:-6px;}
+.ps-status{width:64px; flex:none; display:inline-flex; gap:3px; align-items:center; justify-content:flex-end;}
+.ps-box{width:19px; height:19px; border-radius:5px; flex:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; position:relative;}
+.ps-box i{font-style:normal; font-size:13px; line-height:1; font-weight:700; color:#000;}
+.ps-box:active{transform:scale(.85);}
+.ps-box::after{content:''; position:absolute; left:-5px; right:-5px; top:-5px; bottom:-5px;}
 .prep-cal-head{display:flex; align-items:center; justify-content:space-between; font-size:14px; font-weight:700; color:#1A1A1A; margin:4px 0 8px;}
 .prep-cal-nav{width:36px; height:32px; display:flex; align-items:center; justify-content:center; font-size:20px; color:#4E3282; cursor:pointer; user-select:none;}
 .prep-cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:2px;}
@@ -1852,7 +1854,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908e';
+const APP_BUILD='20260908f';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -2666,7 +2668,7 @@ function renderTodo(){
 }
 /* ============ 备课 → 统计页 ============ */
 const PREP_STAT_KEY='wb_lj_prepstat';
-let prepStat={from:'',to:'',status:'all'};
+let prepStat={from:'',to:'',status:'all',ctype:'all'};
 function prepStatLoad(){
   try{ const s=JSON.parse(localStorage.getItem(PREP_STAT_KEY)||'null');
     if(s&&typeof s==='object') prepStat={from:s.from||'',to:s.to||'',status:s.status||'all'};
@@ -2690,22 +2692,29 @@ function prepStatFiltered(){
   if(st==='unedited')        list=list.filter(it=> !it.edited && !it.preped && !it.printed);
   else if(st==='unprepped')  list=list.filter(it=>  it.edited && !it.preped && !it.printed);
   else if(st==='unprinted')  list=list.filter(it=>  it.edited &&  it.preped && !it.printed);
+  const ct=prepStat.ctype;
+  if(ct&&ct!=='all') list=list.filter(it=>{ const t=prepTasks.find(x=>x.id===it.taskId); return t&&t.courseType===ct; });
   list.sort((a,b)=> String(a.date||'').localeCompare(String(b.date||'')) || ((a.createdAt||0)-(b.createdAt||0)));
   return list;
 }
 function renderPrepStat(){
   const r=prepStatRange();
   const opts=[['all','全部'],['unedited','未编辑'],['unprepped','未备课'],['unprinted','未打印']];
+  const ctypes=['班课','小课','网课'];
   let h='<div class="prep-filters">'+
-    '<button class="prep-date-btn" onclick="prepOpenCal(\'from\')">'+prepFmtCn(r.from)+'</button>'+
-    '<button class="prep-date-btn" onclick="prepOpenCal(\'to\')">'+prepFmtCn(r.to)+'</button>'+
-    '<select class="prep-status-select" onchange="prepStat.status=this.value;prepStatSave();render();" aria-label="按状态筛选">'+
+    '<div class="prep-f-col"><span class="prep-f-label">起始日期</span><button class="prep-date-btn" onclick="prepOpenCal(\'from\')">'+prepFmtCn(r.from)+'</button></div>'+
+    '<div class="prep-f-col"><span class="prep-f-label">结束日期</span><button class="prep-date-btn" onclick="prepOpenCal(\'to\')">'+prepFmtCn(r.to)+'</button></div>'+
+    '<div class="prep-f-col narrow"><span class="prep-f-label">状态</span><select class="prep-status-select" onchange="prepStat.status=this.value;prepStatSave();render();" aria-label="按状态筛选">'+
       opts.map(o=>'<option value="'+o[0]+'"'+(prepStat.status===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+
-    '</select>'+
+    '</select></div>'+
+    '<div class="prep-f-col narrow"><span class="prep-f-label">班型</span><select class="prep-status-select" onchange="prepStat.ctype=this.value;prepStatSave();render();" aria-label="按班型筛选">'+
+      '<option value="all"'+(prepStat.ctype==='all'?' selected':'')+'>全部</option>'+
+      ctypes.map(c=>'<option value="'+c+'"'+(prepStat.ctype===c?' selected':'')+'>'+c+'</option>').join('')+
+    '</select></div>'+
   '</div>';
   const list=prepStatFiltered();
   h+='<div class="prep-stat-card">';
-  h+='<div class="ps-row head"><span class="ps-ctype">班型</span><span class="ps-time">时间</span><span class="ps-course">课程</span><span class="ps-itype">类型</span><span class="ps-content">内容</span><span class="ps-status">状态</span></div>';
+  h+='<div class="ps-row head"><span class="ps-time">时间</span><span class="ps-course">课程</span><span class="ps-itype">类型</span><span class="ps-content">内容</span><span class="ps-status">状态</span></div>';
   if(!list.length){
     h+='<div class="prep-empty">该条件下没有备课进度</div>';
   } else {
@@ -2713,10 +2722,9 @@ function renderPrepStat(){
       const t=prepTasks.find(x=>x.id===it.taskId)||{};
       const ts=PREP_TYPE_STYLE[it.type]||{bg:'#F0F0F0',fg:'#666'};
       const boxes=PREP_STATUS.map(s=>
-        '<span class="ps-box" style="background:'+s.c+'" title="'+s.n+'" onclick="event.stopPropagation();prepToggleStat(\''+it.id+'\',\''+s.k+'\')">'+(it[s.k]?'√':'')+'</span>'
+        '<span class="ps-box" style="background:'+s.c+'" title="'+s.n+'" onclick="event.stopPropagation();prepToggleStat(\''+it.id+'\',\''+s.k+'\')">'+(it[s.k]?'<i>✓</i>':'')+'</span>'
       ).join('');
       h+='<div class="ps-row" onclick="openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" title="点击编辑该条进度">'+
-        '<span class="ps-ctype"><span class="ps-tag" style="background:'+esc(t.color||'#F0F0F0')+'">'+esc(t.courseType||'')+'</span></span>'+
         '<span class="ps-time">'+esc(prepFmtDate(it.date)||'—')+'</span>'+
         '<span class="ps-course">'+esc(t.name||'')+'</span>'+
         '<span class="ps-itype"><span class="prep-type-tag" style="background:'+ts.bg+';color:'+ts.fg+'">'+esc(it.type)+'</span></span>'+
@@ -3877,7 +3885,7 @@ function importJSON(e){
 }
 function clearCache(){
   if(!confirm('清除本地缓存（课程模板与记录）？云端数据不受影响。')) return;
-  localStorage.removeItem(STATE_KEY); templates=[]; records=[]; holidays={}; todos=[]; prepStat={from:'',to:'',status:'all'}; prepStatSave(); prepTasks=[]; prepItems=[]; prepExpanded=new Set(); render(); toast('本地缓存已清除');
+  localStorage.removeItem(STATE_KEY); templates=[]; records=[]; holidays={}; todos=[]; prepStat={from:'',to:'',status:'all',ctype:'all'}; prepStatSave(); prepTasks=[]; prepItems=[]; prepExpanded=new Set(); render(); toast('本地缓存已清除');
 }
 
 function openExportPicker(){ showMask('maskExport'); }
