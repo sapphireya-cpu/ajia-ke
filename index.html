@@ -935,6 +935,10 @@ body{
 .sd-meta{display:flex; align-items:center; gap:6px; padding:0 26px 5px 0; font-size:12px; color:#999; line-height:1.4;}
 .sd-proj{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#999; font-size:12px; line-height:1.4;}
 .sd-when{flex:none; color:#999; font-size:12px; white-space:nowrap; margin-left:auto;}
+.sd-group{display:flex; align-items:center; gap:4px; background:#F6F3FB; border-radius:8px; padding:6px 10px; margin:8px 0 2px; font-size:12px; color:#4E3282; font-weight:700; cursor:pointer;}
+.sd-gcnt{font-weight:400; color:#999; flex:none;}
+.sd-gname{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.sd-gchev{width:20px; flex:none; display:flex; align-items:center; justify-content:center; color:#4E3282;}
 .sd-idx{width:18px; text-align:center; color:#999; flex:none;}
 .sd-name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .sd-time{width:82px; flex:none; color:#666; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
@@ -1791,6 +1795,7 @@ let stDataKind = '全部';                             // 数据视图：刷题�
 let stDataGrade = '全部';                            // 数据视图：选中年级
 let stDataExam = '全部';                             // 数据视图：选中考试类型
 let stDataStatus = 'all';                            // 数据视图：选中状态（all|undone|unarchived|unentered）
+let stDataGroupsCollapsed = new Set();               // 数据视图：已折叠的项目分组（会话内有效）
 let stDataExpanded = new Set();                      // 数据视图：已展开“好题录入”的记录 id
 let stCalYear = new Date().getFullYear();            // 数据视图：月历/统计卡片选中年份
 let stCalMonth = new Date().getMonth()+1;            // 数据视图：月历/统计卡片选中月份（1-12）
@@ -1885,7 +1890,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908p';
+const APP_BUILD='20260908q';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -4697,8 +4702,12 @@ function renderStData(){
   else list.sort((a,b)=>(b.dt||0)-(a.dt||0));
   if(!list.length){ h+='<div class="goal-empty">没有符合条件的刷题记录</div>'; return h; }
   h+='<div class="st-data-thead"><span class="sd-rec">刷题记录</span><span class="sd-status">状态</span><span class="sd-chev-spacer"></span></div>';
+  // 按所属项目分组：同项目排一起；项目间按最近一条记录时间倒序
+  const groups=[], gmap={};
+  list.forEach(r=>{ if(!gmap[r.pid]){ gmap[r.pid]={pid:r.pid, recs:[]}; groups.push(gmap[r.pid]); } gmap[r.pid].recs.push(r); });
+  groups.sort((a,b)=> Math.max.apply(null,b.recs.map(r=>r.dt||0)) - Math.max.apply(null,a.recs.map(r=>r.dt||0)));
   h+='<div class="st-data-list">';
-  list.forEach((r,i)=>{
+  const renderRow=(r)=>{
     let dots=''; ST_STATUS_META.forEach(s=>{ dots+='<span class="sd-sdot" style="background:'+(r[s.key]?s.c:'#DDD')+'"></span>'; });
     const expanded=stDataExpanded.has(r.id);
     const proj=stProjectById(r.pid);
@@ -4707,15 +4716,26 @@ function renderStData(){
     let projNote='';
     if(r.examType==='月考' && r.monthNote) projNote=' · '+esc(r.monthNote);
     else if(r.examType==='周测' && r.weekNote) projNote=' · '+esc(r.weekNote);
-    h+='<div class="sd-item">'+
+    return '<div class="sd-item">'+
          '<div class="sd-row" data-rid="'+r.id+'" data-pid="'+r.pid+'" onclick="openRecordFormFromEl(this)">'+'<span class="sd-rec">'+recLabel+'</span>'+'<span class="sd-status">'+dots+'</span>'+'<span class="sd-chev" data-rid="'+r.id+'" onclick="event.stopPropagation();stToggleDataExpandFromEl(this)">'+(expanded?CHEV_UP_SVG:CHEV_DOWN_SVG)+'</span>'+'</div>'+
          '<div class="sd-meta"><span class="sd-proj">'+(proj? esc(proj.name)+projNote : '')+'</span><span class="sd-when">'+stFmtYmd(r.examTime)+'</span></div>'+
          (expanded?'<div class="sd-good"><b>好题录入</b>'+(r.good?esc(r.good):'（暂无好题录入）')+'</div>':'')+
        '</div>';
+  };
+  groups.forEach(g=>{
+    const gproj=stProjectById(g.pid);
+    const gname=gproj? gproj.name : '（已删除项目）';
+    const collapsed=stDataGroupsCollapsed.has(g.pid);
+    h+='<div class="sd-group" data-gpid="'+g.pid+'" onclick="stToggleDataGroupFromEl(this)">'+
+         '<span class="sd-gname">'+esc(gname)+'</span><span class="sd-gcnt">· '+g.recs.length+'条</span>'+
+         '<span class="sd-gchev">'+(collapsed?CHEV_DOWN_SVG:CHEV_UP_SVG)+'</span>'+
+       '</div>';
+    if(!collapsed) g.recs.forEach(r=>{ h+=renderRow(r); });
   });
   h+='</div>';
   return h;
 }
+function stToggleDataGroupFromEl(el){ const pid=el.getAttribute('data-gpid'); if(stDataGroupsCollapsed.has(pid)) stDataGroupsCollapsed.delete(pid); else stDataGroupsCollapsed.add(pid); render(); }
 function renderStCalCard(){
   const y=stCalYear, m=stCalMonth;
   const daysInMonth=new Date(y,m,0).getDate();
