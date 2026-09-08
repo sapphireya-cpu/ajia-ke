@@ -858,6 +858,11 @@ body{
 .pr-content{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;}
 .pr-status{width:32px; flex:none; display:inline-flex; gap:3px; align-items:center;}
 .prep-type-tag{border-radius:6px; padding:2px 6px; font-size:11px;}
+.prep-title-add{width:28px; height:28px; border-radius:50%; background:#4E3282; color:#fff; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:17px; line-height:1; padding:0; margin-left:8px; cursor:pointer; flex:none; vertical-align:middle; box-shadow:0 2px 8px rgba(78,50,130,.28); transition:transform .1s;}
+.prep-title-add:active{transform:scale(.9);}
+.ps-name-tag{display:inline-block; max-width:100%; border-radius:6px; padding:2px 6px; font-size:11px; color:#000; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; vertical-align:middle;}
+.ps-row.hl{background:#F4EEFC; box-shadow:inset 3px 0 0 #4E3282;}
+.ps-row.hl .ps-content{color:#4E3282; font-weight:700;}
 .prep-sdot{width:9px; height:9px; border-radius:50%; display:inline-block; border:1px solid #DDD; background:#fff; box-sizing:border-box;}
 .prep-sdot.on{border-color:transparent;}
 .prep-empty{color:#999; font-size:12px; padding:8px 2px;}
@@ -1216,6 +1221,19 @@ body{
     <div class="st-menu-opt">
       <button onclick="hideMask('maskPrepMenu');openPrepTaskForm(prepMenuTid)">编辑任务</button>
       <button class="del" onclick="hideMask('maskPrepMenu');prepDelTask(prepMenuTid)">删除任务</button>
+    </div>
+  </div>
+</div>
+
+<!-- 备课进度高亮弹窗 -->
+<div class="mask" id="maskPrepHl">
+  <div class="sheet center" style="max-width:300px;">
+    <span class="close-x" onclick="hideMask('maskPrepHl')">×</span>
+    <h3>设置优先级</h3>
+    <div id="prepHlName" style="font-size:13px; color:#888; margin-top:4px; word-break:break-all;"></div>
+    <div class="st-menu-opt">
+      <button id="prepHlSetBtn" onclick="setPrepHl(true)">设置高亮</button>
+      <button id="prepHlDelBtn" onclick="setPrepHl(false)">取消高亮</button>
     </div>
   </div>
 </div>
@@ -1848,7 +1866,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908k';
+const APP_BUILD='20260908l';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -2635,7 +2653,7 @@ function togglePrepExpand(tid){ if(prepExpanded.has(tid)) prepExpanded.delete(ti
 function renderTodo(){
   let html='<div class="todo-page">';
   html+='<div class="st-header">'+
-    '<div class="st-title">备课任务</div>'+
+    '<div class="st-title">备课任务'+(prepView==='task'?'<button class="prep-title-add" onclick="openPrepTaskForm(null)" title="新增备课任务" aria-label="新增备课任务">＋</button>':'')+'</div>'+
     '<div class="st-head-right">'+
       (prepView==='task'?'<select class="st-term-select" onchange="prepTerm=this.value;render();" aria-label="按学期筛选">'+prepTermOptions()+'</select>':'')+
       '<div class="goal-tabs">'+
@@ -2655,7 +2673,6 @@ function renderTodo(){
     } else {
       list.forEach(t=>{ html+=renderPrepCard(t); });
     }
-    html+='<button class="goal-fab" onclick="openPrepTaskForm(null)" title="新增备课任务" aria-label="新增备课任务">'+PLUS_SVG+'</button>';
   }
   html+='</div>';
   $('app').innerHTML=html;
@@ -2683,9 +2700,10 @@ function prepStatFiltered(){
   const r=prepStatRange();
   let list=prepItems.filter(it=> it.date && it.date>=r.from && it.date<=r.to);
   const st=prepStat.status;
-  if(st==='unedited')        list=list.filter(it=> !it.edited && !it.preped && !it.printed);
-  else if(st==='unprepped')  list=list.filter(it=>  it.edited && !it.preped && !it.printed);
-  else if(st==='unprinted')  list=list.filter(it=>  it.edited &&  it.preped && !it.printed);
+  if(st==='unfinished')      list=list.filter(it=> !(it.edited && it.preped && it.printed));
+  else if(st==='unedited')   list=list.filter(it=> !it.edited);
+  else if(st==='unprepped')  list=list.filter(it=> !it.preped);
+  else if(st==='unprinted')  list=list.filter(it=> !it.printed);
   const ct=prepStat.ctype;
   if(ct&&ct!=='all') list=list.filter(it=>{ const t=prepTasks.find(x=>x.id===it.taskId); return t&&t.courseType===ct; });
   list.sort((a,b)=> String(a.date||'').localeCompare(String(b.date||'')) || ((a.createdAt||0)-(b.createdAt||0)));
@@ -2693,7 +2711,7 @@ function prepStatFiltered(){
 }
 function renderPrepStat(){
   const r=prepStatRange();
-  const opts=[['all','全部'],['unedited','未编辑'],['unprepped','未备课'],['unprinted','未打印']];
+  const opts=[['all','全部'],['unfinished','未完成'],['unedited','未编辑'],['unprepped','未备课'],['unprinted','未打印']];
   const ctypes=['班课','小课','网课'];
   let h='<div class="prep-filters">'+
     '<div class="prep-f-col"><span class="prep-f-label">起始日期</span><button class="prep-date-btn" onclick="prepOpenCal(\'from\')">'+prepFmtCn(r.from)+'</button></div>'+
@@ -2718,9 +2736,13 @@ function renderPrepStat(){
       const boxes=PREP_STATUS.map(s=>
         '<span class="ps-box" style="background:'+s.c+'" title="'+s.n+'" onclick="event.stopPropagation();prepToggleStat(\''+it.id+'\',\''+s.k+'\')">'+(it[s.k]?'<i>✓</i>':'')+'</span>'
       ).join('');
-      h+='<div class="ps-row" onclick="openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" title="点击编辑该条进度">'+
+      const isSmall = t.courseType==='小课';
+      const courseHtml = isSmall
+        ? '<span class="ps-name-tag" style="background:'+esc(t.color||'#F0F0F0')+'">'+esc(t.name||'')+'</span>'
+        : esc(t.name||'');
+      h+='<div class="ps-row'+(it.hl?' hl':'')+'" onclick="if(prepHlJustFired)return;openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" oncontextmenu="openPrepHlMenu(\''+it.id+'\');return false;" ontouchstart="prepHlTouchStart(\''+it.id+'\')" ontouchend="prepHlTouchEnd()" ontouchmove="prepHlTouchMove()" title="点击编辑该条进度，长按设置高亮">'+
         '<span class="ps-time">'+esc(prepShortDate(it.date)||'—')+'</span>'+
-        '<span class="ps-course">'+esc(t.name||'')+'</span>'+
+        '<span class="ps-course">'+courseHtml+'</span>'+
         '<span class="ps-itype"><span class="prep-type-tag" style="background:'+ts.bg+';color:'+ts.fg+'">'+esc(it.type)+'</span></span>'+
         '<span class="ps-content">'+esc(it.content)+'</span>'+
         '<span class="ps-status">'+boxes+'</span>'+
@@ -2734,6 +2756,27 @@ function prepToggleStat(id, key){
   const it=prepItems.find(x=>x.id===id); if(!it) return;
   it[key]=!it[key];
   saveLocal(); cloudPush(false); render();
+}
+/* 备课进度「高亮」：长按行 → 弹框设置/取消，hl 随 prepItems 一起同步 */
+let prepHlItemId=null, prepHlLP=null;
+let prepHlJustFired=false;
+function prepHlTouchStart(id){ prepHlItemId=id; prepHlLP=setTimeout(()=>{ prepHlLP=null; prepHlJustFired=true; setTimeout(()=>{prepHlJustFired=false;},600); openPrepHlMenu(id); }, 550); }
+function prepHlTouchEnd(){ if(prepHlLP){ clearTimeout(prepHlLP); prepHlLP=null; } }
+function prepHlTouchMove(){ prepHlTouchEnd(); }
+function openPrepHlMenu(id){
+  prepHlItemId=id;
+  const it=prepItems.find(x=>x.id===id)||{};
+  const t=prepTasks.find(x=>x.id===it.taskId)||{};
+  const el=$('prepHlName'); if(el) el.textContent=(t.name||'')+' · '+(it.content||'');
+  const bSet=$('prepHlSetBtn'), bDel=$('prepHlDelBtn');
+  if(bSet) bSet.style.display = it.hl? 'none':'block';
+  if(bDel) bDel.style.display = it.hl? 'block':'none';
+  showMask('maskPrepHl');
+}
+function setPrepHl(on){
+  const it=prepItems.find(x=>x.id===prepHlItemId); if(!it){ hideMask('maskPrepHl'); return; }
+  it.hl=!!on;
+  saveLocal(); cloudPush(false); hideMask('maskPrepHl'); render(); toast(on?'已设置高亮':'已取消高亮');
 }
 /* 统计页日期月历 */
 let prepCalTarget='from', prepCalCursor=new Date();
