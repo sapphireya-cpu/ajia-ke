@@ -1362,6 +1362,12 @@ body{
       </div>
     </div>
     <div class="set-block">
+      <h4>版本与更新</h4>
+      <button class="btn-ghost" onclick="checkAppUpdate(true)">检查新版本</button>
+      <button class="btn-ghost" onclick="hardReload()">强制刷新（跳过缓存重载）</button>
+      <div class="privacy" id="appVersionBox"></div>
+    </div>
+    <div class="set-block">
       <h4>数据备份与恢复</h4>
       <button class="btn-ghost" onclick="exportJSON()">导出全部数据为 JSON</button>
       <button class="btn-ghost" onclick="document.getElementById('importFile').click()">导入 JSON 恢复数据</button>
@@ -1804,6 +1810,30 @@ function loadAll(){
     const def=tagDefs.find(x=>x.name===name);
     if(def){ def.color=TAG_COLORS[name]; } else { tagDefs.push({id:uid(), name, color:TAG_COLORS[name]}); }
   });
+}
+/* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
+const APP_BUILD='20260908c';
+let appUpdateLastCheck=0;
+function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
+function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
+  location.replace(appBaseUrl()+'?v='+Date.now());
+}
+async function checkAppUpdate(manual){
+  appUpdateLastCheck=Date.now();
+  try{
+    const r=await fetch('version.json?t='+Date.now(), {cache:'no-store'});
+    if(!r.ok) throw new Error('bad status '+r.status);
+    const d=await r.json();
+    const v=String(d.v||'');
+    if(!v) throw new Error('no version');
+    if(v===APP_BUILD){ if(manual) toast('已是最新版本 '+v); return false; }
+    toast('发现新版本 '+v+'，正在更新…');
+    setTimeout(()=>{ location.replace(appBaseUrl()+'?v='+v); }, 700);
+    return true;
+  }catch(e){
+    if(manual) toast('检查更新失败，请检查网络');
+    return false;
+  }
 }
 async function refreshApp(){
   loadAll();                                   // 重新读取手机本地存储（最新设置与数据）
@@ -3658,6 +3688,8 @@ function openSettings(){
   $('setBucket').value=settings.bucket||'ajia-state';
   $('privacyBox').innerHTML = settings.privacy || '本应用数据保存在你的浏览器本地（localStorage），并可选择同步到你自己的 InsForge 云端空间。我们不会上传任何数据到第三方服务器，所有云端同步均由你配置的端点控制。<br><br>云端备份使用 InsForge Storage：请先在 InsForge 控制台「Storage」中创建一个存储桶（默认名称 <b>ajia-state</b>），否则备份会提示失败。备份内容为一个完整的 state.json 文件。';
   $('connStatus').textContent = (settings.endpoint&&settings.key)? '填写端点与密钥后点击「测试连接」' : '请先填写端点与密钥';
+  const vb=$('appVersionBox');
+  if(vb) vb.innerHTML='当前版本 <b>'+APP_BUILD+'</b>。若手机界面仍是旧版，点「强制刷新」即可立即加载最新版。';
   showMask('maskSet');
 }
 function persistSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
@@ -3786,6 +3818,7 @@ function boot(){
   fixLegacyTimes();
   render();
   if(settings.endpoint&&settings.key) cloudPull(false);
+  checkAppUpdate(false);                       // 启动时静默检查新版本，有则自动跳过缓存重载
   const appEl=document.getElementById('app');
   appEl.addEventListener('touchstart', onMonthTouchStart, {passive:true});
   appEl.addEventListener('touchmove', onMonthTouchMove, {passive:false});
@@ -3812,7 +3845,12 @@ function boot(){
   });
   // 从后台/锁屏返回：若正在计时，重新拉起计时刷新（修复页面被回收/挂起后计时器空白/丢失）
   document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden || currentTab!=='time') return;
+    if(document.hidden){
+      return;
+    }
+    // 回到前台时（含手机从其他 App 切回），每 30 分钟检查一次新版本
+    if(Date.now()-appUpdateLastCheck > 30*60*1000) checkAppUpdate(false);
+    if(currentTab!=='time') return;
     if(focusTimer.running){ renderTime(); }
   });
 }
