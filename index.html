@@ -870,16 +870,16 @@ body{
 .prep-f-col{flex:1.2; min-width:0; display:flex; flex-direction:column; gap:3px;}
 .prep-f-col.narrow{flex:.8;}
 .prep-f-label{font-size:10px; color:#B8B8B8; line-height:1; text-align:center; letter-spacing:.5px;}
-.prep-date-btn{flex:1; min-width:0; height:32px; box-sizing:border-box; border-radius:10px; border:1px solid #ECECEC; background:#fff; font-size:11px; color:#1A1A1A; display:flex; align-items:center; justify-content:center; padding:0 2px; white-space:nowrap; overflow:hidden; font-family:inherit; cursor:pointer;}
+.prep-date-btn{flex:1; min-width:0; height:32px; min-height:32px; max-height:32px; box-sizing:border-box; border-radius:10px; border:1px solid #ECECEC; background:#fff; font-size:12px; color:#1A1A1A; display:flex; align-items:center; justify-content:center; padding:0 2px; white-space:nowrap; overflow:hidden; font-family:inherit; cursor:pointer;}
 .prep-date-btn:active{opacity:.7;}
-.prep-status-select{width:100%; height:32px; box-sizing:border-box; border-radius:10px; border:1px solid #ECECEC; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 7px center; -webkit-appearance:none; appearance:none; font-size:12px; color:#1A1A1A; padding:0 20px 0 4px; text-align:center; text-align-last:center; font-family:inherit; cursor:pointer;}
+.prep-status-select{width:100%; height:32px; min-height:32px; max-height:32px; box-sizing:border-box; border-radius:10px; border:1px solid #ECECEC; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 7px center; -webkit-appearance:none; appearance:none; font-size:12px; line-height:30px; color:#1A1A1A; padding:0 20px 0 4px; text-align:center; text-align-last:center; font-family:inherit; cursor:pointer; vertical-align:middle;}
 .prep-stat-card{background:#fff; border-radius:16px; box-shadow:0 2px 8px rgba(0,0,0,.04); padding:6px 10px 8px;}
 .ps-row{display:flex; align-items:center; gap:4px; height:40px; font-size:14px; color:#1A1A1A; border-bottom:1px solid #F2F2F2; white-space:nowrap; overflow:hidden;}
 .ps-row:last-child{border-bottom:none;}
 .ps-row.head{height:28px; font-size:12px; color:#999999; font-weight:700; border-bottom:1px solid #EEE;}
 .ps-row:not(.head):active{background:#FAFAFC;}
-.ps-time{width:70px; flex:none; font-size:11px; overflow:hidden; text-overflow:ellipsis;}
-.ps-course{width:56px; flex:none; font-size:12px; overflow:hidden; text-overflow:ellipsis;}
+.ps-time{width:62px; flex:none; font-size:13px; overflow:hidden; text-overflow:ellipsis;}
+.ps-course{width:58px; flex:none; font-size:13px; overflow:hidden; text-overflow:ellipsis;}
 .ps-itype{width:40px; flex:none;}
 .ps-content{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; font-size:13px;}
 .ps-status{width:64px; flex:none; display:inline-flex; gap:3px; align-items:center; justify-content:flex-end;}
@@ -1854,7 +1854,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908g';
+const APP_BUILD='20260908h';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -2725,7 +2725,7 @@ function renderPrepStat(){
         '<span class="ps-box" style="background:'+s.c+'" title="'+s.n+'" onclick="event.stopPropagation();prepToggleStat(\''+it.id+'\',\''+s.k+'\')">'+(it[s.k]?'<i>✓</i>':'')+'</span>'
       ).join('');
       h+='<div class="ps-row" onclick="openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" title="点击编辑该条进度">'+
-        '<span class="ps-time">'+esc(prepFmtDate(it.date)||'—')+'</span>'+
+        '<span class="ps-time">'+esc(prepShortDate(it.date)||'—')+'</span>'+
         '<span class="ps-course">'+esc(t.name||'')+'</span>'+
         '<span class="ps-itype"><span class="prep-type-tag" style="background:'+ts.bg+';color:'+ts.fg+'">'+esc(it.type)+'</span></span>'+
         '<span class="ps-content">'+esc(it.content)+'</span>'+
@@ -2815,7 +2815,11 @@ function renderPrepCard(t){
 function prepFmtDate(s){ // '2026.09.10' -> '9月10日 周三'
   const m=String(s||'').match(/^(\d{4})\.(\d{2})\.(\d{2})/); if(!m) return '';
   const d=new Date(+m[1], +m[2]-1, +m[3]);
-  return (+m[2])+'月'+(+m[3])+'日 周'+'日一二三四五六'.charAt(d.getDay());
+  return (+m[2])+'月'+(+m[3])+'日 周'+'日一二三四五六'.charAt(d.getDay());}
+function prepShortDate(s){ // '2026.09.05' -> '9.5 周六'（统计列表用短格式）
+  const m=String(s||'').match(/^(\d{4})\.(\d{2})\.(\d{2})/); if(!m) return '';
+  const d=new Date(+m[1], +m[2]-1, +m[3]);
+  return (+m[2])+'.'+(+m[3])+' 周'+'日一二三四五六'.charAt(d.getDay());
 }
 function renderPrepItems(items){
   if(!items.length) return '<div class="prep-records"><div class="prep-empty">还没有备课进度，点右侧「＋」添加</div></div>';
