@@ -920,7 +920,7 @@ body{
 /* 数据视图 */
 .st-data-head{display:flex; align-items:center; gap:8px; margin:4px 0 12px;}
 .st-filter{flex:1; display:flex; gap:6px;}
-.st-filter select{flex:1; min-width:0; -webkit-appearance:none; appearance:none; background:#fff; border:1px solid #ECECEC; border-radius:10px; padding:8px 6px; font-size:13px; color:#444; cursor:pointer;}
+.st-filter select{flex:1; min-width:0; -webkit-appearance:none; appearance:none; background:#fff; border:1px solid #ECECEC; border-radius:10px; padding:7px 4px; font-size:12px; color:#444; cursor:pointer; text-align:left; text-overflow:ellipsis;}
 .st-filter-labels{display:flex; gap:6px; margin:2px 0 4px;}
 .st-filter-labels span{flex:1; min-width:0; font-size:11px; color:#999999; text-align:left; padding-left:2px;}
 .st-data-thead{display:flex; align-items:center; gap:6px; height:26px; border-bottom:1px solid #EEE; font-size:11px; color:#999; font-weight:700;}
@@ -931,8 +931,10 @@ body{
 .goal-card-dragging{box-shadow:0 10px 26px rgba(0,0,0,.18); transform:scale(1.02); z-index:20; position:relative;}
 .goal-stamp{position:absolute; right:8px; bottom:30px; width:78px; height:78px; transform:rotate(-12deg); opacity:.9; pointer-events:none; z-index:6; filter:drop-shadow(0 1px 2px rgba(179,52,46,.25));}
 .sd-item{border-bottom:1px solid #F2F2F2;}
-.sd-row{display:flex; align-items:center; gap:6px; min-height:36px; padding:5px 0; font-size:13px; color:#333; cursor:pointer;}
-.sd-proj{padding:0 0 6px 24px; font-size:12px; color:#999; line-height:1.4;}
+.sd-row{display:flex; align-items:center; gap:6px; min-height:30px; padding:4px 0 1px; font-size:13px; color:#333; cursor:pointer;}
+.sd-meta{display:flex; align-items:center; gap:6px; padding:0 26px 5px 0; font-size:12px; color:#999; line-height:1.4;}
+.sd-proj{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#999; font-size:12px; line-height:1.4;}
+.sd-when{flex:none; color:#999; font-size:12px; white-space:nowrap; margin-left:auto;}
 .sd-idx{width:18px; text-align:center; color:#999; flex:none;}
 .sd-name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .sd-time{width:82px; flex:none; color:#666; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
@@ -1078,6 +1080,10 @@ body{
     <div class="field" id="stWeekNoteWrap" style="display:none;">
       <label>周测备注</label>
       <input id="stRecWeekNote" placeholder="如：第3周">
+    </div>
+    <div class="field" id="fldRecPageGrade" style="display:none;">
+      <label>年级</label>
+      <select id="stRecPageGrade"></select>
     </div>
     <div class="field" id="fldRecPages" style="display:none;">
       <label>页码范围 <span class="req">*</span></label>
@@ -1781,6 +1787,7 @@ let stView = 'goal';   // 顶部视图：goal 目标 | data 数据
 let stGoalTerm = '';   // 目标视图：学期筛选（''=全部学期）
 let stExpanded = new Set();   // 已展开记录列表的项目 id
 let stDataYear = String(new Date().getFullYear());  // 数据视图：选中年份
+let stDataKind = '全部';                             // 数据视图：刷题类型（全部|按试卷|按页码）
 let stDataGrade = '全部';                            // 数据视图：选中年级
 let stDataExam = '全部';                             // 数据视图：选中考试类型
 let stDataStatus = 'all';                            // 数据视图：选中状态（all|undone|unarchived|unentered）
@@ -1878,7 +1885,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908n';
+const APP_BUILD='20260908o';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -4618,15 +4625,19 @@ function renderStData(){
   h+=renderStStatCard();
   h+='</div>';
   const ST_DATA_STATUS=[['all','全部'],['undone','未完成'],['unarchived','未归档'],['unentered','未录题']];
-  h+='<div class="st-filter-labels"><span>年份</span><span>年级</span><span>考试类型</span><span>状态</span></div>';
+  h+='<div class="st-filter-labels"><span>年份</span><span>刷题类型</span><span>年级</span><span>考试类型</span><span>状态</span></div>';
   h+='<div class="st-data-head"><div class="st-filter">'+
       '<select onchange="stDataYear=this.value;render();">'+years.map(y=>'<option value="'+y+'"'+(String(y)===stDataYear?' selected':'')+'>'+y+'年</option>').join('')+'</select>'+
+      '<select onchange="stDataKind=this.value;render();">'+['全部','按试卷','按页码'].map(k=>'<option'+(k===stDataKind?' selected':'')+'>'+k+'</option>').join('')+'</select>'+
       '<select onchange="stDataGrade=this.value;render();">'+['全部'].concat(ST_GRADES).map(g=>'<option'+(g===stDataGrade?' selected':'')+'>'+g+'</option>').join('')+'</select>'+
       '<select onchange="stDataExam=this.value;render();">'+['全部'].concat(ST_TYPES).map(t=>'<option'+(t===stDataExam?' selected':'')+'>'+t+'</option>').join('')+'</select>'+
       '<select onchange="stDataStatus=this.value;render();">'+ST_DATA_STATUS.map(s=>'<option value="'+s[0]+'"'+(s[0]===stDataStatus?' selected':'')+'>'+s[1]+'</option>').join('')+'</select>'+
     '</div></div>';
   let list=stRecords.slice();
   list=list.filter(r=> String(new Date(r.dt||0).getFullYear())===stDataYear);
+  if(stDataKind!=='全部'){
+    list=list.filter(r=>{ const p=stProjectById(r.pid); const isPg=!!(p && p.unit==='page'); return stDataKind==='按页码'? isPg : !isPg; });
+  }
   if(stDataGrade!=='全部') list=list.filter(r=> gradeMatches(r.grade, stDataGrade));
   if(stDataExam!=='全部') list=list.filter(r=> r.examType===stDataExam || (stDataExam==='期中'&&r.examType==='期中考'));
   if(stDataStatus==='undone')        list=list.filter(r=> !r.done);
@@ -4634,7 +4645,7 @@ function renderStData(){
   else if(stDataStatus==='unentered')  list=list.filter(r=> !r.entered);
   list.sort((a,b)=>(b.dt||0)-(a.dt||0));
   if(!list.length){ h+='<div class="goal-empty">没有符合条件的刷题记录</div>'; return h; }
-  h+='<div class="st-data-thead"><span class="sd-rec">刷题记录</span><span class="sd-time">时间</span><span class="sd-status">状态</span><span class="sd-chev-spacer"></span></div>';
+  h+='<div class="st-data-thead"><span class="sd-rec">刷题记录</span><span class="sd-status">状态</span><span class="sd-chev-spacer"></span></div>';
   h+='<div class="st-data-list">';
   list.forEach((r,i)=>{
     let dots=''; ST_STATUS_META.forEach(s=>{ dots+='<span class="sd-sdot" style="background:'+(r[s.key]?s.c:'#DDD')+'"></span>'; });
@@ -4646,8 +4657,8 @@ function renderStData(){
     if(r.examType==='月考' && r.monthNote) projNote=' · '+esc(r.monthNote);
     else if(r.examType==='周测' && r.weekNote) projNote=' · '+esc(r.weekNote);
     h+='<div class="sd-item">'+
-         '<div class="sd-row" data-rid="'+r.id+'" data-pid="'+r.pid+'" onclick="openRecordFormFromEl(this)">'+'<span class="sd-rec">'+recLabel+'</span>'+'<span class="sd-time">'+stFmtYmd(r.examTime)+'</span>'+'<span class="sd-status">'+dots+'</span>'+'<span class="sd-chev" data-rid="'+r.id+'" onclick="event.stopPropagation();stToggleDataExpandFromEl(this)">'+(expanded?CHEV_UP_SVG:CHEV_DOWN_SVG)+'</span>'+'</div>'+
-         (proj?'<div class="sd-proj">'+esc(proj.name)+projNote+'</div>':'')+
+         '<div class="sd-row" data-rid="'+r.id+'" data-pid="'+r.pid+'" onclick="openRecordFormFromEl(this)">'+'<span class="sd-rec">'+recLabel+'</span>'+'<span class="sd-status">'+dots+'</span>'+'<span class="sd-chev" data-rid="'+r.id+'" onclick="event.stopPropagation();stToggleDataExpandFromEl(this)">'+(expanded?CHEV_UP_SVG:CHEV_DOWN_SVG)+'</span>'+'</div>'+
+         '<div class="sd-meta"><span class="sd-proj">'+(proj? esc(proj.name)+projNote : '')+'</span><span class="sd-when">'+stFmtYmd(r.examTime)+'</span></div>'+
          (expanded?'<div class="sd-good"><b>好题录入</b>'+(r.good?esc(r.good):'（暂无好题录入）')+'</div>':'')+
        '</div>';
   });
@@ -4760,17 +4771,20 @@ function openRecordForm(id, pid){
   show('fldRecGradeType', !isPage);
   show('fldRecScore', !isPage);
   show('fldRecChapter', isPage);
+  show('fldRecPageGrade', isPage);
   show('fldRecPages', isPage);
   $('stRecProject').innerHTML = stProjects.length? stProjects.map(p=>'<option value="'+p.id+'">'+esc(p.name)+'</option>').join('') : '<option value="">（请先创建刷题项目）</option>';
   $('stRecProject').value = activePid;
   $('stRecProject').disabled = isPage;
   $('stRecGrade').innerHTML=ST_GRADES.map(g=>'<option>'+g+'</option>').join('');
+  $('stRecPageGrade').innerHTML=ST_GRADES.map(g=>'<option>'+g+'</option>').join('');
   $('stRecType').innerHTML=ST_TYPES.map(t=>'<option value="'+t+'">'+t+'</option>').join('');
   if(isPage && ap){ const mx=Math.max(1, parseInt(ap.total,10)||1); $('stRecPageFrom').max=mx; $('stRecPageTo').max=mx; }
   if(id){
     const r=stRecords.find(x=>x.id===id); if(r){
       $('stRecName').value=r.name||'';
       $('stRecGrade').value=r.grade||ST_GRADES[0];
+      $('stRecPageGrade').value=r.grade||ST_GRADES[0];
       $('stRecType').value=r.examType||ST_TYPES[0];
       $('stRecMonthNote').value=r.monthNote||''; $('stRecWeekNote').value=r.weekNote||'';
       $('stRecDone').checked=!!r.done; $('stRecArchived').checked=!!r.archived; $('stRecEntered').checked=!!r.entered;
@@ -4781,7 +4795,7 @@ function openRecordForm(id, pid){
     }
   } else {
     $('stRecName').value='';
-    $('stRecGrade').value=ST_GRADES[0]; $('stRecType').value=ST_TYPES[0];
+    $('stRecGrade').value=ST_GRADES[0]; $('stRecPageGrade').value=ST_GRADES[0]; $('stRecType').value=ST_TYPES[0];
     $('stRecMonthNote').value=''; $('stRecWeekNote').value='';
     $('stRecDone').checked=true; $('stRecArchived').checked=false; $('stRecEntered').checked=false;
     $('stRecDate').value=toDateVal(fromYmdNow()); $('stRecDur').value=''; $('stRecScore').value=''; $('stRecGood').value='';
@@ -4807,7 +4821,7 @@ function saveStRecord(){
   } else {
     name=$('stRecName').value.trim(); if(!name){ toast('请填写试卷名称'); return; }
   }
-  const grade=$('stRecGrade').value, examType=$('stRecType').value;
+  const grade=(isPage? $('stRecPageGrade').value : $('stRecGrade').value), examType=$('stRecType').value;
   const monthNote=$('stRecMonthNote').value.trim(), weekNote=$('stRecWeekNote').value.trim();
   const done=$('stRecDone').checked, archived=$('stRecArchived').checked, entered=$('stRecEntered').checked;
   const examTime=fromDateVal(date), dt= date? new Date(date.replace(/-/g,'/')).getTime() : 0;
