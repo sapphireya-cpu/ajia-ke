@@ -1822,6 +1822,7 @@ let prepMenuTid = null;           // 长按菜单针对的任务 id
 let prepLPT = null, prepLPtid = null;  // 长按计时
 const PREP_COURSE_TYPES = ['班课','小课','网课'];
 const PREP_TYPES = ['讲义','作业','服务'];
+const PREP_TYPE_ORDER = {'讲义':0,'作业':1,'服务':2};   // 同一课次内的展示次序：讲义 → 作业 → 服务
 const PREP_STATUS = [{k:'edited',n:'已编辑',c:'#FF6B6B'},{k:'preped',n:'已备课',c:'#FFD93D'},{k:'printed',n:'已打印',c:'#6BCB77'}];
 const PREP_TYPE_STYLE = {'讲义':{bg:'#E8F1FF',fg:'#3A7BD5'},'作业':{bg:'#FBE3EE',fg:'#D4537E'},'服务':{bg:'#F1E9FF',fg:'#8B5CF6'}};
 
@@ -1892,7 +1893,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260914a';
+const APP_BUILD='20260914b';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -1943,6 +1944,8 @@ async function cloudPush(manual){
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
   const bname=settings.bucket||'ajia-state';
+  // 🔒 防空覆盖：本机数据全空时，不做「自动」推送，避免把云端已有的好数据清掉（手动「立即备份」不受此限）
+  if(!manual && localTotalCount()===0) return;
   const payload=JSON.stringify(snapshotAll());
   const blob=new Blob([payload],{type:'application/json'});
   const authHdr={'Authorization':'Bearer '+settings.key};
@@ -2685,7 +2688,17 @@ function prepTaskTerm(t){ // 任务归属学期：优先季次字段，否则按
   if(t.createdAt){ const d=new Date(t.createdAt); if(!isNaN(d.getTime())) return stTermKey(d.getFullYear(), d.getMonth()+1); }
   return '';
 }
-function prepItemsOf(tid){ return prepItems.filter(x=>x.taskId===tid).sort((a,b)=>(parseInt(a.lesson,10)||0)-(parseInt(b.lesson,10)||0)); }
+function prepItemsOf(tid){
+  // 排序：① 第X讲 升序 → ② 同一讲次内 讲义 → 作业 → 服务 → ③ 再按创建时间稳定
+  return prepItems.filter(x=>x.taskId===tid).sort((a,b)=>{
+    const la=parseInt(a.lesson,10)||0, lb=parseInt(b.lesson,10)||0;
+    if(la!==lb) return la-lb;
+    const ta=PREP_TYPE_ORDER[a.type], tb=PREP_TYPE_ORDER[b.type];
+    const oa=(ta==null?9:ta), ob=(tb==null?9:tb);
+    if(oa!==ob) return oa-ob;
+    return (a.createdAt||0)-(b.createdAt||0);
+  });
+}
 function prepDateToInput(s){ const m=String(s||'').match(/^(\d{4})\.(\d{2})\.(\d{2})/); return m? (m[1]+'-'+m[2]+'-'+m[3]) : ''; }
 function prepDateFromInput(v){ const m=String(v||'').match(/^(\d{4})-(\d{2})-(\d{2})/); return m? (m[1]+'.'+m[2]+'.'+m[3]) : ''; }
 function switchPrepView(v){ prepView=v; render(); }
@@ -2886,7 +2899,7 @@ function renderPrepCard(t){
   const items=prepItemsOf(t.id);
   const total=Math.max(0, parseInt(t.total,10)||0);
   const edited=items.filter(i=> i.type==='讲义' && i.edited).length;  // 讲义类且已勾选「已编辑」
-  const prepped=items.filter(i=> i.preped).length;                     // 无论类型，勾选「已备课」即计入
+  const prepped=items.filter(i=> i.type==='讲义' && i.preped).length;                     // 只统计「讲义」的已备课（作业/服务不计入）
   const expanded=prepExpanded.has(t.id);
   let html='<div class="goal-card prep-card" data-tid="'+t.id+'" oncontextmenu="openPrepMenu(\''+t.id+'\');return false;" ontouchstart="prepDragDown(event,this)" ontouchend="prepDragUp()" ontouchmove="prepDragMove(event)" onmousedown="prepDragDown(event,this)">';
   html+='<div class="prep-card-top">'+
@@ -3991,7 +4004,12 @@ function openSettings(){
   $('setKey').value=settings.key||'';
   $('setBucket').value=settings.bucket||'ajia-state';
   $('privacyBox').innerHTML = settings.privacy || '本应用数据保存在你的浏览器本地（localStorage），并可选择同步到你自己的 InsForge 云端空间。我们不会上传任何数据到第三方服务器，所有云端同步均由你配置的端点控制。<br><br>云端备份使用 InsForge Storage：请先在 InsForge 控制台「Storage」中创建一个存储桶（默认名称 <b>ajia-state</b>），否则备份会提示失败。备份内容为一个完整的 state.json 文件。';
-  $('connStatus').textContent = (settings.endpoint&&settings.key)? '填写端点与密钥后点击「测试连接」' : '请先填写端点与密钥';
+  const _cnt=localTotalCount();
+  $('connStatus').textContent = (settings.endpoint&&settings.key)
+    ? (_cnt===0
+        ? '⚠️ 本机目前 0 条数据。若云端有备份，点「从云端恢复」即可全部拉回'
+        : '本机 '+_cnt+' 条数据。点「测试连接」检查云端是否连通')
+    : '请先填写端点与密钥';
   const vb=$('appVersionBox');
   if(vb) vb.innerHTML='当前版本 <b>'+APP_BUILD+'</b>。若手机界面仍是旧版，点「强制刷新」即可立即加载最新版。';
   showMask('maskSet');
@@ -4017,6 +4035,11 @@ function dataCounts(d){
 function countsText(d){
   const c=dataCounts(d);
   return Object.keys(c).map(k=>k+' '+c[k]).join(' · ');
+}
+// 本机数据总条数：用于「防空覆盖」判断（本机全空时不做自动上传）
+function localTotalCount(){
+  const c=dataCounts(snapshotAll());
+  return Object.keys(c).reduce((s,k)=>s+c[k],0);
 }
 function exportJSON(){
   const data=snapshotAll();
