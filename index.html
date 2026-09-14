@@ -1447,6 +1447,7 @@ body{
       <button class="btn-ghost" onclick="exportJSON()">导出全部数据为 JSON</button>
       <button class="btn-ghost" onclick="document.getElementById('importFile').click()">导入 JSON 恢复数据</button>
       <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importJSON(event)">
+      <div class="privacy">导出内容含：课表 / 待办 / 打卡 / 刷题 / 备课 / 专注 全部数据。建议定期导出，存到网盘或微信收藏。</div>
     </div>
     <div class="set-block">
       <h4>InsForge 云端同步</h4>
@@ -1465,6 +1466,7 @@ body{
         <button class="mini-btn" onclick="cloudPush(true)">立即备份</button>
       </div>
       <div class="privacy" id="connStatus"></div>
+      <div class="privacy">云端备份含全部数据（课表/待办/打卡/刷题/备课/专注）。换设备或数据丢失时，点「从云端恢复」即可全部拉回。</div>
     </div>
     <div class="set-block">
       <h4>隐私说明</h4>
@@ -1890,7 +1892,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260908q';
+const APP_BUILD='20260914a';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -1941,7 +1943,7 @@ async function cloudPush(manual){
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
   const bname=settings.bucket||'ajia-state';
-  const payload=JSON.stringify({templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,prepTasks,prepItems,focusTimer,exportedAt:new Date().toISOString()});
+  const payload=JSON.stringify(snapshotAll());
   const blob=new Blob([payload],{type:'application/json'});
   const authHdr={'Authorization':'Bearer '+settings.key};
   const objUrl=base+'/api/storage/buckets/'+bucket+'/objects/state.json';
@@ -2023,13 +2025,28 @@ async function cloudPull(manual){
     try{ data=JSON.parse(text); }catch(e){ const isHtml=(text||'').trim().charAt(0)==='<'; const hint=isHtml?'（返回的是网页而非数据，多半是云端端点填错或存储桶不存在）':''; throw new Error('响应不是JSON'+hint+'，内容前120字：'+(text||'(空)').slice(0,120)); }
     if(data && (data.templates||data.records||data.holidays||data.todos||data.focusRecords||data.stProjects||data.stRecords||data.prepTasks||data.prepItems)){
       const localTimerRunning=focusTimer.running;   // localStorage 优先，云端仅作补充
-      templates=data.templates||[]; records=data.records||[]; holidays=data.holidays||{}; todos=data.todos||[];
-      focusProjects=data.focusProjects||[]; focusRecords=data.focusRecords||[]; checkins=data.checkins||[]; checkinRecords=data.checkinRecords||[]; ensureFocusDefaults();
-      stProjects=data.stProjects||[]; stRecords=data.stRecords||[]; prepTasks=data.prepTasks||[]; prepItems=data.prepItems||[];
+      // 只覆盖云端确实带了的字段，避免旧备份把本地新数据抹成空
+      const has=(k)=>{ const v=data[k]; return v!=null && !(Array.isArray(v)&&v.length===0); };
+      if(has('templates')) templates=data.templates||[];
+      if(has('records')) records=data.records||[];
+      if(data.holidays!=null) holidays=data.holidays||{};
+      if(has('todos')) todos=data.todos||[];
+      if(has('focusProjects')) focusProjects=data.focusProjects||[];
+      if(has('focusRecords')) focusRecords=data.focusRecords||[];
+      if(has('checkins')) checkins=data.checkins||[];
+      if(has('checkinRecords')) checkinRecords=data.checkinRecords||[];
+      if(has('tagDefs')) tagDefs=data.tagDefs||[];
+      if(has('todoStatus')) todoStatus=data.todoStatus||[];
+      if(has('todoDetached')) todoDetached=data.todoDetached||[];
+      if(has('stProjects')) stProjects=data.stProjects||[];
+      if(has('stRecords')) stRecords=data.stRecords||[];
+      if(has('prepTasks')) prepTasks=data.prepTasks||[];
+      if(has('prepItems')) prepItems=data.prepItems||[];
+      ensureFocusDefaults();
       if(!localTimerRunning && data.focusTimer) focusTimer=normalizeTimer(data.focusTimer);
       templates.forEach(t=>{ if(!t.color) t.color=assignColor(); if(!t.timeSlot) t.timeSlot='8:00'; if(!t.type) t.type='1v1'; });
       records.forEach(r=>{ delete r.student; if(!r.type) r.type='1v1'; if(r.income==null) r.income=(r.fee!=null?r.fee:0); });
-      saveLocal(); render(); if(manual) toast('已从云端恢复');
+      saveLocal(); render(); if(manual) toast('已从云端恢复：'+countsText(data));
     } else if(manual) toast('云端暂无数据');
   }catch(e){ if(manual) toast('恢复失败：'+e.message); }
 }
@@ -3980,12 +3997,34 @@ function openSettings(){
   showMask('maskSet');
 }
 function persistSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
+// 全量数据快照：导出 / 备份 / 恢复 三处共用同一字段集，避免再出现「漏字段」导致备份不全
+function snapshotAll(){
+  return {templates,records,holidays,todos,focusProjects,focusRecords,checkins,checkinRecords,tagDefs,todoStatus,todoDetached,stProjects,stRecords,prepTasks,prepItems,focusTimer,
+    settings:Object.assign({},settings), version:APP_BUILD, exportedAt:new Date().toISOString()};
+}
+// 数据体检：返回各类数据条数，用于导出/恢复时给用户看「备了多少」
+function dataCounts(d){
+  d=d||{};
+  const n=a=>Array.isArray(a)?a.length:0;
+  return {
+    '课表记录':n(d.records), '课程模板':n(d.templates),
+    '待办':n(d.todos), '打卡项':n(d.checkins), '打卡记录':n(d.checkinRecords),
+    '刷题试卷':n(d.stRecords), '刷题项目':n(d.stProjects),
+    '备课任务':n(d.prepTasks), '备课进度':n(d.prepItems),
+    '专注记录':n(d.focusRecords)
+  };
+}
+function countsText(d){
+  const c=dataCounts(d);
+  return Object.keys(c).map(k=>k+' '+c[k]).join(' · ');
+}
 function exportJSON(){
-  const data={templates,records,holidays,todos,settings,exportedAt:new Date().toISOString()};
+  const data=snapshotAll();
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='阿佳的课_'+ymd(new Date())+'.json'; a.click();
-  toast('已导出');
+  const total=Object.values(dataCounts(data)).reduce((s,x)=>s+x,0);
+  toast('已导出（共 '+total+' 条）：'+countsText(data));
 }
 function importJSON(e){
   const file=e.target.files[0]; if(!file) return;
@@ -3993,9 +4032,41 @@ function importJSON(e){
   rd.onload=()=>{
     try{
       const d=JSON.parse(rd.result);
-      if(!confirm('导入将覆盖当前本地数据，确定继续？')) return;
-      templates=d.templates||[]; records=d.records||[]; holidays=d.holidays||{}; todos=d.todos||[];
+      // 只恢复「该文件里确实带了、且非空」的字段：旧版残缺文件不会把现有数据抹成空
+      const has=(k)=>{ const v=d[k]; return v!=null && !(Array.isArray(v)&&v.length===0); };
+      const parts=[];
+      Object.keys(dataCounts({})).forEach(()=>{});
+      const willRestore=[];
+      if(has('templates')) willRestore.push('课程模板 '+(d.templates||[]).length);
+      if(has('records')) willRestore.push('课表记录 '+(d.records||[]).length);
+      if(has('todos')) willRestore.push('待办 '+(d.todos||[]).length);
+      if(has('checkins')) willRestore.push('打卡项 '+(d.checkins||[]).length);
+      if(has('checkinRecords')) willRestore.push('打卡记录 '+(d.checkinRecords||[]).length);
+      if(has('stProjects')) willRestore.push('刷题项目 '+(d.stProjects||[]).length);
+      if(has('stRecords')) willRestore.push('刷题试卷 '+(d.stRecords||[]).length);
+      if(has('prepTasks')) willRestore.push('备课任务 '+(d.prepTasks||[]).length);
+      if(has('prepItems')) willRestore.push('备课进度 '+(d.prepItems||[]).length);
+      if(has('focusRecords')) willRestore.push('专注记录 '+(d.focusRecords||[]).length);
+      if(!willRestore.length){ toast('该文件不含可恢复的数据'); return; }
+      if(!confirm('导入将用文件中的数据覆盖对应项，确定继续？\n\n将恢复：'+willRestore.join('、'))) return;
+      if(has('templates')) templates=d.templates||[];
+      if(has('records')) records=d.records||[];
+      if(d.holidays!=null) holidays=d.holidays||{};
+      if(has('todos')) todos=d.todos||[];
+      if(has('focusProjects')) focusProjects=d.focusProjects||[];
+      if(has('focusRecords')) focusRecords=d.focusRecords||[];
+      if(has('checkins')) checkins=d.checkins||[];
+      if(has('checkinRecords')) checkinRecords=d.checkinRecords||[];
+      if(has('tagDefs')) tagDefs=d.tagDefs||[];
+      if(has('todoStatus')) todoStatus=d.todoStatus||[];
+      if(has('todoDetached')) todoDetached=d.todoDetached||[];
+      if(has('stProjects')) stProjects=d.stProjects||[];
+      if(has('stRecords')) stRecords=d.stRecords||[];
+      if(has('prepTasks')) prepTasks=d.prepTasks||[];
+      if(has('prepItems')) prepItems=d.prepItems||[];
+      if(d.focusTimer) focusTimer=normalizeTimer(d.focusTimer);
       if(d.settings) settings=Object.assign(settings,d.settings);
+      ensureFocusDefaults();
       templates.forEach(t=>{ if(!t.color) t.color=assignColor(); if(!t.timeSlot) t.timeSlot='8:00'; if(!t.type) t.type='1v1'; });
       records.forEach(r=>{
         delete r.student;
@@ -4005,14 +4076,19 @@ function importJSON(e){
         if(r.headcount==null) r.headcount = 1;
       });
       persistSettings(); saveLocal(); cloudPush(false); hideMask('maskSet'); render();
-      toast('导入成功');
+      toast('导入成功：'+willRestore.join('、'));
     }catch(err){ toast('导入失败：文件格式错误'); }
   };
   rd.readAsText(file); e.target.value='';
 }
 function clearCache(){
-  if(!confirm('清除本地缓存（课程模板与记录）？云端数据不受影响。')) return;
-  localStorage.removeItem(STATE_KEY); templates=[]; records=[]; holidays={}; todos=[]; prepStat={from:'',to:'',status:'all',ctype:'all'}; prepStatSave(); prepTasks=[]; prepItems=[]; prepExpanded=new Set(); render(); toast('本地缓存已清除');
+  if(!confirm('清除本地缓存（课程/待办/打卡/刷题/备课/专注 全部本地数据）？\n\n⚠️ 此操作不可撤销，建议先「导出全部数据为 JSON」备份。云端数据不受影响。')) return;
+  localStorage.removeItem(STATE_KEY); templates=[]; records=[]; holidays={}; todos=[];
+  focusProjects=[]; focusRecords=[]; checkins=[]; checkinRecords=[];
+  tagDefs=[]; todoStatus=[]; todoDetached=[];
+  stProjects=[]; stRecords=[]; prepTasks=[]; prepItems=[];
+  prepStat={from:'',to:'',status:'all',ctype:'all'}; prepStatSave(); prepExpanded=new Set();
+  ensureFocusDefaults(); saveLocal(); render(); toast('本地缓存已清除');
 }
 
 function openExportPicker(){ showMask('maskExport'); }
