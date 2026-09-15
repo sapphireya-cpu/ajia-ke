@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#F9F9F9">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<html lang="zh-CN" data-page-node-id="i2fbtiDsdxFk8QsqRwPN5t">
+<head data-page-node-id="Wsz6cfgXimoEETbyllU3qN">
+<meta charset="UTF-8" data-page-node-id="2WFKUjOOaKWaGWe8SZnG71">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" data-page-node-id="gd5BcZ4S51vgI2jr7a31EK">
+<meta name="theme-color" content="#F9F9F9" data-page-node-id="dVBzPxLHf1fUmXPpaZheIu">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" data-page-node-id="uheh4pzDV8omU16MAW339Z">
+<meta http-equiv="Pragma" content="no-cache" data-page-node-id="NDiKSSpYmzeEmuQCzjWrL7">
+<meta http-equiv="Expires" content="0" data-page-node-id="cudmMuGwAgZqkQN0GnZVqk">
+<meta name="apple-mobile-web-app-capable" content="yes" data-page-node-id="MliZbLFBy10atPMfh40qdu">
+<meta name="apple-mobile-web-app-status-bar-style" content="default" data-page-node-id="fZ2KTuAYJjDEHULex68LTu">
 <title>阿佳的课</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="preconnect" href="https://fonts.googleapis.cn">
-<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin>
-<link href="https://fonts.googleapis.cn/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json" data-page-node-id="uk6NO6p6xyHpjh9VOMu8dd">
+<link rel="apple-touch-icon" href="icon-192.png" data-page-node-id="XlcMxqXnx8BR3WHnQB7vbN">
+<link rel="preconnect" href="https://fonts.googleapis.cn" data-page-node-id="rgNMvInTXtPzBUbuERaS0c">
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin data-page-node-id="FwBbvKd8yK1v5VC0YA0B3g">
+<link href="https://fonts.googleapis.cn/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" data-page-node-id="INRwWTTx0mWtRTwcPSEoIC">
 <style>
 :root{
   --bg:#F9F9F9;
@@ -861,8 +861,20 @@ body{
 .prep-title-add{width:28px; height:28px; border-radius:50%; background:#4E3282; color:#fff; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:17px; line-height:1; padding:0; margin-left:8px; cursor:pointer; flex:none; vertical-align:middle; box-shadow:0 2px 8px rgba(78,50,130,.28); transition:transform .1s;}
 .prep-title-add:active{transform:scale(.9);}
 .ps-name-tag{display:inline-block; max-width:100%; border-radius:6px; padding:2px 6px; font-size:11px; color:#000; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; vertical-align:middle;}
-.ps-row.hl{background:#F4EEFC; box-shadow:inset 3px 0 0 #4E3282;}
-.ps-row.hl .ps-content{color:#4E3282; font-weight:700;}
+.ps-row.hl{background:#F6F0FC;}
+.ps-row.hl .ps-content{color:#6D3FD1; font-weight:700;}
+.ps-row.hl.urg{background:#FDF1F0;}
+.ps-row.hl.urg .ps-content{color:#C03A34; font-weight:700;}
+.ps-row.hl:active{background:#EFE5F9;}
+.ps-row.hl.urg:active{background:#FBE6E4;}
+.ps-fold{display:none;}
+.ps-row.hl .ps-fold{display:block; position:absolute; top:0; right:0; width:0; height:0; border-top:15px solid #8B5CF6; border-left:15px solid transparent;}
+.ps-row.hl.urg .ps-fold{border-top-color:#E24B4A;}
+.hl-legend{display:flex; align-items:center; gap:14px; margin:0 0 8px; font-size:12px; color:#8A8A8A;}
+.hl-legend i{display:inline-block; width:11px; height:11px; margin-right:4px; vertical-align:-1px;}
+.hl-legend .i-imp{background:#F6F0FC; border-left:11px solid transparent; border-top:11px solid #8B5CF6; width:0; height:0;}
+.hl-legend .i-urg{background:#FDF1F0; border-left:11px solid transparent; border-top:11px solid #E24B4A; width:0; height:0;}
+.cloud-rollback{color:#4E3282; font-weight:700; text-decoration:underline; cursor:pointer;}
 .prep-sdot{width:9px; height:9px; border-radius:50%; display:inline-block; border:1px solid #DDD; background:#fff; box-sizing:border-box;}
 .prep-sdot.on{border-color:transparent;}
 .prep-empty{color:#999; font-size:12px; padding:8px 2px;}
@@ -976,731 +988,736 @@ body{
 </style>
 <script defer src="html2canvas.min.js"></script>
 </head>
-<body>
+<body data-page-node-id="DISnbex8J9P9G2CJhRngvW">
 
-<div class="topbar">
-  <h1>阿佳的课</h1>
-  <div class="actions">
-    <button class="tbtn" onclick="openTplManager()">课程管理</button>
-    <button class="tbtn" onclick="openFocusProjects()">专注管理</button>
-    <button class="tbtn" onclick="openSettings()">⚙</button>
+<div class="topbar" data-page-node-id="mAh6VfKhiA5LCYMPitdVpT">
+  <h1 data-page-node-id="EuStHVlQusgJvxusWOe65R">阿佳的课</h1>
+  <div class="actions" data-page-node-id="GaYLpDEg4oE4S33E7DS7DP">
+    <button class="tbtn" onclick="openTplManager()" data-page-node-id="7jWJgDQCKcgcxWp1BymchG">课程管理</button>
+    <button class="tbtn" onclick="openFocusProjects()" data-page-node-id="cfZZVzivLUvKOHFT4jcxLu">专注管理</button>
+    <button class="tbtn" onclick="openSettings()" data-page-node-id="YfIYqfz3CgKWVlFazBBWhC">⚙</button>
   </div>
 </div>
 
-<div class="wrap" id="app"></div>
+<div class="wrap" id="app" data-page-node-id="TBd9tsVomwms5y8OsWKKaz"></div>
 
-<div class="bottom-nav">
-  <div class="bn-item active" id="bnMonth" onclick="switchTab('month')">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-    <span class="label">课表</span>
+<div class="bottom-nav" data-page-node-id="BJGmpduVsxXjrUxHUQmFhC">
+  <div class="bn-item active" id="bnMonth" onclick="switchTab('month')" data-page-node-id="wzDb634Yn5sXfscFqfCBB8">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="OLeKcmwnsKxcPnscNLJsZJ"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" data-page-node-id="YYCZnmGMlMvSWjsT6yJxuC"></rect><line x1="16" y1="2" x2="16" y2="6" data-page-node-id="FHlcxsgNdZI5IKr9HI7NPH"></line><line x1="8" y1="2" x2="8" y2="6" data-page-node-id="LdFbgD8DS160A8n8Goltxw"></line><line x1="3" y1="10" x2="21" y2="10" data-page-node-id="uz2EsTOM9kQ4Efer2psfzZ"></line></svg>
+    <span class="label" data-page-node-id="sVhDzqfvO6WiRkGBirnnT5">课表</span>
   </div>
-  <div class="bn-item" id="bnWeek" onclick="switchTab('week')">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
-    <span class="label">打卡</span>
+  <div class="bn-item" id="bnWeek" onclick="switchTab('week')" data-page-node-id="Jr3aw23TioZPIRDtLiO3iz">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="03OPsK4xQOaBxXlZmgDEv9"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" data-page-node-id="AtcBrkFUEJpNJ2HnB4hXuH"></rect><line x1="3" y1="10" x2="21" y2="10" data-page-node-id="7Frya0JkmZJZkyA8zEwQM8"></line><line x1="12" y1="2" x2="12" y2="22" data-page-node-id="0xLtU0S3m5MsgvGUKcRMPD"></line></svg>
+    <span class="label" data-page-node-id="RsJSjWloRAHFS2Q1H70PEM">打卡</span>
   </div>
-  <div class="bn-item" id="bnSt" onclick="switchTab('st')">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-    <span class="label">刷题</span>
+  <div class="bn-item" id="bnSt" onclick="switchTab('st')" data-page-node-id="vWGCJGME0N4GzPpvT9qT3t">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="MCzBt1zb6XMItyKU85eBQC"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" data-page-node-id="AQn62ABH2ayt3FTAmukRzc"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" data-page-node-id="dFLYcqItgM31NHb4VsZlfu"></path></svg>
+    <span class="label" data-page-node-id="TB0iEPQM9iKW5bI1WrFbl8">刷题</span>
   </div>
-  <div class="bn-item" id="bnTodo" onclick="switchTab('todo')">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-    <span class="label">备课</span>
+  <div class="bn-item" id="bnTodo" onclick="switchTab('todo')" data-page-node-id="4Zvri7tuJVZMYAAq5iTs5v">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="SuysDoG5L28kVbie1H3WpB"><path d="M9 11l3 3L22 4" data-page-node-id="nI04Kk5mGGcvwvzDsrFxP5"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" data-page-node-id="P7vvEz5ImH1lo6b7RfXbUo"></path></svg>
+    <span class="label" data-page-node-id="GY18j0ZL3N0GJuA8PYACrR">备课</span>
   </div>
-  <div class="bn-item" id="bnTime" onclick="switchTab('time')">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg>
-    <span class="label">时间</span>
+  <div class="bn-item" id="bnTime" onclick="switchTab('time')" data-page-node-id="YQobBWa0ZczRRaoNDceVvL">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="ktsrcSDxXQEFDNGwafYiUd"><circle cx="12" cy="12" r="9" data-page-node-id="khhD9ZyXTVdSL7Y9i7IGEC"></circle><polyline points="12 7 12 12 16 14" data-page-node-id="zhN0bTLjsTGFiB3aaIHZjX"></polyline></svg>
+    <span class="label" data-page-node-id="u3mfIqE8B2iTwP4QarJvwa">时间</span>
   </div>
-  <div class="bn-item" id="bnStat" onclick="switchTab('stat')">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-    <span class="label">统计</span>
+  <div class="bn-item" id="bnStat" onclick="switchTab('stat')" data-page-node-id="Tm8DiOCIvTsNfFPmNYOW9l">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="8webFli9FfMxh1xtiur08U"><line x1="18" y1="20" x2="18" y2="10" data-page-node-id="sq3mHMSaDL9B3ejiCuzP8k"></line><line x1="12" y1="20" x2="12" y2="4" data-page-node-id="7dqkZaxi8hlFT4hEgBfUXD"></line><line x1="6" y1="20" x2="6" y2="14" data-page-node-id="BX5HnKGCnDB7TG8CmxE8UW"></line></svg>
+    <span class="label" data-page-node-id="FmHYXV92JSCDKm08v6WzOl">统计</span>
   </div>
 </div>
 
 <!-- 刷题：项目表单 -->
-<div class="mask" id="maskStProject">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskStProject')">×</span>
-    <h3 id="stProjectTitle">新增项目</h3>
-    <div class="field">
-      <label>项目名称 <span class="req">*</span></label>
-      <input id="stProjectName" placeholder="如：2026初三一模">
+<div class="mask" id="maskStProject" data-page-node-id="pSvvFb8Wi8MDjZePm8cGws">
+  <div class="sheet" data-page-node-id="DPvnOoQDD701BQ80r11u1s">
+    <span class="close-x" onclick="hideMask('maskStProject')" data-page-node-id="7HhTk8QVPMreerGc0uRPjG">×</span>
+    <h3 id="stProjectTitle" data-page-node-id="QKQYLIbp0S0b29rogX22F4">新增项目</h3>
+    <div class="field" data-page-node-id="VXfD2W7m703dSRB8QYDjZv">
+      <label data-page-node-id="b0iIGWw3T8den48TZAYD3I">项目名称 <span class="req" data-page-node-id="oEpHlNEH7GnRcioLas9vwu">*</span></label>
+      <input id="stProjectName" placeholder="如：2026初三一模" data-page-node-id="GbD8zl5BvW9yI2rqBWXO9R">
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>单位</label>
-        <select id="stProjectUnit" onchange="stUnitChange()">
-          <option value="set">按套数</option>
-          <option value="page">按页码</option>
+    <div class="field-row" data-page-node-id="mOwkSOrFI99FBYWm5DoI39">
+      <div class="field" data-page-node-id="L6CYUM9qvXxPyUuHPiYh0i">
+        <label data-page-node-id="cwUZp2QXIFQxugComlMuOB">单位</label>
+        <select id="stProjectUnit" onchange="stUnitChange()" data-page-node-id="EQR0PlDv1CrYLB0Q3AQWHC">
+          <option value="set" data-page-node-id="klHMH9Y1stcDcHa5zfzWg1">按套数</option>
+          <option value="page" data-page-node-id="lbaJYFM7bzEnAA5V0M1sWJ">按页码</option>
         </select>
       </div>
-      <div class="field">
-        <label id="stProjectTotalLabel">总量（套） <span class="req">*</span></label>
-        <input id="stProjectTotal" type="number" min="1" placeholder="16">
+      <div class="field" data-page-node-id="DQJXHT2i0Res2i6OBB6PVW">
+        <label id="stProjectTotalLabel" data-page-node-id="lnZ8pGy6w8Ac6FSJEulVhb">总量（套） <span class="req" data-page-node-id="Qio3BcGXUPun1uMCfpCvQm">*</span></label>
+        <input id="stProjectTotal" type="number" min="1" placeholder="16" data-page-node-id="0REEALwaSDn6R7CeBOc7qx">
       </div>
     </div>
-    <div class="field">
-      <label>项目日期</label>
-      <input id="stProjectDate" type="date">
+    <div class="field" data-page-node-id="jtjdebYY0aWhbtuVbkIywr">
+      <label data-page-node-id="ke3qCzV7DRZhq4CczSKn2r">项目日期</label>
+      <input id="stProjectDate" type="date" data-page-node-id="EU3E5McoAA4UHORi6xVY3j">
     </div>
-    <div class="field">
-      <label>项目颜色</label>
-      <div class="color-pick" id="stColorSwatches"></div>
+    <div class="field" data-page-node-id="q1iLAEiK8fkI2rCfmLEydl">
+      <label data-page-node-id="DScZ9BhjS7tcyRHgs4yLH2">项目颜色</label>
+      <div class="color-pick" id="stColorSwatches" data-page-node-id="yMNvCrq1Z50546VEZz2XeF"></div>
     </div>
-    <button class="btn-primary" onclick="saveStProject()">确定</button>
+    <button class="btn-primary" onclick="saveStProject()" data-page-node-id="pdDqKsHC7Qpa4wYfVBvL7E">确定</button>
   </div>
 </div>
 
 <!-- 刷题：试卷记录表单 -->
-<div class="mask" id="maskStRecord">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskStRecord')">×</span>
-                <h3 id="stRecordTitle">新增试卷记录</h3>
-    <div class="field" id="fldRecName">
-      <label>试卷名称 <span class="req">*</span></label>
-      <input id="stRecName" placeholder="如：浦东新区一模">
+<div class="mask" id="maskStRecord" data-page-node-id="TGCHlt2XJaUI3LsfPM4ry1">
+  <div class="sheet" data-page-node-id="avRRErh5NXXBixWk6mgINB">
+    <span class="close-x" onclick="hideMask('maskStRecord')" data-page-node-id="1AYDNvFDjakTC6EFonP29G">×</span>
+                <h3 id="stRecordTitle" data-page-node-id="UmeQgFO1tJdxDx9KL7RjxR">新增试卷记录</h3>
+    <div class="field" id="fldRecName" data-page-node-id="ymZvU5DLujMTXeQNcwH6Zl">
+      <label data-page-node-id="tMGowcp3tA5ENiaOwO9erD">试卷名称 <span class="req" data-page-node-id="x06tT5tMGIoAi9LjUfTWFE">*</span></label>
+      <input id="stRecName" placeholder="如：浦东新区一模" data-page-node-id="XVpgftOEEqGjJSiHH8HoJZ">
     </div>
-    <div class="field">
-      <label>所属项目 <span class="req">*</span></label>
-      <select id="stRecProject"></select>
+    <div class="field" data-page-node-id="m8nUATjqrsIw8az1QInrY7">
+      <label data-page-node-id="DNY0wkB0KE7SLfLtUACBal">所属项目 <span class="req" data-page-node-id="0yg0HEZn7G8d7SkcxnKKAb">*</span></label>
+      <select id="stRecProject" data-page-node-id="FCsYmZAVBSGdcZRDTTdmSK"></select>
     </div>
-    <div class="field" id="fldRecChapter" style="display:none;">
-      <label>章节内容</label>
-      <input id="stRecChapter" placeholder="如：4.2 电解池">
+    <div class="field" id="fldRecChapter" style="display:none;" data-page-node-id="0jcqIfJZghXaHVakpsw5wy">
+      <label data-page-node-id="KGuUR9Wz0UuhlhFse647XF">章节内容</label>
+      <input id="stRecChapter" placeholder="如：4.2 电解池" data-page-node-id="txFY99gDotcnRqFjeY6UDi">
     </div>
-    <div class="field-row" id="fldRecGradeType">
-      <div class="field">
-        <label>年级</label>
-        <select id="stRecGrade"></select>
+    <div class="field-row" id="fldRecGradeType" data-page-node-id="lkNpyP1FzQeJ4g8WQDRaHc">
+      <div class="field" data-page-node-id="AtkzAdmTH5JJY4jGgGFhnV">
+        <label data-page-node-id="iP0YJIw83Dhbn1bDDuR60u">年级</label>
+        <select id="stRecGrade" data-page-node-id="zewVyefBaPqlmCcdKSjPPW"></select>
       </div>
-      <div class="field">
-        <label>考试类型</label>
-        <select id="stRecType" onchange="stToggleNotes()"></select>
-      </div>
-    </div>
-    <div class="field" id="stMonthNoteWrap" style="display:none;">
-      <label>月考备注</label>
-      <input id="stRecMonthNote" placeholder="如：9月月考">
-    </div>
-    <div class="field" id="stWeekNoteWrap" style="display:none;">
-      <label>周测备注</label>
-      <input id="stRecWeekNote" placeholder="如：第3周">
-    </div>
-    <div class="field" id="fldRecPageGrade" style="display:none;">
-      <label>年级</label>
-      <select id="stRecPageGrade"></select>
-    </div>
-    <div class="field" id="fldRecPages" style="display:none;">
-      <label>页码范围 <span class="req">*</span></label>
-      <div class="page-range">
-        <input id="stRecPageFrom" type="number" min="1" placeholder="起始页">
-        <span class="page-dash">-</span>
-        <input id="stRecPageTo" type="number" min="1" placeholder="终止页">
+      <div class="field" data-page-node-id="aDwZHZBQhJWh1QXEXZlBH7">
+        <label data-page-node-id="AZr2swX592qRcm9WNaWTPf">考试类型</label>
+        <select id="stRecType" onchange="stToggleNotes()" data-page-node-id="mJGURYP0rJpE6xlvkD8sec"></select>
       </div>
     </div>
-    <div class="field">
-      <label>状态（可多选）</label>
-      <div class="st-checks">
-        <label class="st-check"><input type="checkbox" id="stRecDone"> 已完成</label>
-        <label class="st-check"><input type="checkbox" id="stRecArchived"> 已归档</label>
-        <label class="st-check"><input type="checkbox" id="stRecEntered"> 已录题</label>
+    <div class="field" id="stMonthNoteWrap" style="display:none;" data-page-node-id="1HG2wyP0ArP70E9OExR3m4">
+      <label data-page-node-id="hnHWRF32aKEsG4O1du0mYp">月考备注</label>
+      <input id="stRecMonthNote" placeholder="如：9月月考" data-page-node-id="8ky6njbLmriXSNl2LEJ3jv">
+    </div>
+    <div class="field" id="stWeekNoteWrap" style="display:none;" data-page-node-id="pspaKmJ01bbExHUfpoHwVS">
+      <label data-page-node-id="iGvjAE6IKH5IN7InjCo1by">周测备注</label>
+      <input id="stRecWeekNote" placeholder="如：第3周" data-page-node-id="2C0mBl2Rc7zvrTgYuQSm9w">
+    </div>
+    <div class="field" id="fldRecPageGrade" style="display:none;" data-page-node-id="kajzYdTBTj7clJ0P66Upfn">
+      <label data-page-node-id="Y7R0gtTf0oW9yb1Cob8FTH">年级</label>
+      <select id="stRecPageGrade" data-page-node-id="6ROifeQy5z7CnLfjW5bvVg"></select>
+    </div>
+    <div class="field" id="fldRecPages" style="display:none;" data-page-node-id="r6tqcj1ItAeLMNgb85SQ7y">
+      <label data-page-node-id="wDfidhk0GXrcAs1SaigjjG">页码范围 <span class="req" data-page-node-id="lHzx2VHnBnUi6BMJ3DxIzs">*</span></label>
+      <div class="page-range" data-page-node-id="Fis7PSeQQAsCNGZHJwbbbf">
+        <input id="stRecPageFrom" type="number" min="1" placeholder="起始页" data-page-node-id="zz8t1dzi67b5ezogCmooko">
+        <span class="page-dash" data-page-node-id="pVNhBPAz8I3Le7Slaod5t5">-</span>
+        <input id="stRecPageTo" type="number" min="1" placeholder="终止页" data-page-node-id="Mr0LHCbdHnS1JwcSvxSsd8">
       </div>
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>日期 <span class="req">*</span></label>
-        <input id="stRecDate" type="date">
-      </div>
-      <div class="field">
-        <label>耗时</label>
-        <input id="stRecDur" placeholder="Xh Xmin">
+    <div class="field" data-page-node-id="Pl6XcspAx0Z7CcyXmot0lQ">
+      <label data-page-node-id="jR7BkCEvBQ7lKpFW92JA1c">状态（可多选）</label>
+      <div class="st-checks" data-page-node-id="WP2vh2fWhsD8eL8d8DOwd9">
+        <label class="st-check" data-page-node-id="DIpCJiY6DS7utYJKKwW4FK"><input type="checkbox" id="stRecDone" data-page-node-id="OGnNUxrap4gj4ll2lImj8W"> 已完成</label>
+        <label class="st-check" data-page-node-id="hF5CyDEG0r1JWLxoMpdE0S"><input type="checkbox" id="stRecArchived" data-page-node-id="QyhWSeJ6EhucDAFOjWHkha"> 已归档</label>
+        <label class="st-check" data-page-node-id="aKHAIjcTByVoLH9CVgInp6"><input type="checkbox" id="stRecEntered" data-page-node-id="4JMXp2HtHQme3Oxdnjc3cS"> 已录题</label>
       </div>
     </div>
-    <div class="field" id="fldRecScore">
-      <label>分数（选填）</label>
-      <input id="stRecScore" placeholder="138/150">
+    <div class="field-row" data-page-node-id="WcdrFVQttL1JcRt5jlswSV">
+      <div class="field" data-page-node-id="IbAOX2PtNwcZODajcFZ7CH">
+        <label data-page-node-id="wwxcvz7CwKRlMgc5fYBL3n">日期 <span class="req" data-page-node-id="7AGEdH0LUStXgU4SHkn0sO">*</span></label>
+        <input id="stRecDate" type="date" data-page-node-id="cDN8Va28HUF3GfUbFDFCme">
+      </div>
+      <div class="field" data-page-node-id="PGUn20blr3FdzNjq7n0YkY">
+        <label data-page-node-id="B3diAqQ35GSmjV99EHUm3P">耗时</label>
+        <input id="stRecDur" placeholder="Xh Xmin" data-page-node-id="ZVYHDrjvFdzB1PLEOfSAhs">
+      </div>
     </div>
-    <div class="field">
-      <label>好题录入（选填）</label>
+    <div class="field" id="fldRecScore" data-page-node-id="sBCuq4qhPMKdBonlTZaY0o">
+      <label data-page-node-id="g26vQZTUlJGT4EspPgPXyJ">分数（选填）</label>
+      <input id="stRecScore" placeholder="138/150" data-page-node-id="R8cTXWIhXQ2Uyn4FMoMtii">
+    </div>
+    <div class="field" data-page-node-id="Dg2oPwtszMo15kPE6vEfpL">
+      <label data-page-node-id="NAwHGCyXrQBDhBrYmzs3dG">好题录入（选填）</label>
       <textarea id="stRecGood" placeholder="每行一条好题，按回车换行"></textarea>
     </div>
-    <div class="st-rec-actions">
-      <button class="btn-del" id="stRecDeleteBtn" onclick="stDelRecordFromModal()">删除</button>
-      <button class="btn-cancel" onclick="hideMask('maskStRecord')">取消</button>
-      <button class="btn-primary" onclick="saveStRecord()">确定</button>
+    <div class="st-rec-actions" data-page-node-id="klkggUKZEBQjR5U9JNQXqA">
+      <button class="btn-del" id="stRecDeleteBtn" onclick="stDelRecordFromModal()" data-page-node-id="IB4Dim61Scxj6yxJv6jm2M">删除</button>
+      <button class="btn-cancel" onclick="hideMask('maskStRecord')" data-page-node-id="j17qWeTVb5tIxlcvIXJnnk">取消</button>
+      <button class="btn-primary" onclick="saveStRecord()" data-page-node-id="9jr7pfc0YT4OGF08l1jEbi">确定</button>
     </div>
   </div>
 </div>
 
 <!-- 刷题：项目长按菜单 -->
-<div class="mask" id="maskStMenu">
-  <div class="sheet center" style="max-width:300px;">
-    <span class="close-x" onclick="hideMask('maskStMenu')">×</span>
-    <h3 id="stMenuName">项目</h3>
-    <div class="st-menu-opt">
-      <button onclick="hideMask('maskStMenu');openProjectForm(stMenuPid)">编辑项目</button>
-      <button class="del" onclick="hideMask('maskStMenu');stDelProject(stMenuPid)">删除项目</button>
+<div class="mask" id="maskStMenu" data-page-node-id="FkFC5kDGNVvDlWUdc6QZOk">
+  <div class="sheet center" style="max-width:300px;" data-page-node-id="AiRbP83y2pLG63B9jNSMpB">
+    <span class="close-x" onclick="hideMask('maskStMenu')" data-page-node-id="Y7ReP7OSrA75c6zH6iK7O1">×</span>
+    <h3 id="stMenuName" data-page-node-id="6eO19evRLBlXbSZixpL3aP">项目</h3>
+    <div class="st-menu-opt" data-page-node-id="bE6P4HyHp632M4HZadeI2w">
+      <button onclick="hideMask('maskStMenu');openProjectForm(stMenuPid)" data-page-node-id="WP2VnOHI1wpHo0cWWqeHBV">编辑项目</button>
+      <button class="del" onclick="hideMask('maskStMenu');stDelProject(stMenuPid)" data-page-node-id="tSe9dX4AVvDLT2uVdIotqu">删除项目</button>
     </div>
   </div>
 </div>
 
 <!-- 刷题：确认框 -->
-<div class="mask" id="maskStConfirm">
-  <div class="sheet center" style="max-width:320px;">
-    <span class="close-x" onclick="hideMask('maskStConfirm')">×</span>
-    <h3 id="stConfirmMsg">确定？</h3>
-    <div class="st-menu-opt">
-      <button class="del" id="stConfirmYes" onclick="stConfirmYes()">确定</button>
-      <button onclick="hideMask('maskStConfirm')">取消</button>
+<div class="mask" id="maskStConfirm" data-page-node-id="X8W0BJVtDGWAfrqCWFMPHT">
+  <div class="sheet center" style="max-width:320px;" data-page-node-id="kdpEJHVqpdMLDfZK8wmBa7">
+    <span class="close-x" onclick="hideMask('maskStConfirm')" data-page-node-id="p2PJKDziItUOfK7I2zTt6m">×</span>
+    <h3 id="stConfirmMsg" data-page-node-id="NJ1bwTBFSEMj7rvxiqbNme">确定？</h3>
+    <div class="st-menu-opt" data-page-node-id="hFAMD4dr4qlS9ORib1EpUy">
+      <button class="del" id="stConfirmYes" onclick="stConfirmYes()" data-page-node-id="pHHFt9hZY4zhqu8jlqWpGb">确定</button>
+      <button onclick="hideMask('maskStConfirm')" data-page-node-id="fPuUBYEdeOzhSSp1CZF95H">取消</button>
     </div>
   </div>
 </div>
 
 <!-- 备课：任务表单 -->
-<div class="mask" id="maskPrepTask">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskPrepTask')">×</span>
-    <h3 id="prepTaskTitle">新增备课任务</h3>
-    <div class="field">
-      <label>任务名称 <span class="req">*</span></label>
-      <input id="prepTaskName" placeholder="如：2026秋季高三化学">
+<div class="mask" id="maskPrepTask" data-page-node-id="uUtPgS1GER5mkFTzCboy8J">
+  <div class="sheet" data-page-node-id="HSQwODAHrNY80TErs1Diu0">
+    <span class="close-x" onclick="hideMask('maskPrepTask')" data-page-node-id="w0nqpHMzvL4qLe7fCxdOCr">×</span>
+    <h3 id="prepTaskTitle" data-page-node-id="to0mnJ4KSNMDWXX11mHTsn">新增备课任务</h3>
+    <div class="field" data-page-node-id="dnejduwfaIIUItoyQhvEfe">
+      <label data-page-node-id="9kPodTsg4GYZdvmvcSm42T">任务名称 <span class="req" data-page-node-id="8rDl8c9xOusokmF6xUNafj">*</span></label>
+      <input id="prepTaskName" placeholder="如：2026秋季高三化学" data-page-node-id="DDIOaisGPLR5gICjDFN7NV">
     </div>
-    <div class="field">
-      <label>课程季次 <span class="req">*</span></label>
-      <select id="prepTaskTerm"></select>
+    <div class="field" data-page-node-id="BLwNeTrhFaY6utyix60MJ0">
+      <label data-page-node-id="rCFNcycNxSdbECiBgYYx4G">课程季次 <span class="req" data-page-node-id="QtB1WEyhxC3yBCMEb3rn2T">*</span></label>
+      <select id="prepTaskTerm" data-page-node-id="i0nc5zTkLOGSh5tQ0Hg5bz"></select>
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>课程标签 <span class="req">*</span></label>
-        <select id="prepTaskCourse"></select>
+    <div class="field-row" data-page-node-id="GgA0Cox3acHCLjLHATmjy8">
+      <div class="field" data-page-node-id="n22va6D1FpHCz3uuwFN9pn">
+        <label data-page-node-id="bUvkEqkOOpgTF9DvFztJ0E">课程标签 <span class="req" data-page-node-id="QzGUE1GqAH0kSSA08U6kTT">*</span></label>
+        <select id="prepTaskCourse" data-page-node-id="7xbDTmQSgbs7forrzC9UVZ"></select>
       </div>
-      <div class="field">
-        <label>总课次 <span class="req">*</span></label>
-        <input id="prepTaskTotal" type="number" min="1" placeholder="16">
+      <div class="field" data-page-node-id="rcYgmW3Cg09WIJt0WXEEQF">
+        <label data-page-node-id="Bk80GEulrbSGqlsDi0MA9q">总课次 <span class="req" data-page-node-id="ZmAY2VS5FhlcDN05Dykbin">*</span></label>
+        <input id="prepTaskTotal" type="number" min="1" placeholder="16" data-page-node-id="qgMsnctJ9DDtywhvLeFlgb">
       </div>
     </div>
-    <div class="field">
-      <label>任务颜色</label>
-      <div class="color-pick" id="prepColorSwatches"></div>
+    <div class="field" data-page-node-id="vmw2CZidXa9JzrgPlkSFhA">
+      <label data-page-node-id="9zT19WSyt3Fr4lL26UJ3O9">任务颜色</label>
+      <div class="color-pick" id="prepColorSwatches" data-page-node-id="0hs2ENSAHOegVAnbvtFyzq"></div>
     </div>
-    <button class="btn-primary" onclick="savePrepTask()">确定</button>
+    <button class="btn-primary" onclick="savePrepTask()" data-page-node-id="PaT7Ed6bYMzh0Xv0dp8e9T">确定</button>
   </div>
 </div>
 
 <!-- 备课：备课进度表单 -->
-<div class="mask" id="maskPrepItem">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskPrepItem')">×</span>
-    <h3 id="prepItemTitle">新增备课进度</h3>
-    <div class="field-row">
-      <div class="field">
-        <label>课次 <span class="req">*</span></label>
-        <input id="prepItemLesson" type="number" min="1" placeholder="3">
+<div class="mask" id="maskPrepItem" data-page-node-id="o5CU3xso4hZUOcbZELPvnV">
+  <div class="sheet" data-page-node-id="OdWmJhHEcPRJMg13emHcYs">
+    <span class="close-x" onclick="hideMask('maskPrepItem')" data-page-node-id="ZMehVNFON3Ap8Qp0Zptm1E">×</span>
+    <h3 id="prepItemTitle" data-page-node-id="110S2Io7E8E7AZbVqQeARD">新增备课进度</h3>
+    <div class="field-row" data-page-node-id="H91HESuUnXFiSLJJzcUW6S">
+      <div class="field" data-page-node-id="B6s4dpkAcnyCiVGJr6tg63">
+        <label data-page-node-id="yCZIC8xePOKGAbd9rVVV20">课次 <span class="req" data-page-node-id="60OOUrWqRDn3VLdIiBo2Ci">*</span></label>
+        <input id="prepItemLesson" type="number" min="1" placeholder="3" data-page-node-id="IyYvFPqX5fRevANtvLxsnl">
       </div>
-      <div class="field">
-        <label>类型 <span class="req">*</span></label>
-        <select id="prepItemType"></select>
+      <div class="field" data-page-node-id="QJNmXkzb7GYoVZOyeGKulo">
+        <label data-page-node-id="GHRCP2DB6x9YamqhxiVLZR">类型 <span class="req" data-page-node-id="FKx7EAOuFe0nXjMfBFnw8x">*</span></label>
+        <select id="prepItemType" data-page-node-id="HESk2KlUD6zxAct97bYbjU"></select>
       </div>
     </div>
-    <div class="field">
-      <label>内容 <span class="req">*</span></label>
-      <input id="prepItemContent" placeholder="如：氧化还原反应">
+    <div class="field" data-page-node-id="ReE21AeGCcljUxYuvfbVPo">
+      <label data-page-node-id="hSo7rcm88g8m4ZuRnVG6Bi">内容 <span class="req" data-page-node-id="NoGq1F0f4NX3P5nFx4gmbp">*</span></label>
+      <input id="prepItemContent" placeholder="如：氧化还原反应" data-page-node-id="aBpEBAcJtYhDuDBveSe7ra">
     </div>
-    <div class="field">
-      <label>上课日期</label>
-      <input id="prepItemDate" type="date">
+    <div class="field" data-page-node-id="VIU5GC7QM8Zaubt4oiKkfc">
+      <label data-page-node-id="JXBbjji4Bppi2dEGCCAFSv">上课日期</label>
+      <input id="prepItemDate" type="date" data-page-node-id="2fbsZfMUsYkH8XB2bJ8Pdw">
     </div>
-    <div class="field">
-      <label>状态</label>
-      <div class="st-checks" id="prepItemStatusRow"></div>
+    <div class="field" data-page-node-id="6nzIl6L36nHtPyCFFGDPqg">
+      <label data-page-node-id="AQEAZFozGqJvUuVhKkYzR5">状态</label>
+      <div class="st-checks" id="prepItemStatusRow" data-page-node-id="1gBFlphPHO680s7WCzCrKR"></div>
     </div>
-    <div class="prep-form-btns">
-      <button class="prep-del-link" id="prepItemDel" onclick="prepDelItemFromModal()">删除</button>
-      <button class="btn-primary" onclick="savePrepItem()">确定</button>
+    <div class="prep-form-btns" data-page-node-id="1y207XPQbNYSaro5jE9p5N">
+      <button class="prep-del-link" id="prepItemDel" onclick="prepDelItemFromModal()" data-page-node-id="DuAdDQJMxWaRCmcNkmjfKR">删除</button>
+      <button class="btn-primary" onclick="savePrepItem()" data-page-node-id="43NmdusZy2CIWZUHtusetb">确定</button>
     </div>
   </div>
 </div>
 
 <!-- 备课统计：日期选择月历 -->
-<div class="mask" id="maskPrepCal">
-  <div class="sheet center" style="max-width:320px;">
-    <span class="close-x" onclick="hideMask('maskPrepCal')">×</span>
-    <h3 id="prepCalTitle">选择日期</h3>
-    <div class="prep-cal-head">
-      <span class="prep-cal-nav" onclick="prepCalMove(-1)">‹</span>
-      <span id="prepCalLabel"></span>
-      <span class="prep-cal-nav" onclick="prepCalMove(1)">›</span>
+<div class="mask" id="maskPrepCal" data-page-node-id="fKAl3BMiqDe33UUQ6GEInI">
+  <div class="sheet center" style="max-width:320px;" data-page-node-id="0WUUXB8RBnpDxVIoI23XFj">
+    <span class="close-x" onclick="hideMask('maskPrepCal')" data-page-node-id="qOBQvOSpGzYtfgx8eZPgqE">×</span>
+    <h3 id="prepCalTitle" data-page-node-id="juZxRcs3iOquZRqOnvTC1H">选择日期</h3>
+    <div class="prep-cal-head" data-page-node-id="VcQo4SWQrjy0Tvp2F1sop2">
+      <span class="prep-cal-nav" onclick="prepCalMove(-1)" data-page-node-id="hFAxz0wSaIknEEFWvTpA9f">‹</span>
+      <span id="prepCalLabel" data-page-node-id="c6r2rjWHYoDSXbVy5UCk70"></span>
+      <span class="prep-cal-nav" onclick="prepCalMove(1)" data-page-node-id="ssR6LbPRUjwp0YuasatjCu">›</span>
     </div>
-    <div class="prep-cal-grid" id="prepCalGrid"></div>
+    <div class="prep-cal-grid" id="prepCalGrid" data-page-node-id="pCiyUDEHa4HhZGXset6IDT"></div>
   </div>
 </div>
 
 <!-- 备课：任务长按菜单 -->
-<div class="mask" id="maskPrepMenu">
-  <div class="sheet center" style="max-width:300px;">
-    <span class="close-x" onclick="hideMask('maskPrepMenu')">×</span>
-    <h3 id="prepMenuName">任务</h3>
-    <div class="st-menu-opt">
-      <button onclick="hideMask('maskPrepMenu');openPrepTaskForm(prepMenuTid)">编辑任务</button>
-      <button class="del" onclick="hideMask('maskPrepMenu');prepDelTask(prepMenuTid)">删除任务</button>
+<div class="mask" id="maskPrepMenu" data-page-node-id="xe2xEMQ2KoSMPEyHZYplXJ">
+  <div class="sheet center" style="max-width:300px;" data-page-node-id="rl4peNlDAqWvywqSzwYZwO">
+    <span class="close-x" onclick="hideMask('maskPrepMenu')" data-page-node-id="fjgc59vWtDeSUBFm9NdBtb">×</span>
+    <h3 id="prepMenuName" data-page-node-id="BjhKcIPkILCi2Yn9xWpg0s">任务</h3>
+    <div class="st-menu-opt" data-page-node-id="JwvrxojHMXx2wVtdJI4GqR">
+      <button onclick="hideMask('maskPrepMenu');openPrepTaskForm(prepMenuTid)" data-page-node-id="e1sbs07pP13ZagNWPH7GNd">编辑任务</button>
+      <button class="del" onclick="hideMask('maskPrepMenu');prepDelTask(prepMenuTid)" data-page-node-id="3XcgW974WOtXXwpBOwM0e1">删除任务</button>
     </div>
   </div>
 </div>
 
 <!-- 备课进度高亮弹窗 -->
-<div class="mask" id="maskPrepHl">
-  <div class="sheet center" style="max-width:300px;">
-    <span class="close-x" onclick="hideMask('maskPrepHl')">×</span>
-    <h3>设置优先级</h3>
-    <div id="prepHlName" style="font-size:13px; color:#888; margin-top:4px; word-break:break-all;"></div>
-    <div class="st-menu-opt">
-      <button id="prepHlSetBtn" onclick="setPrepHl(true)">设置高亮</button>
-      <button id="prepHlDelBtn" onclick="setPrepHl(false)">取消高亮</button>
+<div class="mask" id="maskPrepHl" data-page-node-id="CbQi9CGyuAtgQhfN5UpNFn">
+  <div class="sheet center" style="max-width:300px;" data-page-node-id="I9BClz3pxDZImwT8kwFpV6">
+    <span class="close-x" onclick="hideMask('maskPrepHl')" data-page-node-id="AsfUOB673J9Ui1Si5zTELB">×</span>
+    <h3 data-page-node-id="RoMOxFzGiJcdzkbktgIDlu">设置优先级</h3>
+    <div id="prepHlName" style="font-size:13px; color:#888; margin-top:4px; word-break:break-all;" data-page-node-id="Q7wWsTJrHJBv6SR7RMDpPB"></div>
+    <div class="hl-legend" style="margin-top:10px; justify-content:center;" data-page-node-id="ZeTgFckmImvuD1bQBwEjZK">
+      <span data-page-node-id="QVs2Mvb7nlcxZqTpPWKUYm"><span class="i-imp" data-page-node-id="dOVHaExDnM2E8lqjjkd1rD"></span>重要</span>
+      <span data-page-node-id="OxskuKWxhykKgdvI6gGVER"><span class="i-urg" data-page-node-id="GcVbgKBjquNjmY7ocORIEO"></span>紧急</span>
+    </div>
+    <div class="st-menu-opt" data-page-node-id="OYgtNYfnxQYjSo91l5SHpP">
+      <button id="prepHlImpBtn" onclick="setPrepHl('imp')" data-page-node-id="7M0hdjSJHsPfuo6QIiJ9a5">标为重要</button>
+      <button id="prepHlUrgBtn" onclick="setPrepHl('urg')" data-page-node-id="G0EEAKXgxmodxnDv1LBP4L">标为紧急</button>
+      <button id="prepHlDelBtn" onclick="setPrepHl(false)" data-page-node-id="uViSvsqmaG2PHD6Z4rBn1F">取消标记</button>
     </div>
   </div>
 </div>
 
 <!-- 模板表单弹窗 -->
-<div class="mask" id="maskTpl">
-  <div class="sheet" id="sheetTpl">
-    <span class="close-x" onclick="hideMask('maskTpl')">×</span>
-    <h3 id="tplFormTitle">新增课程模板</h3>
-    <div class="field">
-      <label>课程名称 <span class="req">*</span></label>
-      <input id="tplName" placeholder="如：高三化学">
+<div class="mask" id="maskTpl" data-page-node-id="qaxAxTAOy53JMy51TQERnQ">
+  <div class="sheet" id="sheetTpl" data-page-node-id="dHFkKkJJsaVbLQlfkx4FyS">
+    <span class="close-x" onclick="hideMask('maskTpl')" data-page-node-id="qFgmaCj8IZZLZUpwrVUK9Z">×</span>
+    <h3 id="tplFormTitle" data-page-node-id="EQCBl6FOAWSSkc2sEfzyDg">新增课程模板</h3>
+    <div class="field" data-page-node-id="BuvsYldPHDFgxNMYUAL1ps">
+      <label data-page-node-id="8YiIixVnuoyd4Ur6IEQp5s">课程名称 <span class="req" data-page-node-id="IvMVG0QPcdPWj9ZDXi5EFs">*</span></label>
+      <input id="tplName" placeholder="如：高三化学" data-page-node-id="hQOSHxFuAIGbHXlOBHNxa8">
     </div>
-    <div class="field">
-      <label>课程时长(小时) <span class="req">*</span></label>
-      <input id="tplDur" type="number" min="0" step="0.5" placeholder="2">
+    <div class="field" data-page-node-id="6sQrQZ4WlPYRcaYYoi73Vl">
+      <label data-page-node-id="ucX5IhyhGEGd2KFCcld1Gf">课程时长(小时) <span class="req" data-page-node-id="YiWfdGi7onVfoDtP6GgEB0">*</span></label>
+      <input id="tplDur" type="number" min="0" step="0.5" placeholder="2" data-page-node-id="URToWUy2iAa0TG2QyyeKvO">
     </div>
-    <div class="field">
-      <label>课程类型 <span class="req">*</span></label>
-      <select id="tplType" onchange="syncTplType()">
-        <option value="1v1">一对一</option>
-        <option value="class">班课</option>
+    <div class="field" data-page-node-id="9sHJBHtlKfe5oYo2eaG2eC">
+      <label data-page-node-id="DB7d0dk6diMb2jPTGuvoWG">课程类型 <span class="req" data-page-node-id="PZBgBISxP6GhzFPHt2Hd7z">*</span></label>
+      <select id="tplType" onchange="syncTplType()" data-page-node-id="a7BxfhAbdJFKIvBgqwpI9p">
+        <option value="1v1" data-page-node-id="evPTrvD7srbNoWgYXEX2By">一对一</option>
+        <option value="class" data-page-node-id="II6fmVCvZdbbt8Thlh3W0V">班课</option>
       </select>
     </div>
-    <div class="field" id="tplFeeWrap">
-      <label>单次费用(元) <span class="req">*</span></label>
-      <input id="tplFee" type="number" min="0" step="10" placeholder="500">
+    <div class="field" id="tplFeeWrap" data-page-node-id="Jc66rWoIywbplnNYFApQv5">
+      <label data-page-node-id="1tnB7H01PvSHNUiK6eqGx6">单次费用(元) <span class="req" data-page-node-id="Hkzqyxe6JqLYXsHZ4StJoC">*</span></label>
+      <input id="tplFee" type="number" min="0" step="10" placeholder="500" data-page-node-id="eEOZ9NQ3llOYXMDctjWxFl">
     </div>
-    <div class="row2" id="tplClassWrap" style="display:none;">
-      <div class="field">
-        <label>单价(元/人) <span class="req">*</span></label>
-        <input id="tplPrice" type="number" min="0" step="10" placeholder="200">
+    <div class="row2" id="tplClassWrap" style="display:none;" data-page-node-id="8QMkLIsFQY5rIfjGUJG7je">
+      <div class="field" data-page-node-id="91lW0Tp7KEEVkgklDgV54q">
+        <label data-page-node-id="Xz7EpXDEH7HVk92ezCC0mP">单价(元/人) <span class="req" data-page-node-id="HcEHCwPWTqAbexfaDiqp1p">*</span></label>
+        <input id="tplPrice" type="number" min="0" step="10" placeholder="200" data-page-node-id="AgFvPojCuBGymo2MRyq8n5">
       </div>
-      <div class="field">
-        <label>参考人数 <span class="req">*</span></label>
-        <input id="tplHeadcount" type="number" min="1" step="1" placeholder="10">
+      <div class="field" data-page-node-id="yXQmYF0i3GVi6EQCe8sdLY">
+        <label data-page-node-id="BNzPDshEwoeuGobeNdYE5h">参考人数 <span class="req" data-page-node-id="XoJGTV0dlbk1pRlEI1gosg">*</span></label>
+        <input id="tplHeadcount" type="number" min="1" step="1" placeholder="10" data-page-node-id="mXmfQi7RI7RHgZ61Ee5Lf8">
       </div>
     </div>
-    <div class="field">
-      <label>课程时间 <span class="req">*</span></label>
-      <select id="tplTime">
-        <option value="8:00">8:00-10:00</option>
-        <option value="10:10">10:10-12:10</option>
-        <option value="13:30">13:30-15:30</option>
-        <option value="15:40">15:40-17:40</option>
-        <option value="19:00">19:00-21:00</option>
+    <div class="field" data-page-node-id="ul32ZxoBTZlGX3u9X5Tno6">
+      <label data-page-node-id="2h7N8m7SmOAvvyuhg2sb5u">课程时间 <span class="req" data-page-node-id="JkKiWuqbtsUnXNsD6zE0WP">*</span></label>
+      <select id="tplTime" data-page-node-id="AFMP7W3OSyTaWVRWrQOgOs">
+        <option value="8:00" data-page-node-id="G2JG2gE4wfTJKJEBYycRQP">8:00-10:00</option>
+        <option value="10:10" data-page-node-id="1wB3X7TqLsIx8608OZjRAm">10:10-12:10</option>
+        <option value="13:30" data-page-node-id="vCD573XBNHbPjw2W8hzDWH">13:30-15:30</option>
+        <option value="15:40" data-page-node-id="NokLKZIijQzNBiviss2nDS">15:40-17:40</option>
+        <option value="19:00" data-page-node-id="WEnuKZs8RDGhF1KgAwVhDe">19:00-21:00</option>
       </select>
     </div>
-    <div class="field">
-      <label>课程颜色</label>
-      <div id="tplColorRow" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;"></div>
+    <div class="field" data-page-node-id="KGWkbeqlHOZQJdSB6OvA3S">
+      <label data-page-node-id="hhzuDPkCIkVguJuoGFjiRX">课程颜色</label>
+      <div id="tplColorRow" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;" data-page-node-id="ZDXPTojC58d2R4jUvZaQlJ"></div>
     </div>
-    <button class="btn-primary" onclick="saveTpl()">保存模板</button>
+    <button class="btn-primary" onclick="saveTpl()" data-page-node-id="XFDEKDTSBLN99EQYKQBWbv">保存模板</button>
   </div>
 </div>
 
 <!-- 本周打卡：管理打卡项 -->
-<div class="mask" id="maskCheckinManage">
-  <div class="sheet" id="sheetCheckinManage">
-    <span class="close-x" onclick="hideMask('maskCheckinManage')">×</span>
-    <h3>管理打卡项</h3>
-    <div id="ciManageList" class="ci-manage-list"></div>
-    <div class="ci-add-row">
-      <input id="ciNewName" placeholder="添加打卡项" onkeydown="if(event.key==='Enter')addCheckin()">
-      <button class="btn-primary" onclick="addCheckin()">添加</button>
+<div class="mask" id="maskCheckinManage" data-page-node-id="Ho3DINQtgvyBX2WRKYofcA">
+  <div class="sheet" id="sheetCheckinManage" data-page-node-id="d8XdVD7oVgtEkoNOTK680s">
+    <span class="close-x" onclick="hideMask('maskCheckinManage')" data-page-node-id="kvGLf4UEGszRdPCaQdfCfT">×</span>
+    <h3 data-page-node-id="cEVp46zXdW63tLOSMKhbDS">管理打卡项</h3>
+    <div id="ciManageList" class="ci-manage-list" data-page-node-id="Ja2VwnEeWOn3mMjqHfmPPR"></div>
+    <div class="ci-add-row" data-page-node-id="oM9xjJcKDxZyrwFgueu6KK">
+      <input id="ciNewName" placeholder="添加打卡项" onkeydown="if(event.key==='Enter')addCheckin()" data-page-node-id="Tb6G9RgtqO535nyRUfrFdJ">
+      <button class="btn-primary" onclick="addCheckin()" data-page-node-id="GMJsI2S28x4U3s5hBS4Y3v">添加</button>
     </div>
-    <div class="modal-actions">
-      <button class="btn-ghost" onclick="hideMask('maskCheckinManage')">完成</button>
+    <div class="modal-actions" data-page-node-id="kWZWw35bUkyD0OkrAa2Csh">
+      <button class="btn-ghost" onclick="hideMask('maskCheckinManage')" data-page-node-id="ozNSSHtycQ97Lm4pB0yTqg">完成</button>
     </div>
   </div>
 </div>
 
 <!-- 本周打卡：编辑打卡项 -->
-<div class="mask" id="maskCheckinEdit">
-  <div class="sheet" id="sheetCheckinEdit">
-    <span class="close-x" onclick="hideMask('maskCheckinEdit')">×</span>
-    <h3 id="ciEditTitle">编辑打卡项</h3>
-    <div class="field">
-      <label>打卡项名称 <span class="req">*</span></label>
-      <input id="ciEditName" placeholder="如：备课">
+<div class="mask" id="maskCheckinEdit" data-page-node-id="IKd8NHOEQL3zBylbSIz7qu">
+  <div class="sheet" id="sheetCheckinEdit" data-page-node-id="YNTRDYPx5vAPmN6CFgWO3A">
+    <span class="close-x" onclick="hideMask('maskCheckinEdit')" data-page-node-id="4JUYC4IAyK1BDlHrxsQ9mh">×</span>
+    <h3 id="ciEditTitle" data-page-node-id="CzQ9IZumKRmxRZUfKyhDbT">编辑打卡项</h3>
+    <div class="field" data-page-node-id="vkPeHzTYccshccbNT8R0nE">
+      <label data-page-node-id="wfYDJL6nEZFY5mEYierkbh">打卡项名称 <span class="req" data-page-node-id="rkBuZrkHgGEDXQD5bkZL47">*</span></label>
+      <input id="ciEditName" placeholder="如：备课" data-page-node-id="ZLF4WixslcYjnIu6VAWuC4">
     </div>
-    <div class="field">
-      <label>打卡项颜色</label>
-      <div id="ciColorRow" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;"></div>
+    <div class="field" data-page-node-id="M5uQuBayRwM7EtqhbZD6SD">
+      <label data-page-node-id="BoDDpIGOsJLpLKXib93WZV">打卡项颜色</label>
+      <div id="ciColorRow" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;" data-page-node-id="cVourHnlBCnjcKHGYtZSKo"></div>
     </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveCheckinEdit()">保存</button>
-      <button class="btn-ghost" onclick="hideMask('maskCheckinEdit')">取消</button>
+    <div class="modal-actions" data-page-node-id="N2Szt2MO8XMRTHrMzCXpS0">
+      <button class="btn-primary" onclick="saveCheckinEdit()" data-page-node-id="eb0mQ2woJSpqHth8thOKD8">保存</button>
+      <button class="btn-ghost" onclick="hideMask('maskCheckinEdit')" data-page-node-id="GYWyd2F09S57ugDXWFjbve">取消</button>
     </div>
   </div>
 </div>
 
 <!-- 打卡统计项选择弹窗 -->
-<div class="mask" id="maskCheckinStatPick">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskCheckinStatPick')">×</span>
-    <h3>选择打卡项</h3>
-    <div id="csPickList" class="cs-pick-list"></div>
+<div class="mask" id="maskCheckinStatPick" data-page-node-id="mlkXa0b3v8DOqoFyIwuP0q">
+  <div class="sheet" data-page-node-id="Y1uiDl7cQ6tSrTjV01XTGS">
+    <span class="close-x" onclick="hideMask('maskCheckinStatPick')" data-page-node-id="GlKAIq33KYBPhTseZaBWXe">×</span>
+    <h3 data-page-node-id="2J2mQZ9YrB1w4gAGqV9Zi7">选择打卡项</h3>
+    <div id="csPickList" class="cs-pick-list" data-page-node-id="6Aur8GDNDlDsrTLggYcH1I"></div>
   </div>
 </div>
 
 <!-- 打卡统计年月选择弹窗 -->
-<div class="mask" id="maskCheckinYM">
-  <div class="sheet" style="padding:16px;">
-    <span class="close-x" onclick="hideMask('maskCheckinYM')">×</span>
-    <h3 style="text-align:center;margin:0 0 12px;font-size:16px;">选择年月</h3>
-    <div class="cs-ym-year">
-      <button onclick="shiftStatYear(-1)">‹</button>
-      <span id="csymYear">2026</span>
-      <button onclick="shiftStatYear(1)">›</button>
+<div class="mask" id="maskCheckinYM" data-page-node-id="wXixMo7LsNOj8aQH9w3JwH">
+  <div class="sheet" style="padding:16px;" data-page-node-id="AQxBUCBoQLyBF5Wu9RKvwO">
+    <span class="close-x" onclick="hideMask('maskCheckinYM')" data-page-node-id="VxfcEJrjT5j2pSwTrp9WlO">×</span>
+    <h3 style="text-align:center;margin:0 0 12px;font-size:16px;" data-page-node-id="2B3MP5bUoLDxg4mThXQ1c1">选择年月</h3>
+    <div class="cs-ym-year" data-page-node-id="1EMeG5TRQ3YeKrSnXRyAOB">
+      <button onclick="shiftStatYear(-1)" data-page-node-id="ROGQYDGP2FusEwgAFpHdrS">‹</button>
+      <span id="csymYear" data-page-node-id="srGLeN1MUdy1CHdqLejDne">2026</span>
+      <button onclick="shiftStatYear(1)" data-page-node-id="YUiAjS7o3jUww1REPSraPy">›</button>
     </div>
-    <div class="cs-ym-months" id="csymMonths"></div>
+    <div class="cs-ym-months" id="csymMonths" data-page-node-id="XR38TgMvHJCK5icsD49G7Y"></div>
   </div>
 </div>
 
 <!-- 模板选择弹窗（快速记录） -->
-<div class="mask" id="maskPick">
-  <div class="sheet" id="sheetPick">
-    <span class="close-x" onclick="hideMask('maskPick')">×</span>
-    <h3 id="pickTitle">选择课程模板</h3>
-    <div class="tpl-pick" id="pickList"></div>
-    <div class="empty-hint" id="pickEmpty" style="display:none;">还没有课程模板，点右下角「+」先添加一个吧</div>
-    <button class="btn-ghost" onclick="openTplForm();">＋ 新建模板</button>
+<div class="mask" id="maskPick" data-page-node-id="aKaGU5nEXySMfX9aC5XzH8">
+  <div class="sheet" id="sheetPick" data-page-node-id="ACE2cx6y8lYC1j8bEHlKhq">
+    <span class="close-x" onclick="hideMask('maskPick')" data-page-node-id="yCYor0UzhHr9pBMON8FHW8">×</span>
+    <h3 id="pickTitle" data-page-node-id="QHHRvxJiwPjfuovVXb1RQU">选择课程模板</h3>
+    <div class="tpl-pick" id="pickList" data-page-node-id="m7PymzI2KbxZuioCUB8h79"></div>
+    <div class="empty-hint" id="pickEmpty" style="display:none;" data-page-node-id="2IA6YqLqPiZoSSuPIBTKYa">还没有课程模板，点右下角「+」先添加一个吧</div>
+    <button class="btn-ghost" onclick="openTplForm();" data-page-node-id="E7pglE4uvBMjdMF8ypnUAY">＋ 新建模板</button>
   </div>
 </div>
 
 <!-- 班课：填写实际上课人数弹窗 -->
-<div class="mask" id="maskClassHead">
-  <div class="sheet" id="sheetClassHead">
-    <span class="close-x" onclick="hideMask('maskClassHead')">×</span>
-    <h3 id="classHeadName">班课</h3>
-    <div style="margin:6px 0 14px; color:#555; font-size:14px;">
-      单价：<span id="classHeadPrice">¥0</span> / 人
+<div class="mask" id="maskClassHead" data-page-node-id="2Fvy4LmQU50NMTt2mJ9H7Q">
+  <div class="sheet" id="sheetClassHead" data-page-node-id="KM5Uy1aJ6lF4x1VQQIagkM">
+    <span class="close-x" onclick="hideMask('maskClassHead')" data-page-node-id="g7hUhtEkIeqjpep33QBQAp">×</span>
+    <h3 id="classHeadName" data-page-node-id="zlACeV10CGyYCCSE7zDZws">班课</h3>
+    <div style="margin:6px 0 14px; color:#555; font-size:14px;" data-page-node-id="ivAyndUrj4vNngMVTIKSMt">
+      单价：<span id="classHeadPrice" data-page-node-id="gjwGNtekQCPKnnuudKyGH6">¥0</span> / 人
     </div>
-    <div class="field">
-      <label>实际上课人数 <span class="req">*</span></label>
-      <input id="classHeadCount" type="number" min="1" step="1" placeholder="10" oninput="updateClassIncome()">
+    <div class="field" data-page-node-id="DbWsNjGoAPj3D9HbuhJIPF">
+      <label data-page-node-id="eiFf7jvxQYIXJ1VGeZbJZT">实际上课人数 <span class="req" data-page-node-id="BmPXUHSvcMv5eAhCM3WiWk">*</span></label>
+      <input id="classHeadCount" type="number" min="1" step="1" placeholder="10" oninput="updateClassIncome()" data-page-node-id="00aNiA2Bh3CUDyTZOAv9ta">
     </div>
-    <div style="margin:14px 0; padding:12px; background:#F9F9F9; border-radius:12px; text-align:center; font-size:15px; color:#555;">
-      本次收入：<span id="classHeadIncome" style="font-size:20px; font-weight:700; color:#1A1A1A;">¥0</span>
+    <div style="margin:14px 0; padding:12px; background:#F9F9F9; border-radius:12px; text-align:center; font-size:15px; color:#555;" data-page-node-id="yTGZoxDpiO0YRmBTjxq7FB">
+      本次收入：<span id="classHeadIncome" style="font-size:20px; font-weight:700; color:#1A1A1A;" data-page-node-id="56yaur3YM29ozpX6Ax1G9b">¥0</span>
     </div>
-    <button class="btn-primary" onclick="confirmClassHead()">确认记录</button>
+    <button class="btn-primary" onclick="confirmClassHead()" data-page-node-id="6AFZ7cOxailrQe7F7s5Ftz">确认记录</button>
   </div>
 </div>
 
 <!-- 课程记录操作弹窗 -->
-<div class="mask" id="maskRec">
-  <div class="sheet center" id="sheetRec">
-    <span class="close-x" onclick="hideMask('maskRec')">×</span>
-    <h3>课程详情</h3>
-    <div id="recInfo" style="margin-bottom:16px; line-height:1.6; color:#555;"></div>
-    <button class="btn-primary" style="background:#ff4d4f; margin-bottom:10px;" onclick="delRecDirect()">删除该记录</button>
-    <button class="btn-ghost" onclick="hideMask('maskRec')">取消</button>
+<div class="mask" id="maskRec" data-page-node-id="mM3GhBQem47pjGJDKCmmrw">
+  <div class="sheet center" id="sheetRec" data-page-node-id="wTJN9CJwkdZAQAZJt4glUo">
+    <span class="close-x" onclick="hideMask('maskRec')" data-page-node-id="m2lOao1b37rvOvEsPDRjYo">×</span>
+    <h3 data-page-node-id="nRVp5hMqTKxT7AXorPqUk8">课程详情</h3>
+    <div id="recInfo" style="margin-bottom:16px; line-height:1.6; color:#555;" data-page-node-id="VSfvamTAAuqPH3KBPLmcAj"></div>
+    <button class="btn-primary" style="background:#ff4d4f; margin-bottom:10px;" onclick="delRecDirect()" data-page-node-id="k6LicT4B6gTVUfpITC7MpD">删除该记录</button>
+    <button class="btn-ghost" onclick="hideMask('maskRec')" data-page-node-id="IyOBcwav6JUo8hD99CfuFe">取消</button>
   </div>
 </div>
 
 <!-- 导出日历弹窗 -->
-<div class="mask" id="maskExport" style="z-index:60">
-  <div class="sheet center">
-    <span class="close-x" onclick="hideMask('maskExport')">×</span>
-    <h3>导出日历</h3>
-    <p style="font-size:13px;color:#999;margin:-8px 0 14px;">将生成高清 PNG，适合打印在 A4 纸上</p>
-    <div class="export-btns">
-      <button class="btn-primary" onclick="hideMask('maskExport'); exportMonthImage()">导出当前月历</button>
-      <button class="btn-primary" onclick="hideMask('maskExport'); exportWeekImage()">导出当前周历</button>
+<div class="mask" id="maskExport" style="z-index:60" data-page-node-id="TYIIIpodQ8l0B1KYE9ZJW8">
+  <div class="sheet center" data-page-node-id="Mb40ZBw9sPammWMb5S4Vdc">
+    <span class="close-x" onclick="hideMask('maskExport')" data-page-node-id="tCTHoHlTg1bQ5B772U49Ki">×</span>
+    <h3 data-page-node-id="BEaxqwT9KaF1r0qPS85ckI">导出日历</h3>
+    <p style="font-size:13px;color:#999;margin:-8px 0 14px;" data-page-node-id="WJSuqdRj1ZS6CX32Lxlrqq">将生成高清 PNG，适合打印在 A4 纸上</p>
+    <div class="export-btns" data-page-node-id="Iji12jhxe8xFBSoWQp0olo">
+      <button class="btn-primary" onclick="hideMask('maskExport'); exportMonthImage()" data-page-node-id="R7vwxCtQrf1pZIlQwiI0zB">导出当前月历</button>
+      <button class="btn-primary" onclick="hideMask('maskExport'); exportWeekImage()" data-page-node-id="GBQY47i5DuakFdJGcMMvoD">导出当前周历</button>
     </div>
   </div>
 </div>
 
 <!-- 设置弹窗 -->
-<div class="mask" id="maskSet">
-  <div class="sheet center" id="sheetSet">
-    <span class="close-x" onclick="hideMask('maskSet')">×</span>
-    <h3>设置</h3>
-    <div class="set-block">
-      <h4>导出与刷新</h4>
-      <div class="row-export-refresh">
-        <button class="btn-ghost" onclick="openExportPicker()">导出当前月历或周历为图片</button>
-        <button class="btn-refresh-circle" onclick="refreshApp()" title="刷新数据并重新加载界面" aria-label="刷新">↻</button>
+<div class="mask" id="maskSet" data-page-node-id="OWpFWJrLrry5ROKHuWPNwG">
+  <div class="sheet center" id="sheetSet" data-page-node-id="ccFqgzdxj2qMOiCCEe3Raf">
+    <span class="close-x" onclick="hideMask('maskSet')" data-page-node-id="r1haB0Lky7CllgwwdCH6kg">×</span>
+    <h3 data-page-node-id="ActY2nD3PkBKiy8JEl0nYs">设置</h3>
+    <div class="set-block" data-page-node-id="pgDwsNGpHSuxJhmp1spXGT">
+      <h4 data-page-node-id="xjXrq0owVxG0cDwENlj3Or">导出与刷新</h4>
+      <div class="row-export-refresh" data-page-node-id="jam4DyGBmFp5IIWF8wMpri">
+        <button class="btn-ghost" onclick="openExportPicker()" data-page-node-id="XuQCQGChds6j9Su0stz5Xs">导出当前月历或周历为图片</button>
+        <button class="btn-refresh-circle" onclick="refreshApp()" title="刷新数据并重新加载界面" aria-label="刷新" data-page-node-id="Qa6QGp25tMmE06mfETMgiJ">↻</button>
       </div>
     </div>
-    <div class="set-block">
-      <h4>版本与更新</h4>
-      <button class="btn-ghost" onclick="checkAppUpdate(true)">检查新版本</button>
-      <button class="btn-ghost" onclick="hardReload()">强制刷新（跳过缓存重载）</button>
-      <div class="privacy" id="appVersionBox"></div>
+    <div class="set-block" data-page-node-id="KL11qPIPSCZv4xMK0NmgDG">
+      <h4 data-page-node-id="xsPxqN2tmtiO5rJjyNCfef">版本与更新</h4>
+      <button class="btn-ghost" onclick="checkAppUpdate(true)" data-page-node-id="1CT9FLJic6MK6k1SgvQ3ig">检查新版本</button>
+      <button class="btn-ghost" onclick="hardReload()" data-page-node-id="j2e6xwDED1vmBWO9Fkj0e6">强制刷新（跳过缓存重载）</button>
+      <div class="privacy" id="appVersionBox" data-page-node-id="h2yrwbYDHQslYQFuBz1kiz"></div>
     </div>
-    <div class="set-block">
-      <h4>数据备份与恢复</h4>
-      <button class="btn-ghost" onclick="exportJSON()">导出全部数据为 JSON</button>
-      <button class="btn-ghost" onclick="document.getElementById('importFile').click()">导入 JSON 恢复数据</button>
-      <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importJSON(event)">
-      <div class="privacy">导出内容含：课表 / 待办 / 打卡 / 刷题 / 备课 / 专注 全部数据。建议定期导出，存到网盘或微信收藏。</div>
+    <div class="set-block" data-page-node-id="1qugTvHrDM9djpApkhNepG">
+      <h4 data-page-node-id="OqHBmHqRoTx7Nug9A0TOEi">数据备份与恢复</h4>
+      <button class="btn-ghost" onclick="exportJSON()" data-page-node-id="wwBR8siIOpcUnCM08dgzHg">导出全部数据为 JSON</button>
+      <button class="btn-ghost" onclick="document.getElementById('importFile').click()" data-page-node-id="hWvZalg81jnX9kTeIFGr7Q">导入 JSON 恢复数据</button>
+      <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importJSON(event)" data-page-node-id="HCGSqcUaYHi3DyhLJ0XOKe">
+      <div class="privacy" data-page-node-id="EUVM1hrTVVNOayJlZ8TgfT">导出内容含：课表 / 待办 / 打卡 / 刷题 / 备课 / 专注 全部数据。建议定期导出，存到网盘或微信收藏。</div>
     </div>
-    <div class="set-block">
-      <h4>InsForge 云端同步</h4>
-      <div class="set-row">
-        <input id="setEndpoint" placeholder="云端端点 URL">
+    <div class="set-block" data-page-node-id="Nyq7DQGlYBpmlRJ4EmP3gO">
+      <h4 data-page-node-id="H0AuAGI3KMHsP5oARET6Ph">InsForge 云端同步</h4>
+      <div class="set-row" data-page-node-id="aAVBRdNinYuDu6hiKWaTNk">
+        <input id="setEndpoint" placeholder="云端端点 URL" data-page-node-id="8rG0wBAYRgUKsijohRYqtH">
       </div>
-      <div class="set-row">
-        <input id="setKey" placeholder="访问密钥 (API Key)">
+      <div class="set-row" data-page-node-id="E1e7AdkcCiWsqEkSGMDg0K">
+        <input id="setKey" placeholder="访问密钥 (API Key)" data-page-node-id="WJlfqwDjtjx9fHYoYRw5Ep">
       </div>
-      <div class="set-row">
-        <input id="setBucket" placeholder="存储桶名称（如 ajia-state）">
+      <div class="set-row" data-page-node-id="0eWLjQOiOWGiI5rL8CwFH1">
+        <input id="setBucket" placeholder="存储桶名称（如 ajia-state）" data-page-node-id="D0ItybH83Qjt2GZBWDu5qv">
       </div>
-      <div class="set-row">
-        <button class="mini-btn" onclick="testConn()">测试连接</button>
-        <button class="mini-btn" onclick="cloudPull(true)">从云端恢复</button>
-        <button class="mini-btn" onclick="cloudPush(true)">立即备份</button>
+      <div class="set-row" data-page-node-id="thTeTGTG5E2VixlsAqog9z">
+        <button class="mini-btn" onclick="testConn()" data-page-node-id="hZFp5wLBIMSesvxEe5guum">测试连接</button>
+        <button class="mini-btn" onclick="cloudPull(true)" data-page-node-id="H3qe3DYXsCWQQtJX1DiuDm">从云端恢复</button>
+        <button class="mini-btn" onclick="cloudPush(true)" data-page-node-id="RzVLKJ6wepSF6I4lna7sVE">立即备份</button>
       </div>
-      <div class="privacy" id="connStatus"></div>
-      <div class="privacy">云端备份含全部数据（课表/待办/打卡/刷题/备课/专注）。换设备或数据丢失时，点「从云端恢复」即可全部拉回。</div>
+      <div class="privacy" id="connStatus" data-page-node-id="8QZh9PstfJxs4L2Jb9vLiX"></div>
+      <div class="privacy" data-page-node-id="TJILFC5HYA8DlC3bmN7zdW">云端备份含全部数据（课表/待办/打卡/刷题/备课/专注）。换设备或数据丢失时，点「从云端恢复」即可全部拉回。</div>
     </div>
-    <div class="set-block">
-      <h4>隐私说明</h4>
-      <div class="privacy" id="privacyBox"></div>
+    <div class="set-block" data-page-node-id="ZW8S2b9UmmTloB78MTQzck">
+      <h4 data-page-node-id="EHK94qiHFkMjTaF5ekBPjv">隐私说明</h4>
+      <div class="privacy" id="privacyBox" data-page-node-id="vzHTJeFnSNHj6Y8FyilKTY"></div>
     </div>
-    <div class="set-block">
-      <button class="btn-ghost" onclick="clearCache()">清除本地缓存</button>
+    <div class="set-block" data-page-node-id="lBZKqTghvXmjAUgXIbAwX0">
+      <button class="btn-ghost" onclick="clearCache()" data-page-node-id="A8Hx9bx4EhvMpydAHOvWAk">清除本地缓存</button>
     </div>
   </div>
 </div>
 
 <!-- 休息日操作菜单 -->
-<div class="mask" id="maskHoliday">
-  <div class="sheet center" id="sheetHoliday">
-    <span class="close-x" onclick="hideMask('maskHoliday')">×</span>
-    <h3 id="holidayMenuTitle">休息日</h3>
-    <div class="holiday-actions">
-      <button class="btn-primary" id="btnMarkHoliday" onclick="setHoliday(activeHolidayDs)">标记休息日</button>
-      <button class="btn-primary" id="btnUnmarkHoliday" style="background:#ff4d4f;" onclick="removeHoliday(activeHolidayDs)">取消休息日</button>
-      <button class="btn-ghost" onclick="hideMask('maskHoliday')">取消</button>
+<div class="mask" id="maskHoliday" data-page-node-id="YSWgDNCJlf2BDl2I9ZIBLW">
+  <div class="sheet center" id="sheetHoliday" data-page-node-id="KDczU7O6BdCYILUGCmconx">
+    <span class="close-x" onclick="hideMask('maskHoliday')" data-page-node-id="iOxvEMFzNaB1HGTKwlerFI">×</span>
+    <h3 id="holidayMenuTitle" data-page-node-id="yvMtFg829xMHfjIVXjBPoC">休息日</h3>
+    <div class="holiday-actions" data-page-node-id="8tY9rBBhW9G1R9EPwVKILR">
+      <button class="btn-primary" id="btnMarkHoliday" onclick="setHoliday(activeHolidayDs)" data-page-node-id="KKH7tGm5oq26CzYcqchen8">标记休息日</button>
+      <button class="btn-primary" id="btnUnmarkHoliday" style="background:#ff4d4f;" onclick="removeHoliday(activeHolidayDs)" data-page-node-id="arAbCJWz5Gt1cdbrmQqFKE">取消休息日</button>
+      <button class="btn-ghost" onclick="hideMask('maskHoliday')" data-page-node-id="J5UFO4jP2IUrDUX0vJHRUE">取消</button>
     </div>
   </div>
 </div>
 
 <!-- 待办表单弹窗 -->
-<div class="mask" id="maskTodo">
-  <div class="sheet" id="sheetTodo">
-    <span class="close-x" onclick="hideMask('maskTodo')">×</span>
-    <h3 id="todoFormTitle">新增待办</h3>
-    <div class="field">
-      <label>待办事项 <span class="req">*</span></label>
-      <input id="todoName" placeholder="如：备课教案 / 批改作业">
+<div class="mask" id="maskTodo" data-page-node-id="CRBCd8Ik3VsoddCCZPcr4E">
+  <div class="sheet" id="sheetTodo" data-page-node-id="63Y7syI82dp4clBvYQuLMc">
+    <span class="close-x" onclick="hideMask('maskTodo')" data-page-node-id="s661VoMFJBkWFtHqmCbfiu">×</span>
+    <h3 id="todoFormTitle" data-page-node-id="lih9Aa8TnoIyFNzHgygQEj">新增待办</h3>
+    <div class="field" data-page-node-id="4WKqIaeiompzIrc65Ynp1k">
+      <label data-page-node-id="Pus6F9VeD3mZEHIPEiC2JN">待办事项 <span class="req" data-page-node-id="VHPeXdszK49DpboNQQ80el">*</span></label>
+      <input id="todoName" placeholder="如：备课教案 / 批改作业" data-page-node-id="Cli2Nu2gLE6pA5DvTvAKbt">
     </div>
-    <div class="field">
-      <label>备注（选填）</label>
-      <input id="todoNote" placeholder="如：需准备课件 PPT">
+    <div class="field" data-page-node-id="r2KaiMpXOcPehRcMjlNFEj">
+      <label data-page-node-id="wVGFenaNGZvSrEMGuSs6UD">备注（选填）</label>
+      <input id="todoNote" placeholder="如：需准备课件 PPT" data-page-node-id="JtXs6ZoNtRPTB87nQrZKoW">
     </div>
-    <div class="field">
-      <label>标签</label>
-      <div class="tag-field-row">
-        <select id="todoTag">
-          <option value="">无标签</option>
+    <div class="field" data-page-node-id="xrJnKlBac6Ek4or9x2fzjV">
+      <label data-page-node-id="xnRdDpTmxgHvU9NmtfV3kX">标签</label>
+      <div class="tag-field-row" data-page-node-id="dqd7tyAdctAugP5cwqNQtF">
+        <select id="todoTag" data-page-node-id="weIeKvzfdEnAaHq8IsSPbh">
+          <option value="" data-page-node-id="QfwcScyS0S1U3p42rzFuHI">无标签</option>
         </select>
-        <button type="button" class="mini-btn" onclick="openTagMgr()">管理标签</button>
+        <button type="button" class="mini-btn" onclick="openTagMgr()" data-page-node-id="xpMB1QhdMtZuwAW7zB4jgb">管理标签</button>
       </div>
     </div>
-    <div class="field">
-      <label>优先级</label>
-      <select id="todoPrio">
-        <option value="high">高</option>
-        <option value="mid" selected>中</option>
-        <option value="low">低</option>
+    <div class="field" data-page-node-id="RggS39McxHgEKwCNuF4GF2">
+      <label data-page-node-id="etT7fhjAycePEuKUgbNtEW">优先级</label>
+      <select id="todoPrio" data-page-node-id="oJrY2m9bdEeG6upyAkKaxF">
+        <option value="high" data-page-node-id="AKeL3fq32TDLFBwDof5koX">高</option>
+        <option value="mid" selected data-page-node-id="PoLo4w5pimRaQPmJz0KV0h">中</option>
+        <option value="low" data-page-node-id="a2vL3Yfwkhw49DhEtPQ7HS">低</option>
       </select>
     </div>
-    <div class="field">
-      <label>重复任务 / 选择日期</label>
-      <div class="repeat-date-row">
-        <select id="todoRepeat" onchange="onRepeatChange()">
-          <option value="none">不重复</option>
-          <option value="daily">每天</option>
-          <option value="mon">每周一</option>
-          <option value="tue">每周二</option>
-          <option value="wed">每周三</option>
-          <option value="thu">每周四</option>
-          <option value="fri">每周五</option>
-          <option value="sat">每周六</option>
-          <option value="sun">每周日</option>
-          <option value="weekend">每周末（周六+周日）</option>
-          <option value="weekday">每周工作日（周一至周五）</option>
-          <option value="biweekly">每两周（指定周几）</option>
+    <div class="field" data-page-node-id="lLXT5D7iXRhoYB54xcaHAu">
+      <label data-page-node-id="PrlHhscNoMjFZnJTjrSZmM">重复任务 / 选择日期</label>
+      <div class="repeat-date-row" data-page-node-id="h5gnwUfwnXd0RMtCWqVqjU">
+        <select id="todoRepeat" onchange="onRepeatChange()" data-page-node-id="05I6y4L52XwkDrMhbiw4Hz">
+          <option value="none" data-page-node-id="dFH9oZecPdksK2YdBaJ30V">不重复</option>
+          <option value="daily" data-page-node-id="FBRPb6sc3PajGcmPw4upBx">每天</option>
+          <option value="mon" data-page-node-id="XdCub81WnBpMB6ptD7TrGI">每周一</option>
+          <option value="tue" data-page-node-id="s9pQW4CU3Bu1JLXMan1zhB">每周二</option>
+          <option value="wed" data-page-node-id="wVPynyrjxqClQ0XsvIrFF6">每周三</option>
+          <option value="thu" data-page-node-id="giuyRHYfh5CQdfAQrdnAEW">每周四</option>
+          <option value="fri" data-page-node-id="qMeOpFGE97p5MJekobqSBD">每周五</option>
+          <option value="sat" data-page-node-id="9APgKtgdtz492kHe0JsLwl">每周六</option>
+          <option value="sun" data-page-node-id="DDJrAP2yNtXuHLWorH8jBl">每周日</option>
+          <option value="weekend" data-page-node-id="EVC3zygWE4Xa9pWJaFOIyZ">每周末（周六+周日）</option>
+          <option value="weekday" data-page-node-id="wbvaCNJ0PYFIqDFDCGe60c">每周工作日（周一至周五）</option>
+          <option value="biweekly" data-page-node-id="QenkrTDvkrthBmy74uXk0F">每两周（指定周几）</option>
         </select>
-        <button type="button" class="date-pick-btn" id="todoDateBtn" onclick="openTodoDatePicker()">8月11日</button>
+        <button type="button" class="date-pick-btn" id="todoDateBtn" onclick="openTodoDatePicker()" data-page-node-id="JX9ZHp2HbA2nv1wWFhOKm2">8月11日</button>
       </div>
-      <div class="field" id="todoRepeatDowField" style="display:none; margin-top:8px;">
-        <label>每两周的周几</label>
-        <select id="todoRepeatDow">
-          <option value="1">周一</option>
-          <option value="2">周二</option>
-          <option value="3">周三</option>
-          <option value="4">周四</option>
-          <option value="5">周五</option>
-          <option value="6">周六</option>
-          <option value="0">周日</option>
+      <div class="field" id="todoRepeatDowField" style="display:none; margin-top:8px;" data-page-node-id="CEbUKonREflJswLAwjW1OF">
+        <label data-page-node-id="1RPgQ71KHzdJEdEHnEsr4r">每两周的周几</label>
+        <select id="todoRepeatDow" data-page-node-id="5hha8aXQMKtJukcujugSrc">
+          <option value="1" data-page-node-id="n92wMd1iPWUhUglqNDNdE4">周一</option>
+          <option value="2" data-page-node-id="lCH1ap1SAsGjC3RaEILc1V">周二</option>
+          <option value="3" data-page-node-id="V2WO1WrdXh9ZML5269lDm1">周三</option>
+          <option value="4" data-page-node-id="tl9lHz9fMegZIIjr4Od2Pn">周四</option>
+          <option value="5" data-page-node-id="JoYgkXXTfTRO7lWsnmmBv4">周五</option>
+          <option value="6" data-page-node-id="BdSpkCDaZKzPmPEEDFNx6b">周六</option>
+          <option value="0" data-page-node-id="KGpAHuY7SpKN3FdBkuCftq">周日</option>
         </select>
       </div>
     </div>
-    <div class="field" id="todoScopeField" style="display:none;">
-      <label>修改范围</label>
-      <div class="seg">
-        <label class="seg-item"><input type="radio" name="todoScope" value="all" checked> 修改全部</label>
-        <label class="seg-item"><input type="radio" name="todoScope" value="current"> 仅当前</label>
+    <div class="field" id="todoScopeField" style="display:none;" data-page-node-id="s6gw4BAyrNFOgrpTuTjRt1">
+      <label data-page-node-id="TvfHOfFLCRGQ5jftBj4cPl">修改范围</label>
+      <div class="seg" data-page-node-id="cVajSEG6Q94HOMgv8oqvXZ">
+        <label class="seg-item" data-page-node-id="WOeZrvUap1gUqxKqj5A1BF"><input type="radio" name="todoScope" value="all" checked data-page-node-id="6B4ufiKF1SFT35bL3OouKW"> 修改全部</label>
+        <label class="seg-item" data-page-node-id="58ktWxVEdzHTLZegDgSW82"><input type="radio" name="todoScope" value="current" data-page-node-id="MUCroYqWeB8ky66pk83iLv"> 仅当前</label>
       </div>
     </div>
-    <button class="btn-primary" onclick="saveTodo()">保存</button>
-    <button class="btn-ghost" onclick="hideMask('maskTodo')">取消</button>
+    <button class="btn-primary" onclick="saveTodo()" data-page-node-id="5GQLds1FxF7ug5rjPU9dQG">保存</button>
+    <button class="btn-ghost" onclick="hideMask('maskTodo')" data-page-node-id="gwoNWGr3ovqqBDj7nmWCj3">取消</button>
   </div>
 </div>
 
 <!-- 日期选择弹窗 -->
-<div class="mask" id="maskTodoDatePicker">
-  <div class="sheet" id="sheetTodoDatePicker">
-    <span class="close-x" onclick="hideMask('maskTodoDatePicker')">×</span>
-    <h3>选择日期</h3>
-    <div class="dp-header">
-      <span class="dp-arrow" onclick="shiftTodoDateMonth(-1)">‹</span>
-      <span id="todoDatePickerTitle">2026年8月</span>
-      <span class="dp-arrow" onclick="shiftTodoDateMonth(1)">›</span>
+<div class="mask" id="maskTodoDatePicker" data-page-node-id="URvuYpPsMh6NFMcvLIF605">
+  <div class="sheet" id="sheetTodoDatePicker" data-page-node-id="BUzWtJpLthyJdeH8MnNG8C">
+    <span class="close-x" onclick="hideMask('maskTodoDatePicker')" data-page-node-id="CHu61CeA26qaqAryHc9QMp">×</span>
+    <h3 data-page-node-id="Ex41j26VmpOHXwo5lHlAxx">选择日期</h3>
+    <div class="dp-header" data-page-node-id="NxHBO9jLLV5cJNC3zSOp5t">
+      <span class="dp-arrow" onclick="shiftTodoDateMonth(-1)" data-page-node-id="53HLtbuU7qbLDkfHEf9GB1">‹</span>
+      <span id="todoDatePickerTitle" data-page-node-id="3WKApBquXQihCBxHPEAII4">2026年8月</span>
+      <span class="dp-arrow" onclick="shiftTodoDateMonth(1)" data-page-node-id="iEBhu1z4qneVwq9lO5eyoY">›</span>
     </div>
-    <div class="dp-dows">
-      <span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span>
+    <div class="dp-dows" data-page-node-id="GHQ7qVLiPw5G18viTicT3W">
+      <span data-page-node-id="3J2mTKNElU1HyucfC81FAO">周一</span><span data-page-node-id="Txk6wtizHteWMnrENk2QQ7">周二</span><span data-page-node-id="eP7hwuW3y6UQQDXrp3hOvd">周三</span><span data-page-node-id="30H2vq9whxvbomG3QQGXis">周四</span><span data-page-node-id="dK86eyK8se93jGuQdONsay">周五</span><span data-page-node-id="LPdAiTM7rzT70jfVGixNRP">周六</span><span data-page-node-id="SaFvRIJVooPQOcBhPePtWx">周日</span>
     </div>
-    <div id="todoDatePickerGrid" class="dp-grid"></div>
-    <div id="todoDatePickerCount" class="dp-count">未选择日期</div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="confirmTodoDates()">确定</button>
+    <div id="todoDatePickerGrid" class="dp-grid" data-page-node-id="E1gKfzJkFuxVYriKElLko5"></div>
+    <div id="todoDatePickerCount" class="dp-count" data-page-node-id="ZW9idvcTbwEChakJiSO65F">未选择日期</div>
+    <div class="modal-actions" data-page-node-id="lv9w6LE7SAUEN2fkA8vqG2">
+      <button class="btn-primary" onclick="confirmTodoDates()" data-page-node-id="Yd29MRHtUukQe3CM3escyP">确定</button>
     </div>
   </div>
 </div>
 
 <!-- 标签管理 -->
-<div class="mask" id="maskTagMgr">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskTagMgr')">×</span>
-    <h3>管理标签</h3>
-    <div id="tagMgrList" class="tag-mgr-list"></div>
-    <div class="tag-mgr-add">
-      <input id="tagNewName" placeholder="标签名称（如：运动 / 阅读）">
-      <div id="tagColorRow" class="color-row"></div>
-      <button class="btn-primary" onclick="addTagDef()">添加标签</button>
+<div class="mask" id="maskTagMgr" data-page-node-id="1CZSKggp3q69UhW3CduVCG">
+  <div class="sheet" data-page-node-id="UxsoAiqCw5eIvl5VH2kLe5">
+    <span class="close-x" onclick="hideMask('maskTagMgr')" data-page-node-id="HNvfSay5uLePg2LYnZZIX8">×</span>
+    <h3 data-page-node-id="UPKTNkg6dKr00iw3lhbRHw">管理标签</h3>
+    <div id="tagMgrList" class="tag-mgr-list" data-page-node-id="Z880gZhR9onCx7GXEBrKSe"></div>
+    <div class="tag-mgr-add" data-page-node-id="aCet18EGHiCybxeL41HHp5">
+      <input id="tagNewName" placeholder="标签名称（如：运动 / 阅读）" data-page-node-id="cJTjycSKpQAZiSSwv9WXHm">
+      <div id="tagColorRow" class="color-row" data-page-node-id="CQGbvvmC3MxX6yokrNdQjW"></div>
+      <button class="btn-primary" onclick="addTagDef()" data-page-node-id="xUB1dK6V9uCVOvdGFR4xYO">添加标签</button>
     </div>
   </div>
 </div>
 
 <!-- 开始专注 -->
-<div class="mask" id="maskTimeStart">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskTimeStart')">×</span>
-    <h3>开始专注</h3>
-    <div class="field">
-      <label>专注项目 <span class="req">*</span></label>
-      <select id="startProj" onchange="onStartProjChange()"></select>
+<div class="mask" id="maskTimeStart" data-page-node-id="9K0Om8vcyFu3zZVPZSWObM">
+  <div class="sheet" data-page-node-id="OWF5f9J6UKWXETMCUiRFrW">
+    <span class="close-x" onclick="hideMask('maskTimeStart')" data-page-node-id="QFPGbYlMFkRzWdedv7Xhd2">×</span>
+    <h3 data-page-node-id="UwpLUOWNU9xTx6kJ8jkvgP">开始专注</h3>
+    <div class="field" data-page-node-id="uFyG0dwvsBBSPYIaDkVn5V">
+      <label data-page-node-id="LmG1IKgpF9dzbTcTix62UZ">专注项目 <span class="req" data-page-node-id="0R0EdjZtQPrIKOMKg2rIZw">*</span></label>
+      <select id="startProj" onchange="onStartProjChange()" data-page-node-id="zEFfjbVPjUvc0hltZBelZ3"></select>
     </div>
-    <div class="field">
-      <label>描述</label>
-      <input id="startDesc" placeholder="如：整理高三化学讲义">
+    <div class="field" data-page-node-id="Z9sLSaOm8HxMsZHubp8uGy">
+      <label data-page-node-id="aJ5HBHr9260PnpmJLUOlSS">描述</label>
+      <input id="startDesc" placeholder="如：整理高三化学讲义" data-page-node-id="7D0rNaG4hYbsoNyh1HsHbC">
     </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="confirmStartTime()">确定开始</button>
-      <button class="btn-ghost" onclick="hideMask('maskTimeStart')">取消</button>
+    <div class="modal-actions" data-page-node-id="FbTp6g8M840yXpYg1EkyW2">
+      <button class="btn-primary" onclick="confirmStartTime()" data-page-node-id="PDzY87wFfOSZDkvnQDdZBE">确定开始</button>
+      <button class="btn-ghost" onclick="hideMask('maskTimeStart')" data-page-node-id="NJ2WVOAA65nxS7jzgESAER">取消</button>
     </div>
   </div>
 </div>
 
 <!-- 补录 / 编辑专注记录 -->
-<div class="mask" id="maskTimeBackfill">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskTimeBackfill')">×</span>
-    <h3 id="bfTitle">补录专注记录</h3>
-    <div class="field">
-      <label>专注项目 <span class="req">*</span></label>
-      <select id="bfProj"></select>
+<div class="mask" id="maskTimeBackfill" data-page-node-id="kC7WfgHgxVGtbBjHgxkM8Z">
+  <div class="sheet" data-page-node-id="BxR3FX9Vam5c4td27At3n7">
+    <span class="close-x" onclick="hideMask('maskTimeBackfill')" data-page-node-id="yHhVdslw7B7SflBBj5QuPn">×</span>
+    <h3 id="bfTitle" data-page-node-id="DGCHmAwnUkl1ZIhr4hUEKK">补录专注记录</h3>
+    <div class="field" data-page-node-id="kQC9t2FE4iXbGlDGobV0g1">
+      <label data-page-node-id="IcVRi9HgtxhaUYmc89FdN2">专注项目 <span class="req" data-page-node-id="NkOf7rLRXiOXHFXdAO55mD">*</span></label>
+      <select id="bfProj" data-page-node-id="YgikZxk8hTZVlGOUXaGm5g"></select>
     </div>
-    <div class="field">
-      <label>描述 <span class="req">*</span></label>
-      <input id="bfDesc" placeholder="本次专注的具体内容">
+    <div class="field" data-page-node-id="PuAPbNiJ0JrDE9XTy5iRPU">
+      <label data-page-node-id="y4uuAimztOBuPqA7iUnvxJ">描述 <span class="req" data-page-node-id="CMCsIZ3elDlQLJyYNfVc8s">*</span></label>
+      <input id="bfDesc" placeholder="本次专注的具体内容" data-page-node-id="e33AKDozcxBTZHXs4F5IOg">
     </div>
-    <div class="field">
-      <label>日期 <span class="req">*</span></label>
-      <input id="bfDate" type="date">
+    <div class="field" data-page-node-id="I5UiphOp9tTjopVG94MoOu">
+      <label data-page-node-id="hDwgpEHpQqcBOHav8TN8cV">日期 <span class="req" data-page-node-id="1iCkRgDp5ASzhwXirBT7UX">*</span></label>
+      <input id="bfDate" type="date" data-page-node-id="XnQW5StkVQhyVr3HEctkiR">
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>起始时间 <span class="req">*</span></label>
-        <input id="bfStart" type="time">
+    <div class="field-row" data-page-node-id="F8IHmGoCCjxTVRFNHlPH86">
+      <div class="field" data-page-node-id="pLWQWJ4LG15Df5mCzpsadz">
+        <label data-page-node-id="q3lmwTJ5xOMGykNQoGhKtR">起始时间 <span class="req" data-page-node-id="GTCJFFfkjeYNjZJbtDQjtW">*</span></label>
+        <input id="bfStart" type="time" data-page-node-id="ttYUka0Q4lJ6uvrCf38jvf">
       </div>
-      <div class="field">
-        <label>终止时间 <span class="req">*</span></label>
-        <input id="bfEnd" type="time">
+      <div class="field" data-page-node-id="QKkyhAhtCLYY68XxvYrBuj">
+        <label data-page-node-id="WAzOl8KGzcAWWaKuheUtTS">终止时间 <span class="req" data-page-node-id="gimR35iINSilSRkuErZk4x">*</span></label>
+        <input id="bfEnd" type="time" data-page-node-id="bgQXv2vfd3b2uBMkhGPF7u">
       </div>
     </div>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveBackfill()">保存</button>
-      <button class="btn-ghost" onclick="hideMask('maskTimeBackfill')">取消</button>
+    <div class="modal-actions" data-page-node-id="fP6Mv075XDOr8NkJqADl7c">
+      <button class="btn-primary" onclick="saveBackfill()" data-page-node-id="7L6VfSLsQP94BLo5MDWr82">保存</button>
+      <button class="btn-ghost" onclick="hideMask('maskTimeBackfill')" data-page-node-id="Iz5NunBDE71juIegZpnRav">取消</button>
     </div>
   </div>
 </div>
 
 <!-- 专注记录详情 -->
-<div class="mask" id="maskTimeRec">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskTimeRec')">×</span>
-    <h3>专注记录</h3>
-    <div style="display:flex;align-items:center;gap:8px;margin:6px 0 12px;">
-      <span id="recProj" class="focus-tag"></span>
+<div class="mask" id="maskTimeRec" data-page-node-id="paCcGa12XgoahE9v2RNUQY">
+  <div class="sheet" data-page-node-id="EbZ7zilCcMMHT1UM9S4EzH">
+    <span class="close-x" onclick="hideMask('maskTimeRec')" data-page-node-id="HswacrddgJJ8OQuFM23gIc">×</span>
+    <h3 data-page-node-id="Pv5FadpRjDNua74lbLM31z">专注记录</h3>
+    <div style="display:flex;align-items:center;gap:8px;margin:6px 0 12px;" data-page-node-id="v8ddWA4XHb5s7p4ZFljrL0">
+      <span id="recProj" class="focus-tag" data-page-node-id="z1IgPKbEi2KHTYXcSNnykV"></span>
     </div>
-    <div class="field"><label>描述</label><div id="recDesc" style="font-size:14px;color:#1A1A1A;"></div></div>
-    <div class="field"><label>时间</label><div id="recTime" style="font-size:14px;color:#666;"></div></div>
-    <div class="field"><label>共计</label><div id="recDur" style="font-size:14px;font-weight:700;"></div></div>
-    <button class="btn-primary" id="recEdit">编辑</button>
-    <button class="btn-ghost" id="recDel" style="color:#e4675e;">删除</button>
-    <button class="btn-ghost" onclick="hideMask('maskTimeRec')">关闭</button>
+    <div class="field" data-page-node-id="CUSZkoozPME8AeSAcitmbY"><label data-page-node-id="2gxDI18BQtpi0r4PAOnr4o">描述</label><div id="recDesc" style="font-size:14px;color:#1A1A1A;" data-page-node-id="vTiIwoRFJ3OfYUQ69zrzBD"></div></div>
+    <div class="field" data-page-node-id="X9ziQ3ox1UmF5eE9d9UbQi"><label data-page-node-id="mhGgbZC1HuAOZ7DB2ktmvU">时间</label><div id="recTime" style="font-size:14px;color:#666;" data-page-node-id="ktA9LOOBsEbf50gKxAvkZm"></div></div>
+    <div class="field" data-page-node-id="OEJN6RbICCTB99QRdMnw3V"><label data-page-node-id="zJeoH7i9X5IS1q7khKD2bV">共计</label><div id="recDur" style="font-size:14px;font-weight:700;" data-page-node-id="bLULwaFRgP7frmkPlyj3ln"></div></div>
+    <button class="btn-primary" id="recEdit" data-page-node-id="cSpNgLAWvXLESmWcLXpBni">编辑</button>
+    <button class="btn-ghost" id="recDel" style="color:#e4675e;" data-page-node-id="SLXH25GKka9w4VYoCrDrNl">删除</button>
+    <button class="btn-ghost" onclick="hideMask('maskTimeRec')" data-page-node-id="YtbWbWfW1fjRRDQYW2VE5v">关闭</button>
   </div>
 </div>
 
 <!-- 专注项目管理 -->
-<div class="mask" id="maskFocusProj">
-  <div class="sheet">
-    <span class="close-x" onclick="hideMask('maskFocusProj')">×</span>
-    <h3>管理专注项目</h3>
-    <div id="projList" style="max-height:200px;overflow:auto;margin-bottom:12px;"></div>
-    <div class="field">
-      <label id="projFormTitle">新增专注项目</label>
-      <input id="projName" placeholder="项目名称（必填）">
+<div class="mask" id="maskFocusProj" data-page-node-id="4I27eM6ZKD0LjC40AB6oWB">
+  <div class="sheet" data-page-node-id="DCUc2gFXeNWFbAKbS24fXh">
+    <span class="close-x" onclick="hideMask('maskFocusProj')" data-page-node-id="b9rfUzYE7CnVmGFmDX9luh">×</span>
+    <h3 data-page-node-id="wxUqeKj8spRpENrwKIGxhY">管理专注项目</h3>
+    <div id="projList" style="max-height:200px;overflow:auto;margin-bottom:12px;" data-page-node-id="XoG26ckq2xQigqrO97jbQF"></div>
+    <div class="field" data-page-node-id="1WQOUDsMLbIkAaks6YDYxG">
+      <label id="projFormTitle" data-page-node-id="xbnNuCdhXfkJmFteuxpuBJ">新增专注项目</label>
+      <input id="projName" placeholder="项目名称（必填）" data-page-node-id="eWfXVGFDMSO5SfA9nn4Kb8">
     </div>
-    <div class="field">
-      <label>项目颜色（与课程色盘一致）</label>
-      <div class="color-row" id="projColorRow"></div>
+    <div class="field" data-page-node-id="VMruEBrxbgICzjUd1MGAkP">
+      <label data-page-node-id="80vERfxVIFW3VOal3ExYFc">项目颜色（与课程色盘一致）</label>
+      <div class="color-row" id="projColorRow" data-page-node-id="kx15JqWXPy9WZ6Fio4ndib"></div>
     </div>
-    <button class="btn-primary" onclick="saveProj()">保存项目</button>
-    <button class="btn-ghost" onclick="hideMask('maskFocusProj')">取消</button>
+    <button class="btn-primary" onclick="saveProj()" data-page-node-id="CFqecz7B2eGLKjZ6HJ2E5H">保存项目</button>
+    <button class="btn-ghost" onclick="hideMask('maskFocusProj')" data-page-node-id="D7JD53T7pNlmLoOdD7RMNx">取消</button>
   </div>
 </div>
 
 <!-- 通用确认 -->
-<div class="mask" id="maskConfirm">
-  <div class="sheet" style="max-width:320px;">
-    <p id="confirmMsg" style="font-size:14px;line-height:1.6;margin:8px 0 18px;"></p>
-    <button class="btn-primary" id="confirmYes">确认</button>
-    <button class="btn-ghost" onclick="hideMask('maskConfirm')">取消</button>
+<div class="mask" id="maskConfirm" data-page-node-id="musdX59tP2ZsGTiqGHRm3G">
+  <div class="sheet" style="max-width:320px;" data-page-node-id="Ii65myOTI85AGA8KRfdwta">
+    <p id="confirmMsg" style="font-size:14px;line-height:1.6;margin:8px 0 18px;" data-page-node-id="ZDt40c8ufKZPygtOjHRggC"></p>
+    <button class="btn-primary" id="confirmYes" data-page-node-id="Gdn7zf9oyjrG2ZP5YDJFTA">确认</button>
+    <button class="btn-ghost" onclick="hideMask('maskConfirm')" data-page-node-id="MtArPGyKuXWdcBA0mTBC6a">取消</button>
   </div>
 </div>
 
 <!-- toast -->
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" data-page-node-id="YzkvVvk1mcf7v3YJobUV4e"></div>
 
 <script>
 /* ============ 常量 ============ */
@@ -1826,6 +1843,42 @@ const PREP_TYPE_ORDER = {'讲义':0,'作业':1,'服务':2};   // 同一课次内
 const PREP_STATUS = [{k:'edited',n:'已编辑',c:'#FF6B6B'},{k:'preped',n:'已备课',c:'#FFD93D'},{k:'printed',n:'已打印',c:'#6BCB77'}];
 const PREP_TYPE_STYLE = {'讲义':{bg:'#E8F1FF',fg:'#3A7BD5'},'作业':{bg:'#FBE3EE',fg:'#D4537E'},'服务':{bg:'#F1E9FF',fg:'#8B5CF6'}};
 
+/* ============ 界面视图记忆：下次打开仍是上次离开时的视图 ============ */
+/* 记住：刷题（目标/数据 Tab、筛选条件、展开的项目与分组）+ 备课（任务/统计 Tab、展开的任务列表） */
+const UI_KEY='wb_lj_ui';
+function uiSaveNow(){
+  try{
+    localStorage.setItem(UI_KEY, JSON.stringify({v:1,
+      stView, stGoalTerm, stExpanded:[...stExpanded],
+      stDataYear, stDataKind, stDataGrade, stDataExam, stDataStatus,
+      stDataGroupsCollapsed:[...stDataGroupsCollapsed], stDataExpanded:[...stDataExpanded],
+      stCalYear, stCalMonth,
+      prepView, prepTerm, prepExpanded:[...prepExpanded]
+    }));
+  }catch(e){}
+}
+function uiRestore(){
+  try{
+    const s=JSON.parse(localStorage.getItem(UI_KEY)||'null'); if(!s||typeof s!=='object') return;
+    const setOf=v=> new Set(Array.isArray(v)? v.filter(x=>typeof x==='string') : []);
+    if(s.stView==='goal'||s.stView==='data') stView=s.stView;
+    if(typeof s.stGoalTerm==='string') stGoalTerm=s.stGoalTerm;
+    if(Array.isArray(s.stExpanded)) stExpanded=setOf(s.stExpanded);
+    if(s.stDataYear!=null && s.stDataYear!=='') stDataYear=String(s.stDataYear);
+    if(['全部','按试卷','按页码'].indexOf(s.stDataKind)>=0) stDataKind=s.stDataKind;
+    if(typeof s.stDataGrade==='string') stDataGrade=s.stDataGrade;
+    if(typeof s.stDataExam==='string') stDataExam=s.stDataExam;
+    if(['all','undone','unarchived','unentered'].indexOf(s.stDataStatus)>=0) stDataStatus=s.stDataStatus;
+    if(Array.isArray(s.stDataGroupsCollapsed)) stDataGroupsCollapsed=setOf(s.stDataGroupsCollapsed);
+    if(Array.isArray(s.stDataExpanded)) stDataExpanded=setOf(s.stDataExpanded);
+    if(Number.isFinite(s.stCalYear)) stCalYear=s.stCalYear;
+    if(Number.isFinite(s.stCalMonth)) stCalMonth=s.stCalMonth;
+    if(s.prepView==='task'||s.prepView==='stat') prepView=s.prepView;
+    if(typeof s.prepTerm==='string') prepTerm=s.prepTerm;
+    if(Array.isArray(s.prepExpanded)) prepExpanded=setOf(s.prepExpanded);
+  }catch(e){}
+}
+
 
 /* ============ 工具 ============ */
 const $ = id => document.getElementById(id);
@@ -1893,7 +1946,7 @@ function loadAll(){
   });
 }
 /* ============ 版本与自动更新（解决手机 PWA 缓存旧版的问题） ============ */
-const APP_BUILD='20260914b';
+const APP_BUILD='20260915a';
 let appUpdateLastCheck=0;
 function appBaseUrl(){ return location.pathname.replace(/index\.html$/,''); }
 function hardReload(){ // 强制跳过缓存重新加载（地址带唯一参数）
@@ -1939,119 +1992,184 @@ function endpointError(){
   if(!settings.key) return '请先在设置中填写访问密钥';
   return null;
 }
+/* ---- 云端对象读写：Local / S3 后端自适应，含降级兜底 ---- */
+async function cloudPutObject(base, bucket, bname, objName, payload, authHdr){
+  const blob=new Blob([payload],{type:'application/json'});
+  const objUrl=base+'/api/storage/buckets/'+bucket+'/objects/'+objName;
+  const mkForm=()=>{ const f=new FormData(); f.append('file', new File([payload], objName, {type:'application/json'})); return f; };
+  // 1) 官方推荐：先获取上传策略（自动适配 Local / S3 后端），再按策略上传
+  const sRes=await fetch(base+'/api/storage/buckets/'+bucket+'/upload-strategy',{
+    method:'POST',
+    headers:Object.assign({'Content-Type':'application/json'},authHdr),
+    body:JSON.stringify({filename:objName, contentType:'application/json', size:blob.size})
+  });
+  if(sRes.ok){
+    const strategy=await sRes.json();   // {method:'direct'|'presigned', uploadUrl, fields?, confirmRequired?}
+    const uploadUrl=strategy.uploadUrl.indexOf('http')===0? strategy.uploadUrl : base+strategy.uploadUrl;
+    // S3 预签名 POST 要求所有策略字段（含 key）必须排在 file 之前，否则报 InvalidArgument
+    const form=new FormData();
+    if(strategy.fields){ Object.keys(strategy.fields).forEach(k=>form.append(k, strategy.fields[k])); }
+    form.append('file', new File([payload], objName, {type:'application/json'}));
+    const upRes=await fetch(uploadUrl,{
+      method: strategy.method==='presigned'?'POST':'PUT',
+      headers: strategy.method==='presigned'? undefined : authHdr,
+      body: form
+    });
+    if(!upRes.ok){ let m='上传失败：HTTP '+upRes.status; try{ const t=await upRes.text(); if(t) m+=' — '+t.slice(0,200); }catch(_){} throw new Error(m); }
+    if(strategy.confirmRequired){
+      const cRes=await fetch(base+'/api/storage/buckets/'+bucket+'/objects/'+objName+'/confirm-upload',{
+        method:'POST', headers:Object.assign({'Content-Type':'application/json'},authHdr),
+        body:JSON.stringify({size:blob.size, contentType:'application/json'})
+      });
+      if(!cRes.ok) throw new Error('确认上传失败：HTTP '+cRes.status);
+    }
+    return true;
+  }
+  if(sRes.status===404){
+    // 2) 兜底：弃用的直接 PUT 上传（兼容老版本 / strategy 端点不可用）
+    let r=await fetch(objUrl,{method:'PUT',headers:Object.assign({'x-upsert':'true'},authHdr),body:mkForm()});
+    if(r.status===409){
+      await fetch(objUrl,{method:'DELETE',headers:authHdr});
+      r=await fetch(objUrl,{method:'PUT',headers:Object.assign({'x-upsert':'true'},authHdr),body:mkForm()});
+    }
+    if(r.status===404) throw new Error('存储桶「'+bname+'」不存在，请先在 InsForge 控制台 → Storage 创建该存储桶（名称需与设置中的一致）');
+    if(!r.ok){ let m='上传失败：HTTP '+r.status; try{ const t=await r.text(); if(t) m+=' — '+t.slice(0,200); }catch(_){} throw new Error(m); }
+    return true;
+  }
+  if(sRes.status===401||sRes.status===403) throw new Error('鉴权失败，请检查访问密钥是否正确');
+  throw new Error('获取上传策略失败：HTTP '+sRes.status);
+}
+async function cloudGetObject(base, bucket, objName, authHdr, soft){
+  // soft=true：对象不存在或端点异常一律返回 null（不抛错），用于备份前探测/留存
+  try{
+    let text=null;
+    try{
+      const dRes=await fetch(base+'/api/storage/buckets/'+bucket+'/download-strategy/objects/'+objName,{headers:authHdr});
+      if(dRes.ok){
+        const ds=await dRes.json();            // {method:'direct'|'presigned', url, expiresAt?}
+        const dlUrl=ds.url.indexOf('http')===0? ds.url : base+ds.url;
+        const fRes=await fetch(dlUrl);          // presigned 不带 InsForge 鉴权；direct 直链
+        if(fRes.ok) text=await fRes.text();
+      }
+    }catch(_){ /* 策略端点异常，落到兜底 */ }
+    if(text===null){
+      const r=await fetch(base+'/api/storage/buckets/'+bucket+'/objects/'+objName,{headers:authHdr});
+      if(r.status===404) return null;
+      if(!r.ok) throw new Error('HTTP '+r.status+'，响应：'+(await r.text()).slice(0,120));
+      text=await r.text();
+    }
+    return text||null;
+  }catch(e){ if(soft) return null; throw e; }
+}
+/* ---- 备份状态记录（上次备份时间/结果、上一版本） ---- */
+const CLOUD_META_KEY='wb_lj_cloudmeta';
+function cloudMetaLoad(){ try{ const m=JSON.parse(localStorage.getItem(CLOUD_META_KEY)||'null'); return (m&&typeof m==='object')? m : {}; }catch(e){ return {}; } }
+function cloudMetaSave(m){ try{ localStorage.setItem(CLOUD_META_KEY, JSON.stringify(m||{})); }catch(e){} }
+function cloudFmtTs(ts){ if(!ts) return '—'; const d=new Date(ts); const p=n=>(n<10?'0':'')+n; return (d.getMonth()+1)+'月'+d.getDate()+'日 '+p(d.getHours())+':'+p(d.getMinutes()); }
+function cloudMetaRender(){
+  const el=$('cloudMetaBox'); if(!el) return;
+  const m=cloudMetaLoad();
+  let h='';
+  if(m.at) h+='上次备份：'+cloudFmtTs(m.at)+' · '+(m.ok? '✅ 成功'+(m.manual?'（手动）':'（自动）') : '❌ 失败：'+esc(m.msg||'未知原因'));
+  else h+='还没有备份记录（备份成功/失败后都会显示在这里）';
+  if(m.prevAt) h+='<br>上一版本：'+cloudFmtTs(m.prevAt)+'（'+String(m.prevCount||0)+' 条）· <span class="cloud-rollback" onclick="cloudRestorePrev()">回滚到上一版本</span>';
+  const local=localTotalCount();
+  h+='<br>本机现有数据：'+local+' 条'+(local===0? '（本机为空，请点「从云端恢复」把数据拉回来）':'');
+  el.innerHTML=h;
+}
 async function cloudPush(manual){
   const epErr=endpointError(); if(epErr){ if(manual) toast(epErr); return; }
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
   const bname=settings.bucket||'ajia-state';
-  // 🔒 防空覆盖：本机数据全空时，不做「自动」推送，避免把云端已有的好数据清掉（手动「立即备份」不受此限）
-  if(!manual && localTotalCount()===0) return;
-  const payload=JSON.stringify(snapshotAll());
-  const blob=new Blob([payload],{type:'application/json'});
   const authHdr={'Authorization':'Bearer '+settings.key};
-  const objUrl=base+'/api/storage/buckets/'+bucket+'/objects/state.json';
-  const mkForm=()=>{ const f=new FormData(); f.append('file', new File([payload], 'state.json', {type:'application/json'})); return f; };
+  const curCount=localTotalCount();
+  // 🔒 防空覆盖：本机数据全空时，不做「自动」推送，避免把云端已有的好数据清掉（手动「立即备份」不受此限）
+  if(!manual && curCount===0) return;
+  const meta=cloudMetaLoad();
+  // A) 留存上一版本：手动备份必存；自动推送仅在“数据量骤减 10% 以上”时存（防好数据被异常覆盖）
+  const shrink = meta.pushCount>0 && curCount < Math.floor(meta.pushCount*0.9);
+  const keepPrev = manual || shrink;
+  const payload=JSON.stringify(snapshotAll());
   try{
-    let uploaded=false;
-    // 1) 官方推荐：先获取上传策略（自动适配 Local / S3 后端），再按策略上传
-    const sRes=await fetch(base+'/api/storage/buckets/'+bucket+'/upload-strategy',{
-      method:'POST',
-      headers:Object.assign({'Content-Type':'application/json'},authHdr),
-      body:JSON.stringify({filename:'state.json', contentType:'application/json', size:blob.size})
-    });
-    if(sRes.ok){
-      const strategy=await sRes.json();   // {method:'direct'|'presigned', uploadUrl, fields?, confirmRequired?}
-      const uploadUrl=strategy.uploadUrl.indexOf('http')===0? strategy.uploadUrl : base+strategy.uploadUrl;
-      // S3 预签名 POST 要求所有策略字段（含 key）必须排在 file 之前，否则报 InvalidArgument
-      const form=new FormData();
-      if(strategy.fields){ Object.keys(strategy.fields).forEach(k=>form.append(k, strategy.fields[k])); }
-      form.append('file', new File([payload], 'state.json', {type:'application/json'}));
-      const upRes=await fetch(uploadUrl,{
-        method: strategy.method==='presigned'?'POST':'PUT',
-        headers: strategy.method==='presigned'? undefined : authHdr,
-        body: form
-      });
-      if(!upRes.ok){ let m='上传失败：HTTP '+upRes.status; try{ const t=await upRes.text(); if(t) m+=' — '+t.slice(0,200); }catch(_){} throw new Error(m); }
-      if(strategy.confirmRequired){
-        const cRes=await fetch(base+'/api/storage/buckets/'+bucket+'/objects/state.json/confirm-upload',{
-          method:'POST', headers:Object.assign({'Content-Type':'application/json'},authHdr),
-          body:JSON.stringify({size:blob.size, contentType:'application/json'})
-        });
-        if(!cRes.ok) throw new Error('确认上传失败：HTTP '+cRes.status);
+    if(keepPrev){
+      const old=await cloudGetObject(base, bucket, 'state.json', authHdr, true);
+      if(old){
+        await cloudPutObject(base, bucket, bname, 'state.prev.json', old, authHdr);
+        let pc=0; try{ pc=countsTotal(JSON.parse(old)); }catch(_){}
+        meta.prevAt=Date.now(); meta.prevCount=pc;
       }
-      uploaded=true;
-    } else if(sRes.status===404){
-      // 2) 兜底：弃用的直接 PUT 上传（兼容老版本 / strategy 端点不可用）
-      let r=await fetch(objUrl,{method:'PUT',headers:Object.assign({'x-upsert':'true'},authHdr),body:mkForm()});
-      if(r.status===409){
-        await fetch(objUrl,{method:'DELETE',headers:authHdr});
-        r=await fetch(objUrl,{method:'PUT',headers:Object.assign({'x-upsert':'true'},authHdr),body:mkForm()});
-      }
-      if(r.status===404) throw new Error('存储桶「'+bname+'」不存在，请先在 InsForge 控制台 → Storage 创建该存储桶（名称需与设置中的一致）');
-      if(!r.ok){ let m='上传失败：HTTP '+r.status; try{ const t=await r.text(); if(t) m+=' — '+t.slice(0,200); }catch(_){} throw new Error(m); }
-      uploaded=true;
-    } else if(sRes.status===401||sRes.status===403){
-      throw new Error('鉴权失败，请检查访问密钥是否正确');
-    } else {
-      throw new Error('获取上传策略失败：HTTP '+sRes.status);
     }
-    if(uploaded && manual){ $('connStatus').textContent='✅ 已备份到云端'; toast('已备份到云端'); }
-  }catch(e){ if(manual){ $('connStatus').textContent='❌ 备份失败：'+e.message; toast('备份失败：'+e.message); } }
+    await cloudPutObject(base, bucket, bname, 'state.json', payload, authHdr);
+    meta.pushCount=curCount; meta.pushAt=Date.now();
+    meta.ok=true; meta.msg=''; meta.at=Date.now(); meta.manual=!!manual;
+    cloudMetaSave(meta); cloudMetaRender();
+    if(manual){ $('connStatus').textContent='✅ 已备份到云端'; toast('已备份到云端'); }
+  }catch(e){
+    const firstFail = meta.ok!==false;   // 上一次还是成功的 → 首次失败才弹提示，避免反复打扰
+    meta.ok=false; meta.msg=e.message; meta.at=Date.now(); meta.manual=!!manual;
+    cloudMetaSave(meta); cloudMetaRender();
+    if(manual){ $('connStatus').textContent='❌ 备份失败：'+e.message; toast('备份失败：'+e.message); }
+    else if(firstFail){ toast('⚠️ 自动备份失败：'+e.message+'（数据仍在本机，未丢失）'); }
+  }
+}
+/* 把云端数据合并进本机：只覆盖云端确实带了的字段，避免旧/残缺备份把本机新数据抹成空 */
+function cloudApplyData(data, manual, label){
+  if(!(data && (data.templates||data.records||data.holidays||data.todos||data.focusRecords||data.stProjects||data.stRecords||data.prepTasks||data.prepItems))) return false;
+  const localTimerRunning=focusTimer.running;   // localStorage 优先，云端仅作补充
+  const has=(k)=>{ const v=data[k]; return v!=null && !(Array.isArray(v)&&v.length===0); };
+  if(has('templates')) templates=data.templates||[];
+  if(has('records')) records=data.records||[];
+  if(data.holidays!=null) holidays=data.holidays||{};
+  if(has('todos')) todos=data.todos||[];
+  if(has('focusProjects')) focusProjects=data.focusProjects||[];
+  if(has('focusRecords')) focusRecords=data.focusRecords||[];
+  if(has('checkins')) checkins=data.checkins||[];
+  if(has('checkinRecords')) checkinRecords=data.checkinRecords||[];
+  if(has('tagDefs')) tagDefs=data.tagDefs||[];
+  if(has('todoStatus')) todoStatus=data.todoStatus||[];
+  if(has('todoDetached')) todoDetached=data.todoDetached||[];
+  if(has('stProjects')) stProjects=data.stProjects||[];
+  if(has('stRecords')) stRecords=data.stRecords||[];
+  if(has('prepTasks')) prepTasks=data.prepTasks||[];
+  if(has('prepItems')) prepItems=data.prepItems||[];
+  ensureFocusDefaults();
+  if(!localTimerRunning && data.focusTimer) focusTimer=normalizeTimer(data.focusTimer);
+  templates.forEach(t=>{ if(!t.color) t.color=assignColor(); if(!t.timeSlot) t.timeSlot='8:00'; if(!t.type) t.type='1v1'; });
+  records.forEach(r=>{ delete r.student; if(!r.type) r.type='1v1'; if(r.income==null) r.income=(r.fee!=null?r.fee:0); });
+  saveLocal(); render();
+  if(manual) toast((label||'已从云端恢复')+'：'+countsText(data));
+  return true;
 }
 async function cloudPull(manual){
   const epErr=endpointError(); if(epErr){ if(manual) toast(epErr); return; }
   const base=(settings.endpoint||'').replace(/\/+$/,'');
   const bucket=encodeURIComponent(settings.bucket||'ajia-state');
-  const key='state.json';
   const authHdr={'Authorization':'Bearer '+settings.key};
   try{
-    let text=null;
-    // 1) 优先用 download-strategy（与 upload-strategy 对称，兼容 Local / S3 后端）
-    try{
-      const dRes=await fetch(base+'/api/storage/buckets/'+bucket+'/download-strategy/objects/'+key,{headers:authHdr});
-      if(dRes.ok){
-        const ds=await dRes.json();           // {method:'direct'|'presigned', url, expiresAt?}
-        const dlUrl=ds.url.indexOf('http')===0? ds.url : base+ds.url;
-        const fRes=await fetch(dlUrl);         // presigned 不带 InsForge 鉴权；direct 直链
-        if(fRes.ok) text=await fRes.text();
-      }
-    }catch(_){ /* 策略端点异常，落到兜底 */ }
-    // 2) 兜底：直接 GET 对象接口（弃用端点，兼容 Local / InsForge 中转）
-    if(text===null){
-      const r=await fetch(base+'/api/storage/buckets/'+bucket+'/objects/'+key,{headers:authHdr});
-      if(r.status===404){ if(manual) toast('云端暂无备份（对象不存在）'); return; }
-      if(!r.ok) throw new Error('HTTP '+r.status+'，响应：'+(await r.text()).slice(0,120));
-      text=await r.text();
-    }
-    if(!text) throw new Error('云端返回空内容');
+    const text=await cloudGetObject(base, bucket, 'state.json', authHdr, false);
+    if(!text){ if(manual) toast('云端暂无备份（对象不存在）'); return; }
     let data;
     try{ data=JSON.parse(text); }catch(e){ const isHtml=(text||'').trim().charAt(0)==='<'; const hint=isHtml?'（返回的是网页而非数据，多半是云端端点填错或存储桶不存在）':''; throw new Error('响应不是JSON'+hint+'，内容前120字：'+(text||'(空)').slice(0,120)); }
-    if(data && (data.templates||data.records||data.holidays||data.todos||data.focusRecords||data.stProjects||data.stRecords||data.prepTasks||data.prepItems)){
-      const localTimerRunning=focusTimer.running;   // localStorage 优先，云端仅作补充
-      // 只覆盖云端确实带了的字段，避免旧备份把本地新数据抹成空
-      const has=(k)=>{ const v=data[k]; return v!=null && !(Array.isArray(v)&&v.length===0); };
-      if(has('templates')) templates=data.templates||[];
-      if(has('records')) records=data.records||[];
-      if(data.holidays!=null) holidays=data.holidays||{};
-      if(has('todos')) todos=data.todos||[];
-      if(has('focusProjects')) focusProjects=data.focusProjects||[];
-      if(has('focusRecords')) focusRecords=data.focusRecords||[];
-      if(has('checkins')) checkins=data.checkins||[];
-      if(has('checkinRecords')) checkinRecords=data.checkinRecords||[];
-      if(has('tagDefs')) tagDefs=data.tagDefs||[];
-      if(has('todoStatus')) todoStatus=data.todoStatus||[];
-      if(has('todoDetached')) todoDetached=data.todoDetached||[];
-      if(has('stProjects')) stProjects=data.stProjects||[];
-      if(has('stRecords')) stRecords=data.stRecords||[];
-      if(has('prepTasks')) prepTasks=data.prepTasks||[];
-      if(has('prepItems')) prepItems=data.prepItems||[];
-      ensureFocusDefaults();
-      if(!localTimerRunning && data.focusTimer) focusTimer=normalizeTimer(data.focusTimer);
-      templates.forEach(t=>{ if(!t.color) t.color=assignColor(); if(!t.timeSlot) t.timeSlot='8:00'; if(!t.type) t.type='1v1'; });
-      records.forEach(r=>{ delete r.student; if(!r.type) r.type='1v1'; if(r.income==null) r.income=(r.fee!=null?r.fee:0); });
-      saveLocal(); render(); if(manual) toast('已从云端恢复：'+countsText(data));
-    } else if(manual) toast('云端暂无数据');
+    if(!cloudApplyData(data, manual)){ if(manual) toast('云端暂无数据'); }
+    else cloudMetaRender();
   }catch(e){ if(manual) toast('恢复失败：'+e.message); }
+}
+/* A) 回滚：用 state.prev.json（上一版本）覆盖当前数据 */
+async function cloudRestorePrev(){
+  const epErr=endpointError(); if(epErr){ toast(epErr); return; }
+  if(!confirm('确定用「上一版本」覆盖当前数据吗？\n\n当前数据会被替换为上次备份之前的内容。若不确定，请先「导出全部数据为 JSON」留个底。')) return;
+  const base=(settings.endpoint||'').replace(/\/+$/,'');
+  const bucket=encodeURIComponent(settings.bucket||'ajia-state');
+  const authHdr={'Authorization':'Bearer '+settings.key};
+  toast('正在读取上一版本…');
+  try{
+    const text=await cloudGetObject(base, bucket, 'state.prev.json', authHdr, true);
+    if(!text){ toast('没有找到上一版本（需先成功备份过一次）'); return; }
+    let data; try{ data=JSON.parse(text); }catch(e){ toast('上一版本文件已损坏，无法回滚'); return; }
+    if(cloudApplyData(data, true, '已回滚到上一版本')) cloudPush(false);
+    else toast('上一版本内容为空，未执行回滚');
+  }catch(e){ toast('回滚失败：'+e.message); }
 }
 async function testConn(){
   const epErr=endpointError(); if(epErr){ $('connStatus').textContent='⚠️ '+epErr; return; }
@@ -2310,6 +2428,7 @@ function switchTab(tab){
   render();
 }
 function render(){
+  uiSaveNow();   // 每次重绘前记忆当前视图（Tab/筛选/展开状态），下次打开自动还原
   if(currentTab==='month') renderMonth();
   else if(currentTab==='week') renderWeek();
   else if(currentTab==='time') renderTime();
@@ -2760,7 +2879,20 @@ function prepStatFiltered(){
   else if(st==='unprinted')  list=list.filter(it=> !it.printed);
   const ct=prepStat.ctype;
   if(ct&&ct!=='all') list=list.filter(it=>{ const t=prepTasks.find(x=>x.id===it.taskId); return t&&t.courseType===ct; });
-  list.sort((a,b)=> String(a.date||'').localeCompare(String(b.date||'')) || ((a.createdAt||0)-(b.createdAt||0)));
+  // 列表排序优先级：① 上课时间 → ② 课程 → ③ 课次(第X讲) → ④ 创建日期 → ⑤ 类型(讲义→作业→服务)
+  const courseName=it=>{ const t=prepTasks.find(x=>x.id===it.taskId); return t? String(t.name||'') : ''; };
+  const typeRank=it=>{ const v=PREP_TYPE_ORDER[it.type]; return v==null? 9 : v; };
+  list.sort((a,b)=>{
+    const d=String(a.date||'').localeCompare(String(b.date||''));           // ① 上课时间
+    if(d) return d;
+    const n=courseName(a).localeCompare(courseName(b),'zh');                // ② 课程
+    if(n) return n;
+    const la=parseInt(a.lesson,10)||0, lb=parseInt(b.lesson,10)||0;         // ③ 课次
+    if(la!==lb) return la-lb;
+    const ca=a.createdAt||0, cb=b.createdAt||0;                             // ④ 创建日期
+    if(ca!==cb) return ca-cb;
+    return typeRank(a)-typeRank(b);                                         // ⑤ 类型
+  });
   return list;
 }
 function renderPrepStat(){
@@ -2794,7 +2926,9 @@ function renderPrepStat(){
       const courseHtml = isSmall
         ? '<span class="ps-name-tag" style="background:'+esc(t.color||'#F0F0F0')+'">'+esc(t.name||'')+'</span>'
         : esc(t.name||'');
-      h+='<div class="ps-row'+(it.hl?' hl':'')+'" onclick="if(prepHlJustFired)return;openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" oncontextmenu="openPrepHlMenu(\''+it.id+'\');return false;" ontouchstart="prepHlTouchStart(\''+it.id+'\')" ontouchend="prepHlTouchEnd()" ontouchmove="prepHlTouchMove()" title="点击编辑该条进度，长按设置高亮">'+
+      const lv=prepHlLevel(it);
+      h+='<div class="ps-row'+(lv? ' hl '+lv:'')+'" onclick="if(prepHlJustFired)return;openPrepItemForm(\''+it.id+'\',\''+it.taskId+'\')" oncontextmenu="openPrepHlMenu(\''+it.id+'\');return false;" ontouchstart="prepHlTouchStart(\''+it.id+'\')" ontouchend="prepHlTouchEnd()" ontouchmove="prepHlTouchMove()" title="点击编辑该条进度，长按标记重要/紧急">'+
+        (lv? '<span class="ps-fold"></span>':'')+
         '<span class="ps-time">'+esc(prepShortDate(it.date)||'—')+'</span>'+
         '<span class="ps-course">'+courseHtml+'</span>'+
         '<span class="ps-itype"><span class="prep-type-tag" style="background:'+ts.bg+';color:'+ts.fg+'">'+esc(it.type)+'</span></span>'+
@@ -2811,9 +2945,17 @@ function prepToggleStat(id, key){
   it[key]=!it[key];
   saveLocal(); cloudPush(false); render();
 }
-/* 备课进度「高亮」：长按行 → 弹框设置/取消，hl 随 prepItems 一起同步 */
+/* 备课进度「标记」：长按行 → 选「重要 / 紧急 / 取消」。两档配色：重要=紫折角、紧急=红折角。hl 随 prepItems 一起同步 */
 let prepHlItemId=null, prepHlLP=null;
 let prepHlJustFired=false;
+/* 解析标记档位：兼容旧数据（hl:true / 1 视为「重要」） */
+function prepHlLevel(it){
+  if(!it) return '';
+  const v=it.hl;
+  if(v===true||v===1||v==='imp'||v==='重要') return 'imp';
+  if(v===2||v==='urg'||v==='紧急') return 'urg';
+  return '';
+}
 function prepHlTouchStart(id){ prepHlItemId=id; prepHlLP=setTimeout(()=>{ prepHlLP=null; prepHlJustFired=true; setTimeout(()=>{prepHlJustFired=false;},600); openPrepHlMenu(id); }, 550); }
 function prepHlTouchEnd(){ if(prepHlLP){ clearTimeout(prepHlLP); prepHlLP=null; } }
 function prepHlTouchMove(){ prepHlTouchEnd(); }
@@ -2822,15 +2964,19 @@ function openPrepHlMenu(id){
   const it=prepItems.find(x=>x.id===id)||{};
   const t=prepTasks.find(x=>x.id===it.taskId)||{};
   const el=$('prepHlName'); if(el) el.textContent=(t.name||'')+' · '+(it.content||'');
-  const bSet=$('prepHlSetBtn'), bDel=$('prepHlDelBtn');
-  if(bSet) bSet.style.display = it.hl? 'none':'block';
-  if(bDel) bDel.style.display = it.hl? 'block':'none';
+  const lv=prepHlLevel(it);
+  const bImp=$('prepHlImpBtn'), bUrg=$('prepHlUrgBtn'), bDel=$('prepHlDelBtn');
+  if(bImp) bImp.style.display = lv==='imp'? 'none':'block';
+  if(bUrg) bUrg.style.display = lv==='urg'? 'none':'block';
+  if(bDel) bDel.style.display = lv? 'block':'none';
   showMask('maskPrepHl');
 }
-function setPrepHl(on){
+function setPrepHl(level){
   const it=prepItems.find(x=>x.id===prepHlItemId); if(!it){ hideMask('maskPrepHl'); return; }
-  it.hl=!!on;
-  saveLocal(); cloudPush(false); hideMask('maskPrepHl'); render(); toast(on?'已设置高亮':'已取消高亮');
+  const lv = level===true? 'imp' : String(level||'');        // 兼容旧调用 setPrepHl(true)
+  it.hl = (lv==='imp'||lv==='urg')? lv : false;
+  saveLocal(); cloudPush(false); hideMask('maskPrepHl'); render();
+  toast(it.hl? (it.hl==='urg'? '已标为紧急':'已标为重要') : '已取消标记');
 }
 /* 统计页日期月历 */
 let prepCalTarget='from', prepCalCursor=new Date();
@@ -4038,7 +4184,10 @@ function countsText(d){
 }
 // 本机数据总条数：用于「防空覆盖」判断（本机全空时不做自动上传）
 function localTotalCount(){
-  const c=dataCounts(snapshotAll());
+  return countsTotal(snapshotAll());
+}
+function countsTotal(d){
+  const c=dataCounts(d||{});
   return Object.keys(c).reduce((s,k)=>s+c[k],0);
 }
 function exportJSON(){
@@ -4201,6 +4350,7 @@ function fixLegacyTimes(){
 /* ============ 启动 ============ */
 function boot(){
   loadAll();
+  uiRestore();                                 // 还原上次离开时的视图（刷题/备课 的 Tab、筛选、展开状态）
   fixLegacyTimes();
   render();
   if(settings.endpoint&&settings.key) cloudPull(false);
